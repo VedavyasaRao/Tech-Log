@@ -1,0 +1,1 @@
+schtasks /create /f /sc onidle /i 1 /tn idletaskstart /tr "D:\Github\TechBlog\Idle Task\Scripts\start_idle_task.cmd" /ru system

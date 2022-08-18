@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/System.Runtime.InteropServices" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/System.Runtime.InteropServices" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="CurrencyWrapper">
+    <xs:sequence>
+      <xs:element name="m_WrappedObject" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CurrencyWrapper" nillable="true" type="tns:CurrencyWrapper" />
+  <xs:complexType name="ErrorWrapper">
+    <xs:sequence>
+      <xs:element name="m_ErrorCode" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ErrorWrapper" nillable="true" type="tns:ErrorWrapper" />
+</xs:schema>

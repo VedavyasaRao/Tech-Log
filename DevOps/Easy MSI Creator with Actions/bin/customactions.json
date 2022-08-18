@@ -1,0 +1,322 @@
+{
+    "Edit Configuration":
+    {
+        "name":"Edit Configuration",
+        "folderlevel":false,
+        "leaflelvel":true,
+        "executable":"%InstallDir%\\setup\\ConfigEditor.exe",
+        "args":"-t:\u003cuser message\u003e",
+        "filter":"config",
+        "grpaction":true,
+        "priority":0,
+        "builtin":true,
+        "wfe":true,
+        "binstall":true,
+        "buninstall":false,
+        "tooltip":"Prompts users to enter inputs for the .config files. \r\n\u003cuser message\u003e \r\nDefines a message to the user.\r\ne.g,.,\"Enter user settings."
+    },
+    "RegSvr 32 Bit":
+    {
+        "name":"RegSvr 32 Bit",
+        "folderlevel":false,
+        "leaflelvel":true,
+        "executable":"",
+        "args":"-s",
+        "filter":"dll,wsc,exe",
+        "grpaction":true,
+        "priority":0,
+        "builtin":true,
+        "wfe":true,
+        "binstall":true,
+        "buninstall":false,
+        "tooltip":"Registers COM components to 32 bit registry."
+    },
+    "RegSvr 64 Bit":
+        {
+            "name":"RegSvr 64 Bit",
+            "folderlevel":false,
+            "leaflelvel":true,
+            "executable":"",
+            "args":"-s",
+            "filter":"dll,wsc,exe",
+            "grpaction":true,
+            "priority":0,
+            "builtin":true,
+            "wfe":true,
+            "binstall":true,
+            "buninstall":false,
+            "tooltip":"Registers COM components to 64 bit registry."
+        },
+    "RegEdit 32 Bit":
+    {
+        "name":"RegEdit 32 Bit",
+        "folderlevel":false,
+        "leaflelvel":true,
+        "executable":"",
+        "args":"-s",
+        "filter":"reg",
+        "grpaction":true,
+        "priority":0,
+        "builtin":true,
+        "wfe":true,
+        "binstall":true,
+        "buninstall":false,
+        "tooltip":"Update file contents to  32 bit registry."
+    },
+    "CScript 32":
+    {
+        "name":"CScript 32",
+        "folderlevel":false,
+        "leaflelvel":true,
+        "executable":"",
+        "args":"",
+        "filter":"vbs,js",
+        "grpaction":false,
+        "priority":0,
+        "builtin":true,
+        "wfe":true,
+        "binstall":true,
+        "buninstall":false,
+        "tooltip":"Runs the script file"
+    },
+    "Create Folder":
+    {
+        "name":"Create Folder",
+        "folderlevel":true,
+        "leaflelvel":false,
+        "executable":"",
+        "args":"",
+        "filter":"*",
+        "grpaction":false,
+        "priority":0,
+        "builtin":true,
+        "wfe":true,
+        "binstall":true,
+        "buninstall":false,
+        "tooltip":"Creates the folder"
+    },
+    "Create COM+ App":
+    {
+        "name":"Create COM+ App",
+        "folderlevel":true,
+        "leaflelvel":false,
+        "executable":"%installdir%\\setup\\ComAppHelper.exe",
+        "args":"-ins -app:\u003capp name\u003e -runforever",
+        "filter":"*",
+        "grpaction":false,
+        "priority":0,
+        "builtin":true,
+        "wfe":true,
+        "binstall":true,
+        "buninstall":false,
+        "tooltip":"Recreates the com+ application.\r\n\u003cappname\u003e\r\nName of the application\r\nrunforever\r\nindicates that the com+ app runs for ever."
+    },
+    "Add to COM+ App":
+    {
+        "name":"Add to COM+ App",
+        "folderlevel":false,
+        "leaflelvel":true,
+        "executable":"%installdir%\\setup\\ComAppHelper.exe",
+        "args":"-app:\u003capp name\u003e -reg|gac",
+        "filter":"dll,wsc",
+        "grpaction":false,
+        "priority":1,
+        "builtin":true,
+        "wfe":true,
+        "binstall":true,
+        "buninstall":false,
+        "tooltip":"Registers or Installs the component into the GAC. Also adds it to the COM+ application.\r\n\u003cappname\u003e\r\nIndicates name of the com+ application."
+    },
+    "RegAsm 32 Bit":
+    {
+        "name":"RegAsm 32 Bit",
+        "folderlevel":false,
+        "leaflelvel":true,
+        "executable":"%installdir%\\setup\\ComAppHelper.exe",
+        "args":"-reg",
+        "filter":"dll,exe",
+        "grpaction":false,
+        "priority":0,
+        "builtin":true,
+        "wfe":true,
+        "binstall":true,
+        "buninstall":false,
+        "tooltip":"Registers the component information to registry."
+    },
+    "GAC Install":
+    {
+        "name":"GAC Install",
+        "folderlevel":false,
+        "leaflelvel":true,
+        "executable":"%installdir%\\setup\\ComAppHelper.exe",
+        "args":"-gac",
+        "filter":"dll,exe",
+        "grpaction":false,
+        "priority":0,
+        "builtin":true,
+        "wfe":true,
+        "binstall":true,
+        "buninstall":false,
+        "tooltip":"Installs the component to GAC."
+    },
+    "Add WCF Service":
+    {
+        "name":"Add WCF Service",
+        "folderlevel":false,
+        "leaflelvel":true,
+        "executable":"%installdir%\\setup\\ComAppHelper.exe",
+        "args":"-svc -app:\u003capp name\u003e",
+        "filter":"dll",
+        "grpaction":false,
+        "priority":1,
+        "builtin":true,
+        "wfe":true,
+        "binstall":true,
+        "buninstall":false,
+        "tooltip":"Creates a wcf service for the com+ application\r\n\u003cappname\u003e\r\nName of the application"
+    },
+    "UnregSvr 32 Bit":
+    {
+        "name":"UnregSvr 32 Bit",
+        "folderlevel":false,
+        "leaflelvel":true,
+        "executable":"",
+        "args":"-s -u",
+        "filter":"dll,wsc,exe",
+        "grpaction":true,
+        "priority":0,
+        "builtin":true,
+        "wfe":true,
+        "binstall":false,
+        "buninstall":true,
+        "tooltip":"Unregisters the component information to registry."
+    },
+    "UnregSvr 64 Bit":
+        {
+            "name":"UnregSvr 64 Bit",
+            "folderlevel":false,
+            "leaflelvel":true,
+            "executable":"",
+            "args":"-s -u",
+            "filter":"dll,wsc,exe",
+            "grpaction":true,
+            "priority":0,
+            "builtin":true,
+            "wfe":true,
+            "binstall":false,
+            "buninstall":true,
+            "tooltip":"Unregisters the component information to registry."
+        },
+    "Delete Folder":
+    {
+        "name":"Delete Folder",
+        "folderlevel":true,
+        "leaflelvel":false,
+        "executable":"",
+        "args":"",
+        "filter":"*",
+        "grpaction":false,
+        "priority":2,
+        "builtin":true,
+        "wfe":true,
+        "binstall":false,
+        "buninstall":true,
+        "tooltip":"Deletes the folder"
+    },
+    "Delete COM+ App":
+    {
+        "name":"Delete COM+ App",
+        "folderlevel":true,
+        "leaflelvel":false,
+        "executable":"%installdir%\\setup\\ComAppHelper.exe",
+        "args":"-unins -app:\u003capp name\u003e",
+        "filter":"*",
+        "grpaction":false,
+        "priority":1,
+        "builtin":true,
+        "wfe":true,
+        "binstall":false,
+        "buninstall":true,
+        "tooltip":"Deletes the com+ application.\r\n\u003cappname\u003e\r\nName of the application."
+    },
+    "UnRegAsm 32 Bit":
+    {
+        "name":"UnRegAsm 32 Bit",
+        "folderlevel":false,
+        "leaflelvel":true,
+        "executable":"%installdir%\\setup\\ComAppHelper.exe",
+        "args":"-unreg",
+        "filter":"dll,exe",
+        "grpaction":false,
+        "priority":0,
+        "builtin":true,
+        "wfe":true,
+        "binstall":false,
+        "buninstall":true,
+        "tooltip":"Unregisters the managed component."
+    },
+    "GAC Uninstall":
+    {
+        "name":"GAC Uninstall",
+        "folderlevel":false,
+        "leaflelvel":true,
+        "executable":"%installdir%\\setup\\ComAppHelper.exe",
+        "args":"-ungac",
+        "filter":"dll,exe",
+        "grpaction":false,
+        "priority":0,
+        "builtin":true,
+        "wfe":true,
+        "binstall":false,
+        "buninstall":true,
+        "tooltip":"Uninstalls the component from GAC."
+    },
+    "Notepad":
+    {
+        "name":"Notepad",
+        "folderlevel":false,
+        "leaflelvel":true,
+        "executable":"%windir%\\notepad.exe",
+        "args":"",
+        "filter":"*",
+        "grpaction":false,
+        "priority":0,
+        "builtin":true,
+        "wfe":false,
+        "binstall":true,
+        "buninstall":true,
+        "tooltip":"Opens the file in notepad."
+    },
+    "Add Shortcut":
+    {
+        "name":"Add Shortcut",
+        "folderlevel":false,
+        "leaflelvel":true,
+        "executable":"%installdir%\\setup\\Addshortcut.vbs",
+        "args":"-i",
+        "filter":"exe",
+        "grpaction":false,
+        "priority":0,
+        "builtin":true,
+        "wfe":true,
+        "binstall":true,
+        "buninstall":false,
+        "tooltip":"Adds the shortcut to the file in the desktop."
+    },
+    "Remove Shortcut":
+    {
+        "name":"Remove Shortcut",
+        "folderlevel":false,
+        "leaflelvel":true,
+        "executable":"%installdir%\\setup\\Addshortcut.vbs",
+        "args":"-u",
+        "filter":"exe",
+        "grpaction":false,
+        "priority":0,
+        "builtin":true,
+        "wfe":true,
+        "binstall":false,
+        "buninstall":true,
+        "tooltip":"Removes the shortcut to file in the desktop."
+    }
+}

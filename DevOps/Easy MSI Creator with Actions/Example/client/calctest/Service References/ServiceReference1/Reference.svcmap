@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="449d9ac1-9921-49fe-92e6-116e3d8954ff" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.pipe://localhost/wcfcalc/wcfserver.COM_LB_SillyCalc_WSC_1/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="DE10BAE6-FC43-3BA6-A05B-6D652FB2ACE7.wsdl" MetadataType="Wsdl" ID="7bcd4758-cd35-4da9-abeb-9199c49eb034" SourceId="1" SourceUrl="net.pipe://localhost/wcfcalc/wcfserver.COM_LB_SillyCalc_WSC_1/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="2f44f5b7-1382-48f1-832b-bf82dc6ab88e" SourceId="1" SourceUrl="net.pipe://localhost/wcfcalc/wcfserver.COM_LB_SillyCalc_WSC_1/mex" />
+    <MetadataFile FileName="mex.wsdl" MetadataType="Wsdl" ID="27f614da-6262-4457-81e3-1643faf6e075" SourceId="1" SourceUrl="net.pipe://localhost/wcfcalc/wcfserver.COM_LB_SillyCalc_WSC_1/mex" />
+    <MetadataFile FileName="bindings.wsdl" MetadataType="Wsdl" ID="f927f948-d5d9-494e-a3b0-446fe1bf7c28" SourceId="1" SourceUrl="net.pipe://localhost/wcfcalc/wcfserver.COM_LB_SillyCalc_WSC_1/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="a2f38a78-6b2c-4a38-9bd9-559ad5de896a" SourceId="1" SourceUrl="net.pipe://localhost/wcfcalc/wcfserver.COM_LB_SillyCalc_WSC_1/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="ff9bf6fb-5d21-440b-8627-fc2fde829555" SourceId="1" SourceUrl="net.pipe://localhost/wcfcalc/wcfserver.COM_LB_SillyCalc_WSC_1/mex" />
+    <MetadataFile FileName="System.xsd" MetadataType="Schema" ID="9e7579f3-4bf5-46f0-a130-161975aafa94" SourceId="1" SourceUrl="net.pipe://localhost/wcfcalc/wcfserver.COM_LB_SillyCalc_WSC_1/mex" />
+    <MetadataFile FileName="System.Runtime.InteropServices.xsd" MetadataType="Schema" ID="3f826598-92f2-451a-873c-0130749c9009" SourceId="1" SourceUrl="net.pipe://localhost/wcfcalc/wcfserver.COM_LB_SillyCalc_WSC_1/mex" />
+    <MetadataFile FileName="DE10BAE6-FC43-3BA6-A05B-6D652FB2ACE7.xsd" MetadataType="Schema" ID="2d2f06fd-e1ec-4f12-9f9f-64fe9704760c" SourceId="1" SourceUrl="net.pipe://localhost/wcfcalc/wcfserver.COM_LB_SillyCalc_WSC_1/mex" />
+    <MetadataFile FileName="Message.xsd" MetadataType="Schema" ID="85567239-c103-47de-a8c6-adf70c5e3d11" SourceId="1" SourceUrl="net.pipe://localhost/wcfcalc/wcfserver.COM_LB_SillyCalc_WSC_1/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

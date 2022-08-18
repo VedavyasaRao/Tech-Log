@@ -1,0 +1,28 @@
+what's ChopFiler?
+It's an utitlity to turncate a big file into small pieces, later to be assembled.
+Useful for sending big attachemnt files in mails, copying a big fileinto floppies etc.
+How to use it?
+
+How to use it?
+let's say if we want to break a big file data.mdb of 10MB into eleven(11) 950K files:
+
+open a DOS window and change directory to where the file is stored.
+
+type chopfiler D
+for source file give type the filename data.mdb and hit enter
+for destination directory type . and hit enter
+for file size type 950000 and hit enter
+u can see that 11 files cmail0.rvv cmail1.rvv ..... cmail10.rvv 
+created in the current directory.
+
+
+To assemble back,
+open a DOS window and change directory to where the turncated (.rvv)files are stored.
+
+type chopfiler A
+for detination file name enter the file name say data1.mdb and hit enter
+for the source file directory hit . and enter
+
+u can see the data2.mdb created with all the files.
+
+

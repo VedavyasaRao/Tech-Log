@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<component>
+<?component error="true" debug="true"?>
+<registration
+ description="silly calculator"
+ progid="SillyCalc.WSC"
+ version="1"
+ classid="{502B2117-D5AC-41B2-9441-B466932F613F}"
+>
+</registration>
+<public>
+ <method name="add" >
+ <PARAMETER  name="op1" />
+ <PARAMETER  name="op2" />
+ </method >
+</public>
+<script language="VBScript">
+<![CDATA[
+Function add(op1, op2)
+add=op1 + op2
+End Function 
+]]>
+</script>
+</component>

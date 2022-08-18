@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheStream", "CacheStream\CacheStream.csproj", "{16D0048F-B0DC-4D24-8FDD-329381F396B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reader", "Reader\Reader.csproj", "{57378C03-C6C9-4BD1-82EE-533BC959723F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{16D0048F-B0DC-4D24-8FDD-329381F396B3} = {16D0048F-B0DC-4D24-8FDD-329381F396B3}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Writer", "Writer\Writer.csproj", "{0B49CF3A-F6EE-4F49-8D08-9401D2C171DE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{16D0048F-B0DC-4D24-8FDD-329381F396B3} = {16D0048F-B0DC-4D24-8FDD-329381F396B3}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16D0048F-B0DC-4D24-8FDD-329381F396B3}.Release|x86.ActiveCfg = Release|x86
+		{16D0048F-B0DC-4D24-8FDD-329381F396B3}.Release|x86.Build.0 = Release|x86
+		{57378C03-C6C9-4BD1-82EE-533BC959723F}.Release|x86.ActiveCfg = Release|x86
+		{57378C03-C6C9-4BD1-82EE-533BC959723F}.Release|x86.Build.0 = Release|x86
+		{0B49CF3A-F6EE-4F49-8D08-9401D2C171DE}.Release|x86.ActiveCfg = Release|x86
+		{0B49CF3A-F6EE-4F49-8D08-9401D2C171DE}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8CEF603B-5757-4DC9-ACCF-ECEB1E432080}
+	EndGlobalSection
+EndGlobal

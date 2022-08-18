@@ -1,0 +1,2 @@
+regsvr32 /s MSFLXGRD.OCX
+regsvr32 /sTLBINF32.DLL

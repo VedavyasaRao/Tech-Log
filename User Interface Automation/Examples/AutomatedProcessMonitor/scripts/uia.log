@@ -1,0 +1,21 @@
+***************open log***********
+11-06-2022 04:04:03 CheckControlVisiblity(window_Applying_Event_Filter_503_413,False,120000)
+11-06-2022 04:04:03 GetElement window_Applying_Event_Filter_503_413 not found
+11-06-2022 04:04:03 GetElement button_Save_Ctrl_S_Item_40005_275_255 automationid Item 40005  FOUND
+11-06-2022 04:04:03 UIAGeneric,,Click(False.False)
+11-06-2022 04:04:03 UIAGeneric,,Setfocus()
+11-06-2022 04:04:06 UIAGeneric,,CaptureBitmap(C:\temp\procmon\capture\snapshot.bmp)
+11-06-2022 04:04:09 GetElement button_Save_Ctrl_S_Item_40005_275_255 automationid Item 40005  FOUND
+11-06-2022 04:04:09 MSAAElement,button_Save_Ctrl_S_Item_40005_275_255,DoDefaultAction()
+11-06-2022 04:04:11 GetElement radio_button_Events_displayed_using_current_filter_1036_292_454 automationid 1036  FOUND
+11-06-2022 04:04:11 UIASelectionItem,radio_button_Events_displayed_using_current_filter_1036_292_454,MakeSelection()
+11-06-2022 04:04:13 GetElement radio_button_Comma_Separated_Values_CSV_1078_292_601 automationid 1078  FOUND
+11-06-2022 04:04:13 UIASelectionItem,radio_button_Comma_Separated_Values_CSV_1078_292_601,MakeSelection()
+11-06-2022 04:04:15 GetElement edit_Path_1027_303_737 automationid 1027  FOUND
+11-06-2022 04:04:15 UIAValue,edit_Path_1027_303_737,set_Value(C:\temp\procmon\capture\logfile.CSV)
+11-06-2022 04:04:17 GetElement button_OK_1_589_789 automationid 1  FOUND
+11-06-2022 04:04:17 UIAInvoke,button_OK_1_589_789,Invoke
+11-06-2022 04:04:19 GetElement button_Capture_Ctrl_E_Item_40018_314_255 automationid Item 40018  FOUND
+11-06-2022 04:04:19 MSAAElement,button_Capture_Ctrl_E_Item_40018_314_255,DoDefaultAction()
+11-06-2022 04:04:21 GetElement button_Yes_6_993_586 automationid 6  FOUND
+11-06-2022 04:04:21 UIAInvoke,button_Yes_6_993_586,Invoke

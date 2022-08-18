@@ -1,0 +1,12 @@
+netsh int ipv6 set int 11 routerdiscovery=disabled
+
+netsh int ipv6 set int 11 managedaddress=enabled
+netsh int ipv6 delete address 11 fda8::100
+ipconfig /renew6 11
+
+netsh int ipv6 set int 11 otherstateful=enabled
+ipconfig /release6 11
+netsh int ipv6 add address 11 fda8::100
+netsh int ipv6 add route::/0 11 fda8::2
+
+

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<component>
+
+<?component error="true" debug="true"?>
+
+<registration
+	description="parse json string and return a field"
+	progid="jsonparser.WSC"
+	version="1.00"
+	classid="{655878F4-E7FC-4BB4-AA2C-D5C6E38AA5E1}"
+>
+</registration>
+
+<public>
+	
+ <method name="ParseObj" >
+ <PARAMETER  name="injson" />
+ <PARAMETER  name="field" />
+ </method >
+	
+</public>
+
+<script language="javascript">
+<![CDATA[
+
+
+function ParseObj(injson, field) 
+{
+   var obj = eval ("(" + injson + ")");
+
+   return eval("obj."+field);     
+}
+
+
+
+]]>
+</script>
+
+</component>

@@ -1,0 +1,5 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\SillyCalc.WSC_1\CLSID]
+@="{502b2117-d5ac-41b2-9441-b466932f613f}"
+
