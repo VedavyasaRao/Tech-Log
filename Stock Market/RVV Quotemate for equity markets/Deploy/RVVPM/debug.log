@@ -127,3 +127,450 @@ Do not enter or paste code that you do not understand.", source: https://www.gst
 [0816/164838.214:ERROR:content_client.cc(244)] No localized string available for id 17043
 [0816/164846.012:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
 [0816/164846.012:ERROR:content_client.cc(244)] No localized string available for id 17043
+[0825/002913.144:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0825/002913.145:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0825/002913.282:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.288:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.288:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.288:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.289:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.290:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.291:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.292:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0825/002913.319:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0825/002913.319:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0825/002913.413:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0825/002913.413:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0825/003113.332:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0825/003113.332:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0910/000112.135:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0910/000112.135:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0910/000112.208:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.209:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.210:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.210:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.210:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.210:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.210:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.210:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.210:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.211:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.211:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.211:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.211:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.211:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.211:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.211:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.211:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.211:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.212:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.212:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.212:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.212:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.212:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.212:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.212:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.212:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.212:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.212:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.213:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.213:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.213:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.213:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.213:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.213:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.213:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.213:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.214:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.214:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.214:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.214:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.214:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.215:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.216:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/000112.289:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0910/000112.289:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0910/000112.314:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0910/000112.314:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0910/003009.021:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0910/003009.021:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.085:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003009.199:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0910/003009.199:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0910/003009.206:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0910/003009.206:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0910/003209.168:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0910/003209.169:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0910/003330.396:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003330.396:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003330.397:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003330.397:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/003330.467:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0910/003330.467:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0910/003330.471:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0910/003330.471:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0910/003333.540:INFO:CONSOLE(635)] "%c%s color: red; background: yellow; font-size: 24px; WARNING!", source: https://www.gstatic.com/_/mss/boq-finance/_/js/k=boq-finance.GoogleFinanceUi.en_US.Ctu5a7gfbNI.es5.O/am=AIQAQAAAAADAGywAAAAAAAAAAEQBAAAAAAAAADQRgA/d=1/excm=_b,_r,_tp,entitydetailsview/ed=1/dg=0/wt=2/rs=AC0raVLk1NHOrWkxv18SCUshMiUlQSvobw/m=_b,_tp,_r (635)
+[0910/003333.541:INFO:CONSOLE(635)] "%c%s font-size: 18px; Using this console may allow attackers to impersonate you and steal your information using an attack called Self-XSS.
+Do not enter or paste code that you do not understand.", source: https://www.gstatic.com/_/mss/boq-finance/_/js/k=boq-finance.GoogleFinanceUi.en_US.Ctu5a7gfbNI.es5.O/am=AIQAQAAAAADAGywAAAAAAAAAAEQBAAAAAAAAADQRgA/d=1/excm=_b,_r,_tp,entitydetailsview/ed=1/dg=0/wt=2/rs=AC0raVLk1NHOrWkxv18SCUshMiUlQSvobw/m=_b,_tp,_r (635)
+[0910/003334.256:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.256:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.256:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.257:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.257:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.262:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.262:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.263:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.264:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.264:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.472:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-44")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.472:INFO:CONSOLE(221)] "Error: <rect> attribute height: A negative value is not valid. ("-42")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.473:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-16")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.473:INFO:CONSOLE(221)] "Error: <rect> attribute height: A negative value is not valid. ("-46")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.533:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.534:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.534:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.534:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.534:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.536:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.537:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.537:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.538:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.538:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.582:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-44")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.582:INFO:CONSOLE(221)] "Error: <rect> attribute height: A negative value is not valid. ("-42")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.583:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-16")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.584:INFO:CONSOLE(221)] "Error: <rect> attribute height: A negative value is not valid. ("-46")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.605:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.605:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.606:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.606:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.606:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.607:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.607:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.608:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.608:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.608:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.641:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.641:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.641:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.642:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003334.642:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.287:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.288:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.288:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.288:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.288:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.289:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.290:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.290:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.290:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.291:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.683:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.684:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.684:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.684:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.684:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.685:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.685:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.686:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.686:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003336.686:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.789:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.789:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.790:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.790:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.790:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.798:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-44")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.798:INFO:CONSOLE(221)] "Error: <rect> attribute height: A negative value is not valid. ("-42")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.799:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-16")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.800:INFO:CONSOLE(221)] "Error: <rect> attribute height: A negative value is not valid. ("-46")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.847:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.848:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.848:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.848:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.848:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.850:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.851:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.851:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.851:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003401.851:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003455.997:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003455.997:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003455.998:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003455.998:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003455.999:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003456.004:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-44")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003456.005:INFO:CONSOLE(221)] "Error: <rect> attribute height: A negative value is not valid. ("-42")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003456.005:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-16")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003456.005:INFO:CONSOLE(221)] "Error: <rect> attribute height: A negative value is not valid. ("-46")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003456.055:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003456.056:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003456.057:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003456.057:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003456.057:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003456.059:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003456.060:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003456.060:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003456.060:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003456.060:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.129:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.130:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.130:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.131:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.131:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.178:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.178:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.179:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.179:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.179:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.181:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.181:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.182:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.182:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.182:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.327:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-44")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.328:INFO:CONSOLE(221)] "Error: <rect> attribute height: A negative value is not valid. ("-42")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.328:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-16")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003522.328:INFO:CONSOLE(221)] "Error: <rect> attribute height: A negative value is not valid. ("-46")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.456:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.457:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.457:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.457:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.457:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.458:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.459:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.459:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.459:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.459:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.460:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.460:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.461:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.461:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.461:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.463:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.464:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.464:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.464:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.464:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.465:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.465:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.465:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.465:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.465:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.466:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.466:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.467:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.467:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.467:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.469:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.469:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.469:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.469:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.470:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.471:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.472:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.472:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.472:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.472:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.473:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.473:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.474:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.474:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.474:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.491:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.492:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.492:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.492:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.492:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.493:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.493:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.493:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.493:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.493:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-1")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.613:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-44")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.613:INFO:CONSOLE(221)] "Error: <rect> attribute height: A negative value is not valid. ("-42")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.614:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-16")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.614:INFO:CONSOLE(221)] "Error: <rect> attribute height: A negative value is not valid. ("-46")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.624:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-44")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.624:INFO:CONSOLE(221)] "Error: <rect> attribute height: A negative value is not valid. ("-42")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.624:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-16")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.624:INFO:CONSOLE(221)] "Error: <rect> attribute height: A negative value is not valid. ("-46")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.733:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-44")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.733:INFO:CONSOLE(221)] "Error: <rect> attribute height: A negative value is not valid. ("-42")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.734:INFO:CONSOLE(221)] "Error: <rect> attribute width: A negative value is not valid. ("-16")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/003539.734:INFO:CONSOLE(221)] "Error: <rect> attribute height: A negative value is not valid. ("-46")", source: https://www.google.com/finance/quote/INTC:NASDAQ (221)
+[0910/010009.379:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0910/010009.379:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.451:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010009.561:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0910/010009.561:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0910/010009.569:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0910/010009.569:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0910/010223.161:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0910/010223.161:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.205:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.208:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.208:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.208:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.208:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.208:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.208:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.208:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.208:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.208:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.208:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.209:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.209:WARNING:resource_bundle.cc(1063)] locale resources are not loaded
+[0910/010223.280:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0910/010223.280:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
+[0910/010223.292:WARNING:resource_bundle.cc(427)] locale_file_path.empty() for locale 
+[0910/010223.292:ERROR:main_delegate.cc(928)] Could not load locale pak for en-US
