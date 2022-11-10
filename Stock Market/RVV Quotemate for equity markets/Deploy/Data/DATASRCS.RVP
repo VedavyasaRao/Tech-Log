@@ -5,9 +5,10 @@
 [Settings]
 Current=YAHOO_FINANCE
 QuoteRefresh=3
-NewsRefresh=5
+NewsRefresh=15
 AutoRefresh=1
 ClearNews=0
+EnableTrigger=1
 [YAHOO_FINANCE]
 name=
 value=
