@@ -25,7 +25,7 @@ Read more about it [here](https://techlog-vedavyasarao.blogspot.com/2022/08/apit
 
 #### Late Binding Client Code Generator for COM Components ####
 
-Presently .NET framework provides RCW (Remote callable wrapper) mechanism for .NET code to interface with COM components. However it does not support late binding requred for scripting.
+Presently .NET framework provides RCW (Remote callable wrapper) mechanism for .NET code to interface with COM components. However, it does not support late binding requred for scripting.
 
 Read more about it [here](https://techlog-vedavyasarao.blogspot.com/2022/08/late-binding-client-code-generator-for.html)
 
@@ -37,13 +37,13 @@ Read more about it [here](https://techlog-vedavyasarao.blogspot.com/2022/08/work
 
 #### Working with WSC (Windows scripting component) ####
 
-Windows scripting component or WSC provide an easier javascript or vscript based solution for creating COM components  using command line tools. WSC are essentially XML based  that can be used to generate COM based object that can even support events.
+Windows scripting component or WSC provide an easier JavaScript or VBScript based solution for creating COM components  using command line tools. WSC are essentially XML based  that can be used to generate COM based object that can even support events.
 
 Read more about it [here](https://techlog-vedavyasarao.blogspot.com/2022/08/working-with-wsc-windows-scripting.html)
 
 #### Transform COM+ serviced component to WCF Service ####
 
-WCF is widely used in managed software for IPC. However porting existing COM based applications to WCF architecture can be daunting task. A balance can be achieved by deploying existing COM based applications as a WCF service so that it can be accessed by WCF clients.
+WCF is widely used in managed software for IPC. However, porting existing COM based applications to WCF architecture can be daunting task. A balance can be achieved by deploying existing COM based applications as a WCF service so that it can be accessed by WCF clients.
 
 Read more about it [here](https://techlog-vedavyasarao.blogspot.com/2022/08/transform-com-serviced-component-to-wcf.html)
 
@@ -51,7 +51,7 @@ Read more about it [here](https://techlog-vedavyasarao.blogspot.com/2022/08/tran
 
 ### Database ###
 
-#### ISQL - Query, Manage any ODBC based data source ####
+#### ISQL - Query or update any ODBC based data source ####
 
 Open Database Connectivity or ODBC is a part of the windows OS that enables accessing data from different data sources using a single interface. For example, RDBMS, text files, excel files etc. using Structured Query Language or SQL. 
 There are no tools available by the OS to query using SQL.
@@ -86,8 +86,8 @@ Read more about it [here](https://techlog-vedavyasarao.blogspot.com/2022/08/usin
 
 Digital Code signing binaries such as exes, dlls , scripts by the software supplier not only identifies the source of the software but also asserts authenticity. 
 Digital Code signing is usually done as part of the build process where binaries are digitally signed as they are built. 
-However this can impose overhead and add complexities in development build environments. 
-An ideal solution would be to do digital signing as a separate step during nightly production builds that unpackages binaries from MSI, CAB, Zip files;digitally sign them and repackage back.
+However, this can impose overhead and add complexities in development build environments. 
+An ideal solution would be to do digital signing as a separate step during nightly production builds that unpackages binaries from MSI, CAB, Zip files; digitally sign them and repackage back.
 
 Read more about it [here](https://techlog-vedavyasarao.blogspot.com/2022/08/digital-code-signing-binaries-and.html)
 
@@ -107,7 +107,7 @@ Read more about this [here](https://techlog-vedavyasarao.blogspot.com/2022/08/up
 
 #### Setup for Remote Debugging with Symbol Server and Source Indexing ####
 
-Troubleshooting production issues of an older release is daunting due to non availability of symbols and source code. Symbol Server and Source Indexing technogies make it seamless to debug.
+Troubleshooting production issues of an older release is daunting due to non- availability of symbols and source code. Symbol Server and Source Indexing make it seamless to debug.
 
 Read more about this [here](https://techlog-vedavyasarao.blogspot.com/2022/08/setup-for-remote-debugging-with-symbol.html)
 
@@ -230,7 +230,7 @@ Read more about this [here](https://techlog-vedavyasarao.blogspot.com/2022/08/le
 #### Supporting Chinese, Japanese and Korean (CJK) languages in MBCS C++ Applications  ####
 
 There are plenty of  MBCS based legacy MFC applications out there that require CJK language support. Migrating to Unicode is not an option in these cases. 
-All the resources such as menus, dialogs, string tables used by the application are defined in the .rc file. To support a CJK language, system wide changes should be made and the CJK .rc file must be coded in a certan way.
+All the resources such as menus, dialogs, string tables used by the application are defined in the .rc file. To support a CJK language, system wide changes should be made and the CJK .rc file must be coded in a certain way.
 
 Read more about this [here](https://techlog-vedavyasarao.blogspot.com/2022/08/supporting-chinese-japanese-and-korean.html)
 
@@ -240,9 +240,9 @@ Read more about this [here](https://techlog-vedavyasarao.blogspot.com/2022/08/su
 
 #### Setting and Retrieving  IPv6 Configuration ####
 
-Unlike IPv4, configuring and retrieving IPv6 information on a PC can be daunting. Depending on the configuration, multiple IP address might be returned by an IPv6 host. IPV6Configurator utility retrives and sets IPV6 addresses seamlessly.
+Unlike IPv4, configuring and retrieving IPv6 information on a PC can be daunting. Depending on the configuration, multiple IP address might be returned by an IPv6 host. IPV6Configurator utility retrieves and sets IPV6 addresses seamlessly.
 
-Read more about this [here](https://techlog-vedavyasarao.blogspot.com/2022/08/rvv-quotemate-simple-trading-system-for.html)
+Read more about this [here](https://techlog-vedavyasarao.blogspot.com/search/label/Network)
 
 -------------------------------------------------------
 
@@ -262,7 +262,7 @@ Read more about this [here](https://techlog-vedavyasarao.blogspot.com/2022/08/rv
 #### User Interface Automation Framework ####
 
 The Microsoft UI Automation APIs enable navigation of user interfaces programmatically. Some of the areas of application are UI Automation testing,  manufacturing Quality checks, Accessibility etc.
-The User Interface Automation Framework is a light weight framework that can be used to achieve UI Automation.either by Scripting languages or C#. 
+The User Interface Automation Framework is a light weight framework that can be used to achieve UI Automation, either by Scripting languages or C#. 
 
 Read more about this [here](https://techlog-vedavyasarao.blogspot.com/2022/08/user-interface-automation-framework.html)
 
