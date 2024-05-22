@@ -1,0 +1,15 @@
+D:\Github\Tech-Log\User Interface Automation\bin\UITesting.Automated.ControlDBTool.exe.config
+D:\Github\Tech-Log\User Interface Automation\bin\UITesting.Automated.ControlDBTool.exe
+D:\Github\Tech-Log\User Interface Automation\bin\UITesting.Automated.ControlDBTool.pdb
+D:\Github\Tech-Log\User Interface Automation\Source\ControlDBTool\obj\Release\ControlDBTool.csprojResolveAssemblyReference.cache
+D:\Github\Tech-Log\User Interface Automation\Source\ControlDBTool\obj\Release\UITesting.Automated.ControlDBTool.CodeGenearator.resources
+D:\Github\Tech-Log\User Interface Automation\Source\ControlDBTool\obj\Release\UITesting.Automated.ControlDBTool.HelpFrm.resources
+D:\Github\Tech-Log\User Interface Automation\Source\ControlDBTool\obj\Release\UITesting.Automated.ControlDBTool.MainWnd.resources
+D:\Github\Tech-Log\User Interface Automation\Source\ControlDBTool\obj\Release\UITesting.Automated.ControlDBTool.SaveAsJS.resources
+D:\Github\Tech-Log\User Interface Automation\Source\ControlDBTool\obj\Release\UITesting.Automated.ControlDBTool.Properties.Resources.resources
+D:\Github\Tech-Log\User Interface Automation\Source\ControlDBTool\obj\Release\UITesting.Automated.ControlDBTool.Resource1.resources
+D:\Github\Tech-Log\User Interface Automation\Source\ControlDBTool\obj\Release\UITesting.Automated.ControlDBTool.UISelectionCtl.resources
+D:\Github\Tech-Log\User Interface Automation\Source\ControlDBTool\obj\Release\UITesting.Automated.ControlDBTool.FrmUserActions.resources
+D:\Github\Tech-Log\User Interface Automation\Source\ControlDBTool\obj\Release\ControlDBTool.csproj.GenerateResource.Cache
+D:\Github\Tech-Log\User Interface Automation\Source\ControlDBTool\obj\Release\UITesting.Automated.ControlDBTool.exe
+D:\Github\Tech-Log\User Interface Automation\Source\ControlDBTool\obj\Release\UITesting.Automated.ControlDBTool.pdb

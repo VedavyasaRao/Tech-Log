@@ -1,0 +1,5 @@
+D:\Github\Tech-Log\User Interface Automation\bin\UITesting.Automated.UIADriver.dll
+D:\Github\Tech-Log\User Interface Automation\bin\UITesting.Automated.UIADriver.pdb
+D:\Github\Tech-Log\User Interface Automation\Source\UIADriver\obj\Release\UIADriver.csprojResolveAssemblyReference.cache
+D:\Github\Tech-Log\User Interface Automation\Source\UIADriver\obj\Release\UITesting.Automated.UIADriver.dll
+D:\Github\Tech-Log\User Interface Automation\Source\UIADriver\obj\Release\UITesting.Automated.UIADriver.pdb

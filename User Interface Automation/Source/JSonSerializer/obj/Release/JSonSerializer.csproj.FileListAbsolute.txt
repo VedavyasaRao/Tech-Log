@@ -1,0 +1,5 @@
+D:\Github\Tech-Log\User Interface Automation\bin\UITesting.Automated.JSonSerializer.dll
+D:\Github\Tech-Log\User Interface Automation\bin\UITesting.Automated.JSonSerializer.pdb
+D:\Github\Tech-Log\User Interface Automation\Source\JSonSerializer\obj\Release\JSonSerializer.csprojResolveAssemblyReference.cache
+D:\Github\Tech-Log\User Interface Automation\Source\JSonSerializer\obj\Release\UITesting.Automated.JSonSerializer.dll
+D:\Github\Tech-Log\User Interface Automation\Source\JSonSerializer\obj\Release\UITesting.Automated.JSonSerializer.pdb

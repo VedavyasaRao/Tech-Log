@@ -1,0 +1,49 @@
+[Settings]
+SizeCols=0
+
+[UnusedBookmarks]
+Daily Chart(TradingView)=https://www.tradingview.com/symbols/<Symbol(0-1)>/
+Three Month Chart(Big Chart)=https://bigcharts.marketwatch.com/quickchart/quickchart.asp?symb=<Symbol(1)>&insttype=Stock&freq=1&show=&time=6
+Yearly Chart(Big Chart)=https://bigcharts.marketwatch.com/quickchart/quickchart.asp?symb=<Symbol(1)>&insttype=Stock&freq=1&show=&time=8
+Yahoo Finance=https://finance.yahoo.com
+Daily Chart(Investopedia)=https://www.investopedia.com/markets/quote?tvwidgetsymbol=<Symbol(1)> -SCROLL=3
+Fly=https://thefly.com//news.php?symbol=<Symbol(1)>
+onlineinvestor=https://www.theonlineinvestor.com/symbol/?symbol=<Symbol(1)> -SCROLL=8
+investing=https://www.investing.com/search/?q=<Symbol(1)> -SCROLL=3
+
+[Bookmarks]
+Daily Chart(Google)=https://www.google.com/search?tbm=fin&q=<Symbol(0:1)> -SCROLL=2
+News(Google)=https://www.google.com/search?q=<Symbol(0:1)>&tbm=nws&tbs=sbd:1   -SCROLL=1
+TD Ameritrade=https://invest.ameritrade.com/
+Yahoo Finance Quote=https://finance.yahoo.com/quote/<Symbol(1)> -SCROLL=4
+finviz=https://finviz.com/quote.ashx?t=<Symbol(1)> -SCROLL=8
+Upgrade/Downgrades(Marketwatch)=https://www.marketwatch.com/tools/upgrades-downgrades
+Sectors (CNBC)=https://www.cnbc.com/sectors/
+
+[Columns]
+Exchange=1
+Symbol=1
+Alaram=1
+Last Trade=1
+Change=1
+Change 2=1
+Change 3=1
+Change 4=1
+Change 5=1
+Open=1
+Volume=1
+Prv Close=1
+Prv Close 2=1
+Prv Close 3=1
+Prv Close 4=1
+Prv Close 5=1
+Day Range=1
+52Wk Range=1
+Gain=1
+Value=1
+Ask=0
+Bid=0
+High Alaram=0
+Low Alaram=0
+Bought=0
+Paid=0

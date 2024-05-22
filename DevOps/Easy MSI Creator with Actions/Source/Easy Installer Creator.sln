@@ -1,0 +1,72 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileDeploymentWizard", "FileDeploymentWizard\FileDeploymentWizard.csproj", "{02F76DF6-C06C-44A0-9740-E5BC5FD0378D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{498A602B-E9C6-4E39-9504-9D2DA50D4ED6} = {498A602B-E9C6-4E39-9504-9D2DA50D4ED6}
+		{5904902D-ABE4-4113-9CEB-558CEEDF701D} = {5904902D-ABE4-4113-9CEB-558CEEDF701D}
+		{4BA70E7A-F950-40B3-A7F3-F175FC19A832} = {4BA70E7A-F950-40B3-A7F3-F175FC19A832}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetupLayout", "SetupLayout\SetupLayout.csproj", "{5904902D-ABE4-4113-9CEB-558CEEDF701D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{498A602B-E9C6-4E39-9504-9D2DA50D4ED6} = {498A602B-E9C6-4E39-9504-9D2DA50D4ED6}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSonSerializer", "JSonSerializer\JSonSerializer.csproj", "{498A602B-E9C6-4E39-9504-9D2DA50D4ED6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigEditor", "ConfigEditor\ConfigEditor.csproj", "{4BA70E7A-F950-40B3-A7F3-F175FC19A832}"
+	ProjectSection(ProjectDependencies) = postProject
+		{498A602B-E9C6-4E39-9504-9D2DA50D4ED6} = {498A602B-E9C6-4E39-9504-9D2DA50D4ED6}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyInstallerCreator", "InstallerCreator\EasyInstallerCreator.csproj", "{9F25E61E-8D85-4A20-AAFF-91A9BB614B31}"
+	ProjectSection(ProjectDependencies) = postProject
+		{498A602B-E9C6-4E39-9504-9D2DA50D4ED6} = {498A602B-E9C6-4E39-9504-9D2DA50D4ED6}
+		{5904902D-ABE4-4113-9CEB-558CEEDF701D} = {5904902D-ABE4-4113-9CEB-558CEEDF701D}
+		{4BA70E7A-F950-40B3-A7F3-F175FC19A832} = {4BA70E7A-F950-40B3-A7F3-F175FC19A832}
+		{02F76DF6-C06C-44A0-9740-E5BC5FD0378D} = {02F76DF6-C06C-44A0-9740-E5BC5FD0378D}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomActions", "CustomActions\CustomActions.csproj", "{75C72FBE-2309-4BF1-9006-17AE86A1050D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{02F76DF6-C06C-44A0-9740-E5BC5FD0378D}.Debug|x86.ActiveCfg = Debug|x86
+		{02F76DF6-C06C-44A0-9740-E5BC5FD0378D}.Debug|x86.Build.0 = Debug|x86
+		{02F76DF6-C06C-44A0-9740-E5BC5FD0378D}.Release|x86.ActiveCfg = Release|x86
+		{02F76DF6-C06C-44A0-9740-E5BC5FD0378D}.Release|x86.Build.0 = Release|x86
+		{5904902D-ABE4-4113-9CEB-558CEEDF701D}.Debug|x86.ActiveCfg = Debug|x86
+		{5904902D-ABE4-4113-9CEB-558CEEDF701D}.Debug|x86.Build.0 = Debug|x86
+		{5904902D-ABE4-4113-9CEB-558CEEDF701D}.Release|x86.ActiveCfg = Release|x86
+		{5904902D-ABE4-4113-9CEB-558CEEDF701D}.Release|x86.Build.0 = Release|x86
+		{498A602B-E9C6-4E39-9504-9D2DA50D4ED6}.Debug|x86.ActiveCfg = Debug|x86
+		{498A602B-E9C6-4E39-9504-9D2DA50D4ED6}.Debug|x86.Build.0 = Debug|x86
+		{498A602B-E9C6-4E39-9504-9D2DA50D4ED6}.Release|x86.ActiveCfg = Release|x86
+		{498A602B-E9C6-4E39-9504-9D2DA50D4ED6}.Release|x86.Build.0 = Release|x86
+		{4BA70E7A-F950-40B3-A7F3-F175FC19A832}.Debug|x86.ActiveCfg = Debug|x86
+		{4BA70E7A-F950-40B3-A7F3-F175FC19A832}.Debug|x86.Build.0 = Debug|x86
+		{4BA70E7A-F950-40B3-A7F3-F175FC19A832}.Release|x86.ActiveCfg = Release|x86
+		{4BA70E7A-F950-40B3-A7F3-F175FC19A832}.Release|x86.Build.0 = Release|x86
+		{9F25E61E-8D85-4A20-AAFF-91A9BB614B31}.Debug|x86.ActiveCfg = Debug|x86
+		{9F25E61E-8D85-4A20-AAFF-91A9BB614B31}.Debug|x86.Build.0 = Debug|x86
+		{9F25E61E-8D85-4A20-AAFF-91A9BB614B31}.Release|x86.ActiveCfg = Release|x86
+		{9F25E61E-8D85-4A20-AAFF-91A9BB614B31}.Release|x86.Build.0 = Release|x86
+		{75C72FBE-2309-4BF1-9006-17AE86A1050D}.Debug|x86.ActiveCfg = Debug|x86
+		{75C72FBE-2309-4BF1-9006-17AE86A1050D}.Debug|x86.Build.0 = Debug|x86
+		{75C72FBE-2309-4BF1-9006-17AE86A1050D}.Release|x86.ActiveCfg = Release|x86
+		{75C72FBE-2309-4BF1-9006-17AE86A1050D}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A3BE41C6-D8AA-4180-9172-648CE985E042}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,762 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\RVVPM.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\icon2.ico"
+
+IDI_RIGHT1              ICON                    "res\\Point04.ico"
+
+IDI_LEFT1               ICON                    "res\\Point02.ico"
+
+IDI_DOWN1               ICON                    "res\\Point03.ico"
+
+IDI_UP1                 ICON                    "res\\Point05.ico"
+
+IDI_PORTF               ICON                    "res\\Files03a.ico"
+
+IDI_RESET               ICON                    "res\\Misc15.ico"
+
+IDI_DUMMY               ICON                    "res\\icon1.ico"
+
+IDI_REMOVE              ICON                    "res\\-.ico"
+
+IDI_ADD                 ICON                    "res\\+.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+
+IDR_PROFOLIO            BITMAP                  "res\\toolbar1.bmp"
+
+IDR_URL                 BITMAP                  "res\\profolio.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR 19, 18
+BEGIN
+    BUTTON      ID_PM_EDIT
+    BUTTON      ID_BUTTON32798
+    SEPARATOR
+    BUTTON      ID_PM_SEETINGS
+    BUTTON      ID_PM_TRIGGER
+    BUTTON      ID_PM_PRINT
+    BUTTON      ID_PM_QREFRESH
+    BUTTON      ID_PM_NREFRESH
+    SEPARATOR
+    BUTTON      ID_QM_URLS
+    BUTTON      AFX_ID_PREVIEW_NEXT
+    BUTTON      ID_QM_RUN
+    BUTTON      ID_QM_BAK
+    BUTTON      ID_QM_FWD
+    BUTTON      ID_QM_REFRESH
+    SEPARATOR
+    BUTTON      ID_APP_ABOUT
+END
+
+IDR_PROFOLIO TOOLBAR 16, 16
+BEGIN
+    BUTTON      ID_QM_NEWPF
+    BUTTON      ID_QM_SAVEPF
+    BUTTON      ID_QM_DELETEPF
+END
+
+IDR_URL TOOLBAR 16, 16
+BEGIN
+    BUTTON      ID_QM_NEWBM
+    BUTTON      ID_QM_SAVEBM
+    BUTTON      ID_QM_DELETEBM
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About RVVPM...",             ID_APP_ABOUT
+    END
+END
+
+IDR_PORTFOLIO MENU
+BEGIN
+    MENUITEM "New",                         ID_QM_NEW
+    MENUITEM "Open",                        ID_QM_OPEN
+    MENUITEM "Save",                        ID_QM_SAVE
+    MENUITEM "Delete",                      ID_QM_DELETE
+END
+
+IDR_TRIGGER MENU
+BEGIN
+    MENUITEM "Reset",                       ID_QM_RESET
+END
+
+IDR_URLS MENU
+BEGIN
+    MENUITEM "",                            ID_MENUITEM32791
+    MENUITEM "New",                         ID_QM_NEW
+    MENUITEM "Save",                        ID_QM_SAVE
+    MENUITEM "Delete",                      ID_QM_DELETE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 235, 131
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About QuoteMate"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "QuoteMate Version 1.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 1999 - 2020",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
+    LTEXT           "Author:  Vedavyasa Rao \nDate:     11 NOVEMBER 1999\n\nUpdates:\nDate:     05 April 2020\nContact:     rvvyas@gmail.com",IDC_STATIC,33,38,133,62
+    CONTROL         "OnlineHelp",IDC_MFCLINK2,"MfcLink",WS_TABSTOP,168,54,60,14
+END
+
+IDD_PORTDLG DIALOGEX 0, 0, 169, 217
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Manage Portfolio"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Portfolio Name:",IDC_STATIC,7,7,79,10
+    COMBOBOX        IDC_COMBO1,8,17,150,54,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Dow",IDC_CHKDOW,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,10,168,41,14
+    CONTROL         "Nasdaq",IDC_CHKDOW2,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,57,168,41,14
+    CONTROL         "S&&P",IDC_CHKDOW3,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,104,168,41,14
+    PUSHBUTTON      "v",IDC_DOWN,137,55,24,23,BS_ICON
+    PUSHBUTTON      "+",IDC_ADD,134,188,27,25,BS_ICON
+    LISTBOX         IDC_LIST1,8,35,123,126,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT1,8,198,116,15,ES_AUTOHSCROLL
+    PUSHBUTTON      "-",IDC_REMOVE,137,138,24,23,BS_ICON
+    PUSHBUTTON      "^",IDC_UP,137,88,24,23,BS_ICON
+    LTEXT           "New Symbol:",IDC_STATIC,8,187,79,10
+END
+
+IDD_PROPPAGE_COLUMNS DIALOGEX 0, 0, 273, 168
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Display Columns"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    LISTBOX         IDC_LIST1,144,21,94,121,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LIST2,11,21,94,121,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      ">>",IDC_ADD,113,54,24,18,BS_ICON
+    PUSHBUTTON      "<<",IDC_REMOVE,113,81,24,18,BS_ICON
+    PUSHBUTTON      "^",IDC_UP,242,81,24,23,BS_ICON
+    PUSHBUTTON      "v",IDC_DOWN,242,54,24,23,BS_ICON
+    LTEXT           "Hide Columns",IDC_STATIC,13,9,90,10
+    LTEXT           "Display Columns",IDC_STATIC,143,10,90,10
+    CONTROL         "Size columns to fit the Text",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,145,149,105,8
+END
+
+IDD_PROPPAGE_SOURCE DIALOGEX 0, 0, 265, 180
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Data Sources"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    COMBOBOX        IDC_COMBO1,45,28,169,42,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Account Information",IDC_STATIC,20,60,217,42
+    EDITTEXT        IDC_PASSWD,27,70,199,29,ES_AUTOHSCROLL,WS_EX_LEFTSCROLLBAR
+    GROUPBOX        "Refresh Data",IDC_STATIC,20,110,216,62
+    RTEXT           "Refresh Quote Data every ",IDC_STATIC,40,124,87,8
+    EDITTEXT        IDC_QUOTE,136,121,41,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Minutes",IDC_STATIC,183,124,45,8
+    CONTROL         "Auto Refresh",IDC_AUTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,62,154,57,10
+    GROUPBOX        "Data Sources",IDC_STATIC,20,9,222,44
+    RTEXT           "Refresh News Data every ",IDC_STATIC,39,139,87,8
+    EDITTEXT        IDC_NEWS,135,136,41,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Minutes",IDC_STATIC,183,139,45,8
+    CONTROL         "Enable Triggers",IDC_AUTO3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,125,153,63,10
+END
+
+IDD_TRIGGER DIALOGEX 0, 0, 227, 144
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Price based"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LTEXT           "Symbols:",IDC_STATIC,21,15,29,8
+    COMBOBOX        IDC_COMBO1,58,13,121,54,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Reset",IDC_RESET,197,7,21,16,BS_ICON
+    GROUPBOX        "Purchase Info",IDC_STATIC,18,38,189,31
+    LTEXT           "Quantity",IDC_STATIC,32,53,27,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_EDIT_BOUGHT,64,52,45,12,ES_AUTOHSCROLL
+    LTEXT           "Price",IDC_STATIC,126,55,18,8
+    EDITTEXT        IDC_EDIT_PAID,146,52,45,12,ES_AUTOHSCROLL
+    GROUPBOX        "Price Alert",IDC_STATIC,18,78,189,54
+    EDITTEXT        IDC_EDIT_HIGHPR,64,97,45,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOWPR,146,97,45,12,ES_AUTOHSCROLL
+    LTEXT           "Price",IDC_STATIC,32,100,24,8
+    CTEXT           "Upper",IDC_STATIC,64,85,44,10,SS_CENTERIMAGE
+    CTEXT           "Lower",IDC_STATIC,146,85,44,10
+    CTEXT           "$P+",IDC_STATIC,64,111,44,10,SS_CENTERIMAGE,WS_EX_TRANSPARENT
+    CTEXT           "$P-",IDC_STATIC,145,111,44,10,SS_CENTERIMAGE,WS_EX_TRANSPARENT
+END
+
+IDD_PROPAGE_OTRTRIGGER DIALOGEX 0, 0, 235, 292
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Change based"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Reset",IDC_RESET,207,7,21,16,BS_ICON
+    GROUPBOX        "Change Alert",IDC_STATIC,7,14,186,78
+    LTEXT           "$ change ",IDC_STATIC,18,37,58,9
+    EDITTEXT        IDC_EDIT_HIGHPTS,82,35,45,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOWPTS,142,35,45,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HIGHPC,82,63,45,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOWPC,142,63,45,12,ES_AUTOHSCROLL
+    LTEXT           "% change ",IDC_STATIC,18,65,58,9
+    CTEXT           "Upper",IDC_STATIC,81,24,44,10,SS_CENTERIMAGE
+    CTEXT           "Lower",IDC_STATIC,137,24,44,10
+    GROUPBOX        "Intra change Alert",IDC_STATIC,7,97,221,135
+    LTEXT           "Moved over",IDC_STATIC,9,116,39,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_EDIT_HIGHMVPTS,57,113,45,12,ES_AUTOHSCROLL
+    CTEXT           "$ in ",IDC_STATIC,108,116,29,9
+    EDITTEXT        IDC_EDIT_HIGHMV_TD,141,114,37,12,ES_AUTOHSCROLL
+    LTEXT           "Minutes",IDC_STATIC,185,116,26,8
+    LTEXT           "Moved below",IDC_STATIC,9,141,44,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_EDIT_LOW_MV_PTS,59,139,45,12,ES_AUTOHSCROLL
+    CTEXT           "$ in ",IDC_STATIC,108,141,29,9
+    EDITTEXT        IDC_EDIT_LOWMV_TD,141,136,37,12,ES_AUTOHSCROLL
+    LTEXT           "Minutes",IDC_STATIC,185,141,26,8
+    LTEXT           "Moved over",IDC_STATIC,10,175,39,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_EDIT_HIGHMVPRC,58,172,45,12,ES_AUTOHSCROLL
+    CTEXT           "% in",IDC_STATIC,108,175,29,9
+    EDITTEXT        IDC_EDIT_HIGHMV_TDPRC,142,173,37,12,ES_AUTOHSCROLL
+    LTEXT           "Minutes",IDC_STATIC,185,175,26,8
+    LTEXT           "Moved below",IDC_STATIC,10,203,44,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_EDIT_LOW_MV_PRC,58,202,45,12,ES_AUTOHSCROLL
+    CTEXT           "% in ",IDC_STATIC,108,203,29,9
+    EDITTEXT        IDC_EDIT_LOWMV_TDPRC,142,202,37,12,ES_AUTOHSCROLL
+    LTEXT           "Minutes",IDC_STATIC,185,203,26,8
+    GROUPBOX        "News Alert",IDC_STATIC,7,236,221,44
+    LTEXT           "News published elapsed time is over by ",IDC_STATIC,11,251,126,8,0,WS_EX_RIGHT
+    LTEXT           "Minutes",IDC_STATIC,186,251,26,8
+    EDITTEXT        IDC_EDIT_NEWPD2,142,249,37,12,ES_AUTOHSCROLL
+    CONTROL         "Clear News data",IDC_AUTO4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,75,264,68,10
+    CTEXT           "%I-",IDC_STATIC,59,215,44,10,SS_CENTERIMAGE,WS_EX_TRANSPARENT
+    CTEXT           "%I+",IDC_STATIC,59,186,44,10,SS_CENTERIMAGE,WS_EX_TRANSPARENT
+    CTEXT           "$I-",IDC_STATIC,59,153,44,10,SS_CENTERIMAGE,WS_EX_TRANSPARENT
+    CTEXT           "$I+",IDC_STATIC,59,126,44,10,SS_CENTERIMAGE,WS_EX_TRANSPARENT
+    CTEXT           "$C+",IDC_STATIC,82,48,44,10,SS_CENTERIMAGE,WS_EX_TRANSPARENT
+    CTEXT           "$C-",IDC_STATIC,142,48,44,10,SS_CENTERIMAGE,WS_EX_TRANSPARENT
+    CTEXT           "%C-",IDC_STATIC,82,75,44,10,SS_CENTERIMAGE,WS_EX_TRANSPARENT
+    CTEXT           "%C-",IDC_STATIC,142,75,44,10,SS_CENTERIMAGE,WS_EX_TRANSPARENT
+END
+
+IDD_URLS DIALOGEX 0, 0, 204, 134
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Manage Bookmarks"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    EDITTEXT        IDC_EDIT2,17,52,172,69,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    LTEXT           "Bookmark",IDC_STATIC,18,16,79,10
+    LTEXT           "URL Address",IDC_STATIC,17,41,79,10
+    COMBOBOX        IDC_COMBO1,18,26,166,54,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_LOGIN DIALOG 0, 0, 186, 95
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Login"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "User Id",IDC_STATIC,13,17,34,8
+    EDITTEXT        IDC_USERID,62,15,99,14,ES_AUTOHSCROLL
+    LTEXT           "Password",IDC_STATIC,13,36,34,8
+    EDITTEXT        IDC_PASSWD,62,33,99,14,ES_PASSWORD | ES_AUTOHSCROLL
+    CONTROL         "Save User Id and Password",IDC_SAVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,42,55,110,8
+    DEFPUSHBUTTON   "OK",IDOK,72,74,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,74,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "FileDescription", "RVVPM MFC Application"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "RVVPM"
+            VALUE "LegalCopyright", "Copyright (C) 1999"
+            VALUE "OriginalFilename", "RVVPM.EXE"
+            VALUE "ProductName", "RVVPM Application"
+            VALUE "ProductVersion", "1, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 117
+    END
+
+    IDD_PORTDLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 168
+        BOTTOMMARGIN, 213
+    END
+
+    IDD_PROPPAGE_COLUMNS, DIALOG
+    BEGIN
+        RIGHTMARGIN, 272
+        BOTTOMMARGIN, 153
+    END
+
+    IDD_PROPPAGE_SOURCE, DIALOG
+    BEGIN
+        RIGHTMARGIN, 264
+        BOTTOMMARGIN, 179
+    END
+
+    IDD_TRIGGER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 218
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 137
+    END
+
+    IDD_PROPAGE_OTRTRIGGER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 285
+    END
+
+    IDD_URLS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 197
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 127
+    END
+
+    IDD_LOGIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 88
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_PROPPAGE_SOURCE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_ABOUTBOX AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_PROPPAGE_COLUMNS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_TRIGGER AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_PROPAGE_OTRTRIGGER AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_URLS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_PORTDLG AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_ABOUTBOX DLGINIT
+BEGIN
+    IDC_MFCLINK2, 0x37c, 251, 0
+0x4d3c, 0x4346, 0x694c, 0x6b6e, 0x555f, 0x6c72, 0x683e, 0x7474, 0x7370, 
+0x2f3a, 0x742f, 0x6365, 0x6c68, 0x676f, 0x762d, 0x6465, 0x7661, 0x6179, 
+0x6173, 0x6172, 0x2e6f, 0x6c62, 0x676f, 0x7073, 0x746f, 0x632e, 0x6d6f, 
+0x322f, 0x3230, 0x2f32, 0x3830, 0x722f, 0x7676, 0x712d, 0x6f75, 0x6574, 
+0x616d, 0x6574, 0x732d, 0x6d69, 0x6c70, 0x2d65, 0x7274, 0x6461, 0x6e69, 
+0x2d67, 0x7973, 0x7473, 0x6d65, 0x662d, 0x726f, 0x682e, 0x6d74, 0x3c6c, 
+0x4d2f, 0x4346, 0x694c, 0x6b6e, 0x555f, 0x6c72, 0x3c3e, 0x464d, 0x4c43, 
+0x6e69, 0x5f6b, 0x7255, 0x506c, 0x6572, 0x6966, 0x3e78, 0x2f3c, 0x464d, 
+0x4c43, 0x6e69, 0x5f6b, 0x7255, 0x506c, 0x6572, 0x6966, 0x3e78, 0x4d3c, 
+0x4346, 0x694c, 0x6b6e, 0x545f, 0x6f6f, 0x746c, 0x7069, 0x3c3e, 0x4d2f, 
+0x4346, 0x694c, 0x6b6e, 0x545f, 0x6f6f, 0x746c, 0x7069, 0x3c3e, 0x464d, 
+0x4c43, 0x6e69, 0x5f6b, 0x7546, 0x6c6c, 0x6554, 0x7478, 0x6f54, 0x6c6f, 
+0x6974, 0x3e70, 0x4146, 0x534c, 0x3c45, 0x4d2f, 0x4346, 0x694c, 0x6b6e, 
+0x465f, 0x6c75, 0x546c, 0x7865, 0x5474, 0x6f6f, 0x746c, 0x7069, "\076" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDR_MAINFRAME           "QuoteMate - "
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_APP_TITLE       "QuoteMate - The Realtime Daytrading system"
+    AFX_IDS_IDLEMESSAGE     "Ready"
+END
+
+STRINGTABLE
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+END
+
+STRINGTABLE
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE
+BEGIN
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection\nErase"
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text\nFind"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
+    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
+END
+
+STRINGTABLE
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+END
+
+STRINGTABLE
+BEGIN
+    ID_PM_NEW               "Create a new  Portfolio\nNew"
+    ID_PM_OPEN              "Open an existing portfolio\nOpen"
+    ID_PM_EDIT              "Manage Portfolio\nManage Portfolio"
+    ID_PM_DELETE            "Remove the Porfolio\nRemove"
+    ID_PM_SEETINGS          "System Preferences\nPreferences"
+    ID_PM_NEWS              "Load News\nNews"
+    ID_PM_ONEDAY            "Load Daily chart\nDaily Chart"
+    ID_PM_FIVEDAY           "Load five day chart\nfive day"
+    ID_PM_TRIGGER           "Manage Alerts\nAlerts"
+END
+
+STRINGTABLE
+BEGIN
+    PM_FIRSTCOLUMN          "FIRST"
+    PM_EXCHANGE             "Exchange\t65"
+    PM_SYMBOL               "Symbol\t60"
+    PM_ALARAM               "Alaram\t60"
+END
+
+STRINGTABLE
+BEGIN
+    PM_LASTTRADE            "Last Trade\t70"
+    PM_CHANGE               "Change\t110"
+    PM_CHANGE2              "Change 2\t110"
+    PM_CHANGE3              "Change 3\t110"
+    PM_CHANGE4              "Change 4\t110"
+    PM_CHANGE5              "Change 5\t110"
+    PM_OPEN                 "Open\t70"
+    PM_VOLUME               "Volume\t70"
+    PM_ASK                  "Ask\t70"
+    PM_BID                  "Bid\t70"
+    PM_CLOSEDAY1            "Prv Close\t60"
+    PM_CLOSEDAY2            "Prv Close 2\t60"
+    PM_CLOSEDAY3            "Prv Close 3\t60"
+    PM_CLOSEDAY4            "Prv Close 4\t60"
+    PM_CLOSEDAY5            "Prv Close 5\t60"
+    PM_DAYRANGE             "Day Range\t130"
+END
+
+STRINGTABLE
+BEGIN
+    PM_52WKRANGE            "52Wk Range\t130"
+    PM_BOUGHT               "Bought\t80"
+    PM_PAID                 "Paid\t80"
+    PM_GAIN                 "Gain\t80"
+    PM_HGHALRM              "High Alaram\t60"
+    PM_LOWALRM              "Low Alaram\t60"
+    PM_ACTVALUE             "Value\t90"
+    PM_LASTCOLUMN           "LAST"
+END
+
+STRINGTABLE
+BEGIN
+    ID_DOW_PANE             "DOW:000"
+    ID_NASDAQ_PANE          "NASDAQ 000"
+    ID_TIME_PANE            "12:00 PM"
+    ID_BUSY_PANE            " "
+END
+
+STRINGTABLE
+BEGIN
+    ID_PM_PRINT             "Print current Portfolio\nPrint Portfolio"
+    ID_QM_NEW               "Create new URL Bookmark\nNew URL Bookmark"
+    ID_QM_OPEN              "Open an existing Portfolio\nOpen Portfolio"
+    ID_QM_DELETE            "Delete a  URL Bookmark\nDelete URL Bookmark"
+    ID_QM_SAVE              "Save changes to URL Bookmark\nSave URL Bookmark"
+    ID_QM_RESET             "Reset"
+    ID_QM_URLS              "Manage URL Bookmarks\nURL Bookmartks"
+    ID_QM_BAK               "Move Backwards\nMove Back"
+    ID_QM_FWD               "Move Forward\nMove Forward"
+    ID_BUTTON32798          "Select a  Portfolio\nSelect Portfolio"
+    ID_QM_REFRESH           "Refresh Bookmark\nRefresh Bookmark"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_ID_PREVIEW_CLOSE    "Select URL Bookmark\nSelect URL Bookmark"
+END
+
+STRINGTABLE
+BEGIN
+    ID_QM_RUN               "Load the selected URL Bookmark\nLoad URL Bookmark"
+    ID_QM_NEWPF             "Create new Portfolio\nNew Portfolio"
+    ID_QM_SAVEPF            "Save changes to the Portfolio\nSave Portfolio"
+    ID_QM_DELETEPF          "Delete the current Portfolio\nDelete Portfolio"
+    ID_QM_NEWBM             "Create new URL Bookmark\nCreate URL Bookmark"
+    ID_QM_SAVEBM            "Save changes to the URL Bookmark\nSave URL Bookmark"
+    ID_QM_DELETEBM          "Delete a  URL Bookmark\nDelete URL Bookmark"
+    ID_PM_QREFRESH          "Refresh Quotes\nRefresh Quotes"
+    ID_PM_NREFRESH          "Refresh News\nRefresh News"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\RVVPM.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

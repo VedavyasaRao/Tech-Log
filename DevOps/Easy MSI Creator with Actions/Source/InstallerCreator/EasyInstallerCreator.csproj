@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9F25E61E-8D85-4A20-AAFF-91A9BB614B31}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>InstallerCreator</RootNamespace>
+    <AssemblyName>EasyInstallerCreator</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Alien.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JSonSerializer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\JSonSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="SetupLayout, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\SetupLayout.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConfigHelper.cs" />
+    <Compile Include="frmCustomActions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCustomActions.Designer.cs">
+      <DependentUpon>frmCustomActions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSetActions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSetActions.Designer.cs">
+      <DependentUpon>frmSetActions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HelpFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelpFrm.designer.cs">
+      <DependentUpon>HelpFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainFrm.Designer.cs">
+      <DependentUpon>MainFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MakeMSIHelper.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource1.resx</DependentUpon>
+    </Compile>
+    <Compile Include="savefrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="savefrm.Designer.cs">
+      <DependentUpon>savefrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <EmbeddedResource Include="frmCustomActions.resx">
+      <DependentUpon>frmCustomActions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSetActions.resx">
+      <DependentUpon>frmSetActions.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelpFrm.resx">
+      <DependentUpon>HelpFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainFrm.resx">
+      <DependentUpon>MainFrm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource1.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="savefrm.resx">
+      <DependentUpon>savefrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="App.config" />
+    <None Include="Resources\EasyInstaller.msi" />
+    <None Include="Resources\InstallerCreator User Manual.chm" />
+    <None Include="runcmd.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\scripts\LANManagerAuthenticationLevel.Reg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>scripts\LANManagerAuthenticationLevel.Reg</Link>
+    </None>
+    <None Include="..\scripts\setDCOMFlag.reg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>scripts\setDCOMFlag.reg</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dummy.zip" />
+    <None Include="Resources\load.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TLBINF32.DLL">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\folder.ico" />
+    <None Include="Resources\folder.bmp" />
+    <None Include="Resources\filw.bmp" />
+    <Content Include="..\scripts\client.vbs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>scripts\client.vbs</Link>
+    </Content>
+    <Content Include="..\scripts\DComPerm.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>scripts\DComPerm.exe</Link>
+    </Content>
+    <Content Include="..\scripts\server.vbs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>scripts\server.vbs</Link>
+    </Content>
+    <None Include="Resources\UpdateDB.vbs" />
+    <None Include="Resources\unzip.vbs" />
+    <None Include="Resources\makezip.vbs" />
+    <None Include="Resources\iins.ico" />
+    <None Include="Resources\Apply.bmp" />
+    <None Include="Resources\Alert.bmp" />
+    <None Include="Resources\Alien.ico" />
+    <Content Include="AddShortcut.vbs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ComAppHelper.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="COMLibHelper.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Interop.COMAdmin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Interop.TLI.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="jsonparser.wsc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\collapse.png" />
+    <None Include="Resources\Lightning.bmp" />
+    <None Include="Resources\WiSumInf.vbs" />
+    <None Include="Resources\WiRunSQL.vbs" />
+    <None Include="Resources\WiMakCab.vbs" />
+    <None Include="Resources\CustomActions.bmp" />
+    <None Include="Resources\customactions.js" />
+    <Content Include="Resources\delete.bmp" />
+    <Content Include="Resources\addfolder.bmp" />
+    <Content Include="Resources\expand.png" />
+    <None Include="Resources\new.bmp" />
+    <None Include="Resources\rename.png" />
+    <None Include="Resources\sort.bmp" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

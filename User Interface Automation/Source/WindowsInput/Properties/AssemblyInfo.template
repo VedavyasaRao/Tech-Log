@@ -1,0 +1,35 @@
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+[assembly: AssemblyTitle("%PRODUCTTITLE%")]
+[assembly: AssemblyDescription("%DESCRIPTION%")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("%PRODUCTNAME%")]
+[assembly: AssemblyCopyright("")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+
+// Setting ComVisible to false makes the types in this assembly not visible 
+// to COM components.  If you need to access a type in this assembly from 
+// COM, set the ComVisible attribute to true on that type.
+[assembly: ComVisible(false)]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("iAssets.Domain.PatientDatabase.UnitTest.TestStorageModelValidator, PublicKey = 0024000004800000940000000602000000240000525341310004000001000100a95d017d45cea62da48f2a85d52efc49be815bf504136d7be9495d288a36c19a71bdb3f0e7bda2c5790c3eef4ae71ed90668990f096475f76ab1af907c9b5e0a8ea0373c4669532ca534aeaa7983d392257b799e6551ce01ef86a184ae2a0332b0a039afaff90f0e911adc6a9b1e1f00a3cea22be1da0e26e4a0d88813ea71f3")]
+[assembly: AssemblyVersion("%ASSEMBLYMAJOR%.%ASSEMBLYMINOR%.%ASSEMBLYBUILD%.%ASSEMBLYREVISION%")]
+[assembly: AssemblyFileVersion("%MAJOR%.%MINOR%.%BUILD%.%REVISION%")]
+
+/// <summary>
+/// Class containing assembly wide constants.
+/// </summary>
+internal class AssemblyConstants
+{
+    /// <summary>
+    /// Originator ID used for logging.
+    /// </summary>
+    public const int LogModuleId = %LOGMODULEIDINFRA%;
+    public const string LogModuleName = "%LOGMODULENAMEINFRA%";
+}

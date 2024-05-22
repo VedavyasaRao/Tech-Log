@@ -1,0 +1,3 @@
+D:\Github\Tech-Log\User Interface Automation\bin\UITesting.Automated.MouseKeyboardActivityMonitor.dll
+D:\Github\Tech-Log\User Interface Automation\Source\MouseKeyboardActivityMonitor\obj\x64\Release\MouseKeyboardActivityMonitor.csprojResolveAssemblyReference.cache
+D:\Github\Tech-Log\User Interface Automation\Source\MouseKeyboardActivityMonitor\obj\x64\Release\UITesting.Automated.MouseKeyboardActivityMonitor.dll

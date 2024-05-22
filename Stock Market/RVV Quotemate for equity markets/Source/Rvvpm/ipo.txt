@@ -1,0 +1,372 @@
+<Html><Head><Title>Top Recent IPOs</Title>
+	</Head><Body Text=#000000 Background="images/border1.gif" Link=#0A17C0 VLink=#0A17C0 ALink=#C0C0C0>
+<Table><TR><TD Align=Left Valign=Top Width=150>
+	<Img Src="images/map1.gif" width=141 height=850 UseMap="#map1" Border="0">
+    <Map Name="map1">
+    <Area Shape=Rect Coords="0,0,140,117" Href="INDEX2.html" title="IPOhome.com">
+    <Area Shape=Rect Coords="4,129,135,155" Href="profiles/search.html" title="Search for an IPO">
+	<Area Shape=Rect Coords="34,183,106,199" Href="iponews.htm" title="IPO News">
+	<Area Shape=Rect Coords="10,201,130,219" Href="ipoideas.htm" title="IPO Commentary">
+    <Area Shape=Rect Coords="13,219,126,235" Href="pick.htm" title="IPO of the Week">
+    <Area Shape=Rect Coords="4,248,135,274" Href="general.htm" title="Order an IPO Report">
+	<Area Shape=Rect Coords="33,302,107,316" Href="calendar.htm" title="This Week's Calendar">
+	<Area Shape=Rect Coords="31,320,109,335" Href="cal2.htm" title="Next Week's Calendar">
+    <Area Shape=Rect Coords="5,337,135,355" Href="later.htm" title="Upcoming IPOs">
+    <Area Shape=Rect Coords="43,384,96,401" Href="today.htm" title="Today's IPO Pricings">
+    <Area Shape=Rect Coords="44,402,95,417" Href="priced.htm" title="Recently Priced IPOs">
+    <Area Shape=Rect Coords="32,421,108,435" Href="year.htm" title="This Year's IPOs">
+	<Area Shape=Rect Coords="25,448,116,463" Href="pipe.htm" title="Recent IPO Filings">
+	<Area Shape=Rect Coords="38,494,101,508" Href="topfive.htm" title="Hot IPOs">
+    <Area Shape=Rect Coords="34,512,106,527" Href="botfive.htm" title="Cold IPOs">
+	<Area Shape=Rect Coords="28,531,111,548" Href="biggest.htm" title="Biggest IPOs">
+	<Area Shape=Rect Coords="43,550,97,567" Href="foreign.htm" title="Foreign IPOs">
+	<Area Shape=Rect Coords="41,568,99,585" Href="spinoff.htm" title="IPO Spinoffs">
+    <Area Shape=Rect Coords="17,587,122,604" Href="lockup.htm" title="IPO Lockup Periods">
+    <Area Shape=Rect Coords="2,617,141,632" Href="mutual_fund/mutualfund.htm"  title="IPO Plus Aftermarket Fund">
+    <Area Shape=Rect Coords="31,635,109,652" Href="mutual_fund/prospectus.htm" title="Get an IPO Fund Prospectus">
+    <Area Shape=Rect Coords="32,681,107,697" Href="intro.htm" title="A Guide to IPO Investing">
+    <Area Shape=Rect Coords="23,699,116,717" Href="glossary.htm"  title="IPO Glossary">
+    <Area Shape=Rect Coords="4,730,135,756" Href="cgis/dcforum/dcboard.pl?az=list&forum=IPOChat" title="IPO Chat">
+	<Area Shape=Rect Coords="16,769,124,785" Href="ads.htm" title="Advertising on IPOhome.com">
+	<Area Shape=Rect Coords="29,798,108,813" Href="renhome.htm" title="About Us">
+	<Area Shape=Rect Coords="20,826,119,842" Href="mailto:renaissance@ipo-fund.com" title="Contact the IPO Experts">
+         
+        </Map>	</TD><TD align=left Valign=top width=468>
+<table><tr><td><IFRAME WIDTH=468 HEIGHT=60 NORESIZE SCROLLING=No FRAMEBORDER=0 MARGINHEIGHT=0 MARGINWIDTH=0
+SRC="http://adforce.imgis.com/?adiframe|2.0|34|49815|15|1|ADFORCE;">
+<script language=javascript src="http://adforce.imgis.com/?addyn|2.0|34|49815|15|1|ADFORCE;loc=700;">
+</script><noscript>
+<a href="http://adforce.imgis.com/?adlink|2.0|34|49815|15|1|ADFORCE;loc=300;" target=_top>
+<img src="http://adforce.imgis.com/?adserv|2.0|34|49815|15|1|ADFORCE;loc=300;" border=0 width=468 height=60></a>
+</noscript></IFRAME></td></tr></table> <P>
+
+<img src="images/hot_ipos.gif" width=468 height=41 alt="" border="0"><p>
+<font face="Arial" size="2">
+<table width="468" border="0" cellspacing="2" cellpadding="5" bgcolor="#ffffff">
+	<tr bgcolor="navy" style="COLOR: white"> 
+	
+<B> <TH Width=40%><font face="Arial" size="2" color="White">Company Name</font></TH>
+	<TH Width=12%><font face="Arial" size="2" color="White">Symbol</font></TH>
+	<TH Width=12%><font face="Arial" size="2" color="White">Date</font></TH>
+	<TH Width=12%><font face="Arial" size="2" color="White">Offer Price</font></TH>
+	<TH Width=12%><font face="Arial" size="2" color="White">Current Price</font></TH>
+	<TH Width=12%><font face="Arial" size="2" color="White">Return</font></TH></B></TR> 
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/CMRC.htm>Commerce One</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>CMRC</font></td>
+		<TD Align=Center><Font face="arial" Size=2>6/30/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$7.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$197.50</font></td>
+		<TD Align=Center><Font face="arial" Size=2>2721.4%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/ICGE.htm>Internet Capital Group</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>ICGE</font></td>
+		<TD Align=Center><Font face="arial" Size=2>8/4/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$6.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$165.75</font></td>
+		<TD Align=Center><Font face="arial" Size=2>2662.5%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/RHAT.htm>Red Hat</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>RHAT</font></td>
+		<TD Align=Center><Font face="arial" Size=2>8/10/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$7.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$141.25</font></td>
+		<TD Align=Center><Font face="arial" Size=2>1917.9%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/VIGN.htm>Vignette Corp</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>VIGN</font></td>
+		<TD Align=Center><Font face="arial" Size=2>2/18/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$9.50</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$189.88</font></td>
+		<TD Align=Center><Font face="arial" Size=2>1898.7%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/VERT.htm>VerticalNet</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>VERT</font></td>
+		<TD Align=Center><Font face="arial" Size=2>2/10/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$8.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$152.31</font></td>
+		<TD Align=Center><Font face="arial" Size=2>1803.9%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/BRCD.htm>Brocade Communications</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>BRCD</font></td>
+		<TD Align=Center><Font face="arial" Size=2>5/24/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$9.50</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$168.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>1668.4%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/ARBA.htm>Ariba</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>ARBA</font></td>
+		<TD Align=Center><Font face="arial" Size=2>6/22/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$11.50</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$194.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>1587.0%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/PPRO.htm>PurchasePro.com</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>PPRO</font></td>
+		<TD Align=Center><Font face="arial" Size=2>9/13/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$8.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$133.19</font></td>
+		<TD Align=Center><Font face="arial" Size=2>1564.8%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/RBAK.htm>Redback Networks</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>RBAK</font></td>
+		<TD Align=Center><Font face="arial" Size=2>5/17/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$11.50</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$189.56</font></td>
+		<TD Align=Center><Font face="arial" Size=2>1548.4%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/PHCM.htm>Phone.com</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>PHCM</font></td>
+		<TD Align=Center><Font face="arial" Size=2>6/10/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$8.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$123.75</font></td>
+		<TD Align=Center><Font face="arial" Size=2>1446.9%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/VITR.htm>Vitria Technology</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>VITR</font></td>
+		<TD Align=Center><Font face="arial" Size=2>9/16/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$16.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$241.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>1406.3%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/LBRT.htm>Liberate Technologies</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>LBRT</font></td>
+		<TD Align=Center><Font face="arial" Size=2>7/27/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$16.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$232.69</font></td>
+		<TD Align=Center><Font face="arial" Size=2>1354.3%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/KANA.htm>Kana Communications</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>KANA</font></td>
+		<TD Align=Center><Font face="arial" Size=2>9/21/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$15.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$197.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>1213.3%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/EPNY.htm>E.piphany</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>EPNY</font></td>
+		<TD Align=Center><Font face="arial" Size=2>9/21/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$16.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$181.25</font></td>
+		<TD Align=Center><Font face="arial" Size=2>1032.8%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/SIFY.htm>Satyam Infoway</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>SIFY</font></td>
+		<TD Align=Center><Font face="arial" Size=2>10/18/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$4.50</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$50.13</font></td>
+		<TD Align=Center><Font face="arial" Size=2>1013.9%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/AKAM.htm>Akamai Technologies</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>AKAM</font></td>
+		<TD Align=Center><Font face="arial" Size=2>10/28/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$26.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$285.50</font></td>
+		<TD Align=Center><Font face="arial" Size=2>998.1%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/IWOV.htm>Interwoven</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>IWOV</font></td>
+		<TD Align=Center><Font face="arial" Size=2>10/7/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$17.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$178.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>947.1%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/DITC.htm>Ditech</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>DITC</font></td>
+		<TD Align=Center><Font face="arial" Size=2>6/8/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$11.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$114.69</font></td>
+		<TD Align=Center><Font face="arial" Size=2>942.6%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/FDRY.htm>Foundry Networks</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>FDRY</font></td>
+		<TD Align=Center><Font face="arial" Size=2>9/27/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$12.50</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$130.25</font></td>
+		<TD Align=Center><Font face="arial" Size=2>942.0%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/FFIV.htm>F5 Networks</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>FFIV</font></td>
+		<TD Align=Center><Font face="arial" Size=2>6/3/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$10.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$102.06</font></td>
+		<TD Align=Center><Font face="arial" Size=2>920.6%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/JNPR.htm>Juniper Networks</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>JNPR</font></td>
+		<TD Align=Center><Font face="arial" Size=2>6/24/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$34.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$325.50</font></td>
+		<TD Align=Center><Font face="arial" Size=2>857.4%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/AGIL.htm>Agile Software</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>AGIL</font></td>
+		<TD Align=Center><Font face="arial" Size=2>8/19/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$21.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$200.13</font></td>
+		<TD Align=Center><Font face="arial" Size=2>853.0%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/ISLD.htm>Digital Island</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>ISLD</font></td>
+		<TD Align=Center><Font face="arial" Size=2>6/28/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$10.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$92.75</font></td>
+		<TD Align=Center><Font face="arial" Size=2>827.5%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/SILK.htm>Silknet Software</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>SILK</font></td>
+		<TD Align=Center><Font face="arial" Size=2>5/4/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$15.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$139.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>826.7%</font></td>
+</tr>
+
+
+<tr bgcolor="#dddddd">
+		<TD><Font face="arial" Size=2><A Href=/profiles/ARTG.htm>Art Technology Group</a></font></td>
+		<TD Align=Center><Font face="arial" Size=2>ARTG</font></td>
+		<TD Align=Center><Font face="arial" Size=2>7/20/99</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$12.00</font></td>
+		<TD Align=Center><Font face="arial" Size=2>$110.25</font></td>
+		<TD Align=Center><Font face="arial" Size=2>818.8%</font></td>
+</tr>
+
+
+
+ </Table></font>
+ <tr><td></td>
+<td>
+<FONT FACE="Arial" SIZE="1">
+IPO Intelligence: &nbsp;&nbsp;
+<A href="iponews.htm">
+Breaking IPO News</A>&nbsp; | &nbsp;
+<A href="ipoideas.htm">
+IPO Weekly Commentary</A>&nbsp; | &nbsp;
+<A href="pick.htm">
+IPO Pick of the Week</A> &nbsp; | &nbsp;
+<a href="cgis/dcforum/dcboard.pl?az=list&forum=IPOChat">
+IPO Chat</a>&nbsp;&nbsp;&nbsp;&nbsp;<br>
+
+Calendars: &nbsp;&nbsp;
+<A href="calendar.htm">
+This week's IPO calendar</A>&nbsp; | &nbsp;
+<A href="cal2.htm">
+Next week's IPO calendar</A>&nbsp; | &nbsp;
+<A href="later.htm">
+Upcoming IPOs</A> <BR>
+
+Recent Happenings: &nbsp;&nbsp;
+<A href="pipe.htm">
+Recent IPO Filings</A>&nbsp; | &nbsp;
+<A href="today">
+Today's IPO pricings</A>&nbsp; | &nbsp;
+<A href="priced.htm">
+Recently priced IPOs</A> <BR>
+
+This Year's IPOs: &nbsp;&nbsp;
+<A href="year.htm">
+All IPOs</A>&nbsp; |&nbsp;
+<A href="topfive.htm">
+Top performers</A>&nbsp; | &nbsp;
+<A href="botfive.htm">
+Worst performers</A>&nbsp; | &nbsp;
+<A href="biggest.htm">
+Biggest IPOs</A>&nbsp; | &nbsp;
+<A href="foreign.htm">
+Foreign deals</A>&nbsp; | &nbsp;
+<A href="spinoff.htm">
+Spinoff deals</A> <BR>
+
+IPO Basics: &nbsp;&nbsp;
+<A href="intro.htm">
+Guide to IPO investing</A>&nbsp; | &nbsp;
+<a href="glossary.htm">
+IPO glossary</a> <BR>
+
+Renaissance Capital: &nbsp;&nbsp;
+<a href="mutual_fund/mutualfund.htm">
+IPO Plus Aftermarket Fund</a>&nbsp; | &nbsp;
+<A href="renhome.htm"> 
+About Us</A> &nbsp; | &nbsp;
+<a href="ads.htm">
+Advertise</a>&nbsp; | &nbsp;
+<A href="mailto:renaissance@ipo-fund.com">
+Contact Us</A> 
+            
+</FONT>
+</td>
+</tr>
+</Table></Body></Html> 
+
+
