@@ -541,7 +541,8 @@ BOOL CMainFrame::DestroyWindow()
 {
 	// TODO: Add your specialized code here and/or call the base class
 	Shell_NotifyIcon(NIM_DELETE, &((CRVVPMApp *)AfxGetApp())->m_IconData);
-
+	CRVVPMApp* pApp = ((CRVVPMApp*)AfxGetApp());
+	pApp->KillThreads();
 	return CFrameWnd::DestroyWindow();
 }
 

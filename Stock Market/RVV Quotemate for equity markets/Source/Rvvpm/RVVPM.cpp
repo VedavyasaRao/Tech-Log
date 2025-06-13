@@ -9,6 +9,13 @@
 #include "MainFrm.h"
 #include "direct.h"
 #include "io.h"
+#include "include/cef_command_line.h"
+#include "include/cef_sandbox_win.h"
+#include "include/cef_browser.h"
+#include "include/cef_command_line.h"
+#include "include/views/cef_browser_view.h"
+#include "include/views/cef_window.h"
+#include "include/wrapper/cef_helpers.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -55,6 +62,12 @@ BOOL CRVVPMApp::InitInstance()
 	if (access(m_szTemp, 0) != 0)
 	{
 		mkdir(m_szTemp);
+	}
+	
+	m_szCache = szAppPath + CString("\\..\\cache");
+	if (access(m_szCache, 0) != 0)
+	{
+		mkdir(m_szCache);
 	}
 
 	m_szData = szAppPath + CString("\\..\\Data");
@@ -146,13 +159,12 @@ BOOL CRVVPMApp::InitInstance()
 void CRVVPMApp::StartYahooFinance()
 {
 	STARTUPINFO StartupInfo;
-	PROCESS_INFORMATION ProcessInfo;
 	char Args[4096];
 	ULONG rc;
 
 	sprintf(Args, "%s", m_szYahooFinance);
 	ZeroMemory(&StartupInfo, sizeof(StartupInfo));
-	ZeroMemory(&ProcessInfo, sizeof(ProcessInfo));
+	ZeroMemory(&m_yahooproc, sizeof(m_yahooproc));
 	StartupInfo.cb = sizeof(STARTUPINFO);
 	StartupInfo.dwFlags = STARTF_USESHOWWINDOW;
 	StartupInfo.wShowWindow = SW_HIDE;
@@ -162,7 +174,7 @@ void CRVVPMApp::StartYahooFinance()
 		NULL,
 		m_szOutput + CString("\\YahooFinance"),
 		&StartupInfo,
-		&ProcessInfo))
+		&m_yahooproc))
 	{
 		return;
 	}
@@ -171,7 +183,11 @@ void CRVVPMApp::StartYahooFinance()
 void	CRVVPMApp::StopYahooFinanceGoogleNews()
 {
 	WinExec("taskkill /f /t /im googlenews.exe", SW_HIDE);
+	Sleep(5000);
+	WaitForSingleObject(m_gnewsproc.hProcess, INFINITE);
+
 	WinExec("taskkill /f /t /im yahoofinance.exe", SW_HIDE);
+	WaitForSingleObject(m_yahooproc.hProcess, INFINITE);
 	Sleep(5000);
 }
 
@@ -179,13 +195,12 @@ void	CRVVPMApp::StopYahooFinanceGoogleNews()
 void CRVVPMApp::StartGoogleNews()
 {
 	STARTUPINFO StartupInfo;
-	PROCESS_INFORMATION ProcessInfo;
 	char Args[4096];
 	ULONG rc;
 
 	sprintf(Args, "%s", m_szGoogleNews);
 	ZeroMemory(&StartupInfo, sizeof(StartupInfo));
-	ZeroMemory(&ProcessInfo, sizeof(ProcessInfo));
+	ZeroMemory(&m_gnewsproc, sizeof(m_gnewsproc));
 	StartupInfo.cb = sizeof(STARTUPINFO);
 	StartupInfo.dwFlags = STARTF_USESHOWWINDOW;
 	StartupInfo.wShowWindow = SW_HIDE;
@@ -195,7 +210,7 @@ void CRVVPMApp::StartGoogleNews()
 		NULL,
 		m_szOutput + CString("\\GoogleNews"),
 		&StartupInfo,
-		&ProcessInfo))
+		&m_gnewsproc))
 	{
 		return;
 	}
@@ -853,6 +868,17 @@ void    CRVVPMApp::ShowBusy(bool bbusy)
 	::PostMessage(m_pMainWnd->m_hWnd, WM_PM_UPDATEBUSYPANE, bbusy, 0);
 }
 
+void CRVVPMApp::KillThreads()
+{
+	HANDLE hs[]{ m_quit_evts[0],m_quit_evts[1],m_quit_evts[2]};
+	m_quit = true;
+	m_abort = true;
+	PulseEvent(m_queryevent);
+	PulseEvent(m_alertevent);
+	auto ret = WaitForMultipleObjects(3, hs, TRUE, 30000);
+
+}
+
 int CRVVPMApp::ExitInstance() 
 {
 	// TODO: Add your specialized code here and/or call the base class
@@ -865,4 +891,44 @@ int CRVVPMApp::ExitInstance()
 	return CWinApp::ExitInstance();
 }
 
+void CRVVPMApp::OnContextInitialized()
+{
+	CEF_REQUIRE_UI_THREAD();
+	
+	// Specify CEF browser settings here.
+	CefBrowserSettings browser_settings;
+	CefRefPtr<CefCommandLine> commandLine = CefCommandLine::CreateCommandLine();
+	commandLine->InitFromString(::GetCommandLineW());
 
+	// Information used when creating the native window.
+	CefWindowInfo window_info;
+
+	// Alloy style will create a basic native window. Chrome style will create a
+	// fully styled Chrome UI window.
+	window_info.runtime_style = CEF_RUNTIME_STYLE_DEFAULT;
+
+	HWND parentWnd = m_htmlview->GetSafeHwnd();
+	auto browserHandler = ((CPMHTMLView*)m_htmlview)->m_browserHandler.get();
+	RECT rect;
+	m_htmlview->GetClientRect(&rect);
+
+	window_info.SetAsChild(parentWnd, CefRect(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top));
+	browserHandler->SetMainHwnd(parentWnd);
+	CefBrowserHost::CreateBrowser(window_info, browserHandler, "", browser_settings, nullptr, nullptr);
+
+}
+
+CefRefPtr<CefClient> CRVVPMApp::GetDefaultClient()
+{
+	// Called when a new browser window is created via Chrome style UI.
+	return m_browserHandler;
+}
+
+BOOL CRVVPMApp::PumpMessage()
+{
+	auto result = CWinApp::PumpMessage();
+
+	CefDoMessageLoopWork();
+
+	return result;
+}

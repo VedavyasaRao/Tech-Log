@@ -129,7 +129,7 @@ void CYahooSource::QueryQuotes(CPMScrip* pscrip)
 	int p1, p2;
 	CString temp;
 	string temps;
-	int hour, min;
+	int hour=12, min=0;
 	ZeroMemory(readbuf, BUFSIZE);
 	strcpy(readbuf, ::QueryQuote(pscrip->m_symbol));
 	if (reader.parse(readbuf, root, false))
@@ -140,8 +140,15 @@ void CYahooSource::QueryQuotes(CPMScrip* pscrip)
 		removecomma(temp);
 		pscrip->m_lasttrade = atof(temp);
 
-		sscanf(((root["quote"])["lasttradetime"]).asString().c_str(), "%*s %*s %d:%d", &hour, &min);
-		getDatestr(pscrip->m_tempchangetime, hour, min);
+		temp = ((root["quote"])["lasttradetime"]).asString().c_str();
+		auto p = temp.Find(" at ");
+		if (p != -1)
+		{
+			temp = temp.Mid(p + 4);
+			//sscanf(, "%*s %*s %d:%d", &hour, &min);
+			sscanf(temp, "%d:%d", &hour, &min);
+			getDatestr(pscrip->m_tempchangetime, hour, min);
+		}
 
 		temp = CString(((root["quote"])["change"]).asString().c_str());
 		removecomma(temp);

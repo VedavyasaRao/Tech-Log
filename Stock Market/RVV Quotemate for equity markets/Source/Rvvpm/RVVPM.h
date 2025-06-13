@@ -13,6 +13,8 @@
 #endif
 
 #include "resource.h"       // main symbols
+#include "include/cef_base.h"
+#include "include/cef_app.h" 
 
 /////////////////////////////////////////////////////////////////////////////
 // CRVVPMApp:
@@ -32,7 +34,7 @@ UINT PMClockIndicesThread( LPVOID pParam );
 UINT PMQuotesNewsThread( LPVOID pParam );
 UINT PMAlaramThread( LPVOID pParam );
 
-class CRVVPMApp : public CWinApp
+class CRVVPMApp : public CWinApp, public CefApp, public CefBrowserProcessHandler
 {
 public:
 	CRVVPMApp();
@@ -43,6 +45,7 @@ public:
 	public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
+	virtual BOOL PumpMessage();
 	//}}AFX_VIRTUAL
 
 // Implementation
@@ -52,6 +55,7 @@ public:
 	CString				m_szTemp;
 	CString				m_szData;
 	CString				m_szOutput;
+	CString				m_szCache;
 	CEvent				m_queryevent;
 	CEvent				m_alertevent;
 
@@ -76,6 +80,9 @@ public:
 	NOTIFYICONDATA	m_IconData;
 	CQMJobManager	m_qmjobmanager;
 	bool m_abort = false;
+	ClientHandler* m_browserHandler;
+	CWnd* m_htmlview;
+	bool m_quit = false;
 
 public:
 	void	LoadPortfolio();
@@ -95,6 +102,17 @@ public:
 	void	StartYahooFinance();
 	void	StartGoogleNews();
 	void	StopYahooFinanceGoogleNews();
+	void    KillThreads();
+
+	// CefApp methods:
+	CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() override
+	{
+		return this;
+	}
+
+	// CefBrowserProcessHandler methods:
+	void OnContextInitialized() override;
+	CefRefPtr<CefClient> GetDefaultClient() override;
 
 public:
 	//{{AFX_MSG(CRVVPMApp)
@@ -105,12 +123,54 @@ public:
 public:
 	bool				m_bNewsOndemand;
 	bool				m_bQuoteOndemand;
-
+	PROCESS_INFORMATION m_yahooproc, m_gnewsproc;
+	CEvent m_quit_evts[3];
+	bool  bstopped[3];
 private:
 	CString				m_szMasterFile;
 	CString				m_szSymbdataFile;
 	CString				m_szDataSrcsFile;
 	CString				m_szPortfoliosFile;
+
+private:
+	// Include the default reference counting implementation.
+	//IMPLEMENT_REFCOUNTING(CRVVPMApp);
+
+public:                                          
+	void AddRef() const override 
+	{
+		ref_count_.AddRef();
+	}                                               
+
+	bool Release() const override 
+	{
+		try
+		{
+
+			if (ref_count_.Release())
+			{
+				//delete static_cast<const CRVVPMApp*>(this);
+				return true;
+			}
+		}
+		catch (...)
+		{
+
+		}
+		return false;
+	}
+	
+	bool HasOneRef() const override 
+	{
+		return ref_count_.HasOneRef();
+	}
+	
+	bool HasAtLeastOneRef() const override 
+	{
+		return ref_count_.HasAtLeastOneRef();
+	}
+private:
+	CefRefCount ref_count_;
 
 };
 

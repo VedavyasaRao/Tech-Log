@@ -20,7 +20,6 @@ Yahoo Finance Quote=https://finance.yahoo.com/quote/<Symbol(1)> -SCROLL=4
 finviz=https://finviz.com/quote.ashx?t=<Symbol(1)> -SCROLL=8
 Upgrade/Downgrades(Marketwatch)=https://www.marketwatch.com/tools/upgrades-downgrades
 Sectors (CNBC)=https://www.cnbc.com/sectors/
-MoneyControl=https://www.moneycontrol.com/india/stockpricequote/computers-software/hcltechnologies/HCL02
 [Columns]
 Exchange=1
 Symbol=1

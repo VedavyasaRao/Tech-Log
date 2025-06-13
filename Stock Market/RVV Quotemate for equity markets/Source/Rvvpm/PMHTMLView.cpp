@@ -12,6 +12,8 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
+extern CRVVPMApp theApp;
+
 /////////////////////////////////////////////////////////////////////////////
 // CPMHTMLView
 
@@ -25,7 +27,9 @@ CPMHTMLView::CPMHTMLView():m_cefIsInitialized(false)
 
 CPMHTMLView::~CPMHTMLView()
 {
-	if (m_cefIsInitialized) {
+	if (m_cefIsInitialized)
+	{
+		
 		CefShutdown();
 		m_cefIsInitialized = false;
 	}
@@ -43,35 +47,33 @@ void CPMHTMLView::OnSize(UINT nType, int w, int h)
 bool CPMHTMLView::init()
 {
 	m_browserHandler = new ClientHandler;
-	CefMainArgs mainArgs(::GetModuleHandle(NULL));
-	int rc = CefExecuteProcess(mainArgs, NULL, NULL);
+	CefRefPtr<CRVVPMApp> papp(&theApp);
+
+	papp->m_browserHandler = m_browserHandler.get();
+
+	// Provide CEF with command-line arguments.
+	CefMainArgs main_args(theApp.m_hInstance);
+	// Parse command-line arguments for use in this method.
+	CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
+	command_line->InitFromString(::GetCommandLineW());
+
+	int rc = CefExecuteProcess(main_args, papp, nullptr);
 	if (rc >= 0)
 		return false;
 
 	CefSettings settings;
-	settings.multi_threaded_message_loop = true;
+	settings.multi_threaded_message_loop = false;
 	settings.no_sandbox = true;
-//	settings.single_process = false;
+	CefString(&settings.cache_path) = papp->m_szCache;
 
-	if (!CefInitialize(mainArgs, settings, NULL, NULL)) {
+	papp->m_htmlview = dynamic_cast<CWnd*>(this);
+	if (!CefInitialize(main_args, settings, papp, nullptr))
+	{
 		AfxMessageBox(_T("Failed to initialize CEF."), MB_ICONERROR);
 		return false;
 	}
 
 	m_cefIsInitialized = true;
-
-	CefRefPtr<CefCommandLine> commandLine = CefCommandLine::CreateCommandLine();
-	commandLine->InitFromString(::GetCommandLineW());
-
-	CWnd *parent = dynamic_cast<CWnd*>(this);
-	HWND parentWnd = parent->GetSafeHwnd();
-	RECT rect;
-	parent->GetClientRect(&rect);
-	CefWindowInfo windowInfo;
-	CefBrowserSettings bsettings;
-	windowInfo.SetAsChild(parentWnd, rect);
-	m_browserHandler->SetMainHwnd(parentWnd);
-	CefBrowserHost::CreateBrowser(windowInfo, m_browserHandler.get(), "", bsettings, NULL,NULL);
 	return true;
 }
 
@@ -89,7 +91,8 @@ void CPMHTMLView::OnInitialUpdate()
 }
 
 UINT Scrollfunc(LPVOID pParam)
-{	std::tuple<CefBrowser *, int> *scrolldata = (std::tuple<CefBrowser *, int>*)pParam;
+{	
+	std::tuple<CefBrowser *, int> *scrolldata = (std::tuple<CefBrowser *, int>*)pParam;
 	CefBrowser *browser = std::get<0>(*scrolldata);
 	int scroll = std::get<1>(*scrolldata);
 	while (!browser->IsLoading())
@@ -112,7 +115,6 @@ UINT Scrollfunc(LPVOID pParam)
 	//CefMouseEvent mouse_event;
 	//mouse_event.Reset();
 	//browser->GetHost()->SendMouseWheelEvent(mouse_event, 0, -scroll);
-
 	return 0;
 }
 
@@ -120,7 +122,7 @@ void CPMHTMLView::Navigate(CString url, int scroll)
 {
 	CefRefPtr<CefBrowser> browser = m_browserHandler->GetBrowser();
 	browser->GetMainFrame()->LoadURL(CefString(url));
-	m_scrolldata = std::tuple<CefBrowser *, int>((CefBrowser *)browser, scroll);
+	m_scrolldata = std::tuple<CefBrowser *, int>((CefBrowser *)browser.get(), scroll);
 
 	// Convert screen coordinates to client coordinates. 
 	POINT pt;                  // cursor location  

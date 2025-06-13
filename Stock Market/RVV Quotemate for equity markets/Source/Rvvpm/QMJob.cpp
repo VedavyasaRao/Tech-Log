@@ -26,7 +26,8 @@ void CQMJobManager::AddJob(CQMJob::Job_type	job_type)
 void CQMJobManager::ProcessJob()
 {
 	CRVVPMApp*  pApp = (CRVVPMApp*)AfxGetApp();
-
+	if (pApp->m_quit)
+		return;
 	m_cs.Lock();
 	if (m_joblist.GetSize() == 0)
 	{

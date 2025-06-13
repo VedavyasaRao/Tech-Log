@@ -3,9 +3,16 @@
 #include "cef_util.h"
 #include "resource.h"
 #include "utils.h"
+#include "include/base/cef_callback.h"
+#include "include/cef_app.h"
+#include "include/cef_parser.h"
+#include "include/views/cef_browser_view.h"
+#include "include/views/cef_window.h"
+#include "include/wrapper/cef_closure_task.h"
+#include "include/wrapper/cef_helpers.h"
 
 ClientHandler::ClientHandler() :
-	m_Browser(NULL), m_BrowserId(0), m_MainHwnd(NULL), m_bIsClosing(false)
+	m_Browser(nullptr), m_BrowserId(0), m_MainHwnd(NULL), m_bIsClosing(false)
 {
 }
 
@@ -21,11 +28,12 @@ void ClientHandler::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString
 {
 }
 
-void ClientHandler::OnBeforeDownload(CefRefPtr<CefBrowser> browser,	CefRefPtr<CefDownloadItem> download_item,
+bool  ClientHandler::OnBeforeDownload(CefRefPtr<CefBrowser> browser,	CefRefPtr<CefDownloadItem> download_item,
 									const CefString& suggested_name, CefRefPtr<CefBeforeDownloadCallback> callback)
 {
 	REQUIRE_UI_THREAD()
 	callback->Continue(suggested_name, true);
+	return true;
 }
 
 void ClientHandler::OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
@@ -39,7 +47,6 @@ void ClientHandler::OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<C
 void ClientHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser)
 {
 	REQUIRE_UI_THREAD()
-	AutoLock lock_scope(this);
 
 	if (!m_Browser.get()) {
 		// Keep a reference to the main browser.
@@ -57,7 +64,6 @@ bool ClientHandler::DoClose(CefRefPtr<CefBrowser> browser)
 	REQUIRE_UI_THREAD()
 
 	// Protect data members from access on multiple threads.
-	AutoLock lock_scope(this);
 
 	// Closing the main window requires special handling.
 	if (m_BrowserId == browser->GetIdentifier()) {
@@ -72,11 +78,10 @@ bool ClientHandler::DoClose(CefRefPtr<CefBrowser> browser)
 void ClientHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 {
 	REQUIRE_UI_THREAD()
-	AutoLock lock_scope(this);
 
 	if (m_BrowserId == browser->GetIdentifier()) {
 		CloseAllPopups(false);
-		m_Browser = NULL;
+		m_Browser = nullptr;
 	} else if (browser->IsPopup()) {
 		std::list<CefRefPtr<CefBrowser> >::iterator it;
 		for (it = m_PopupList.begin(); it != m_PopupList.end(); ++it) {
@@ -90,7 +95,6 @@ void ClientHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 
 void ClientHandler::SetMainHwnd(CefWindowHandle hwnd)
 {
-	AutoLock lock_scope(this);
 	m_MainHwnd = hwnd;
 }
 

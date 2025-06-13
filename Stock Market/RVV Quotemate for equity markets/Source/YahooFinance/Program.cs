@@ -25,7 +25,7 @@ namespace YahooFinance
             var doc = web.Load("https://finance.yahoo.com/quote/"+ticker+"/history");
             for (int i = 1; i < 10; ++i)
             {
-                var nodes = doc.DocumentNode.SelectNodes("/html/body/div[1]/div/div/div[1]/div/div[3]/div[1]/div/div[2]/div/div/section/div[2]/table/tbody/tr[" + i.ToString() + "]/td[5]/span");
+                var nodes = doc.DocumentNode.SelectNodes("/html/body/div[2]/main/section/section/section/article/div[2]/div[3]/table/tbody/tr[" + i.ToString() + "]/td[5]");
                 if (nodes != null)
                 {
                     closes[knt] = double.Parse(nodes[0].InnerText);
@@ -33,7 +33,7 @@ namespace YahooFinance
                 else
                     continue;
 
-                nodes = doc.DocumentNode.SelectNodes("/html/body/div[1]/div/div/div[1]/div/div[3]/div[1]/div/div[2]/div/div/section/div[2]/table/tbody/tr[" + i.ToString() + "]/td[1]/span");
+                nodes = doc.DocumentNode.SelectNodes("/html/body/div[2]/main/section/section/section/article/div[2]/div[3]/table/tbody/tr[" + i.ToString() + "]/td[1]");
                 if (nodes != null)
                 {
                     DateTime dt = DateTime.Now;
@@ -79,14 +79,14 @@ namespace YahooFinance
 
             HtmlWeb web = new HtmlWeb();
             var doc = web.Load("https://finance.yahoo.com/quote/" + "^DJI" + "/");
-            var nodes = doc.DocumentNode.SelectNodes("/html/body/div[1]/div/div/div[1]/div/div[2]/div/div/div[6]/div/div/div/div[3]/div[1]/div/fin-streamer[2]/span");
+            var nodes = doc.DocumentNode.SelectNodes("/html/body/div[2]/main/section/section/section/article/section[1]/div[2]/div[1]/section/div/section/div[1]/div[2]/span");
             if (nodes != null)
             {
                 dow = nodes[0].InnerText.Split(new char['.'])[0];
             }
 
             doc = web.Load("https://finance.yahoo.com/quote/" + "^IXIC" + "/");
-            nodes = doc.DocumentNode.SelectNodes("/html/body/div[1]/div/div/div[1]/div/div[2]/div/div/div[6]/div/div/div/div[3]/div[1]/div/fin-streamer[2]/span");
+            nodes = doc.DocumentNode.SelectNodes("/html/body/div[2]/main/section/section/section/article/section[1]/div[2]/div[1]/section/div/section/div[1]/div[2]/span");
             if (nodes != null)
             {
                 nasdaq = nodes[0].InnerText.Split(new char['.'])[0];
@@ -102,56 +102,56 @@ namespace YahooFinance
             string lasttrade="", lasttradetime="", change = "", open = "", volume = "", ask = "", bid = "", dayrange = "", week52range = "";
 
             var doc = web.Load("https://finance.yahoo.com/quote/" + ticker + "/");
-            var nodes = doc.DocumentNode.SelectNodes("/html/body/div[1]/div/div/div[1]/div/div[2]/div/div/div[6]/div/div/div/div[3]/div[1]/div/fin-streamer[1]");
+            //var nodes = doc.DocumentNode.SelectNodes("/html/body/div[1]/div/div/div[1]/div/div[2]/div/div/div[6]/div/div/div/div[3]/div[1]/div/fin-streamer[1]");
+            var nodes = doc.DocumentNode.SelectNodes("/html/body/div[2]/main/section/section/section/article/section[1]/div[2]/div[1]/section/div/section/div[1]/div[1]");
             if (nodes != null)
             {
                 lasttrade = nodes[0].InnerText;
             }
-
-            nodes = doc.DocumentNode.SelectNodes("/html/body/div[1]/div/div/div[1]/div/div[2]/div/div/div[6]/div/div/div/div[3]/div[1]/div/div/span");
+            nodes = doc.DocumentNode.SelectNodes("/html/body/div[2]/main/section/section/section/article/section[1]/div[2]/div[1]/section/div/section/div[2]/span/span/text()");
             if (nodes != null)
             {
                 lasttradetime = nodes[0].InnerText;
             }
 
-            nodes = doc.DocumentNode.SelectNodes("/html/body/div[1]/div/div/div[1]/div/div[2]/div/div/div[6]/div/div/div/div[3]/div[1]/div/fin-streamer[2]/span");
+            nodes = doc.DocumentNode.SelectNodes("/html/body/div[2]/main/section/section/section/article/section[1]/div[2]/div[1]/section/div/section/div[1]/div[2]/span");
             if (nodes != null)
             {
                 change = nodes[0].InnerText;
             }
 
-            nodes = doc.DocumentNode.SelectNodes("/html/body/div[1]/div/div/div[1]/div/div[3]/div[1]/div/div[1]/div/div/div/div[2]/div[1]/table/tbody/tr[2]/td[2]");
+            nodes = doc.DocumentNode.SelectNodes("/html/body/div[2]/main/section/section/section/article/div[3]/ul/li[2]/span[2]/fin-streamer");
             if (nodes != null)
             {
                 open = nodes[0].InnerText;
             }
 
-            nodes = doc.DocumentNode.SelectNodes("/html/body/div[1]/div/div/div[1]/div/div[3]/div[1]/div/div[1]/div/div/div/div[2]/div[1]/table/tbody/tr[7]/td[2]/fin-streamer");
+            nodes = doc.DocumentNode.SelectNodes("/html/body/div[2]/main/section/section/section/article/div[3]/ul/li[7]/span[2]/fin-streamer");
             if (nodes != null)
             {
                 volume = nodes[0].InnerText;
             }
 
-            nodes = doc.DocumentNode.SelectNodes("/html/body/div[1]/div/div/div[1]/div/div[3]/div[1]/div/div[1]/div/div/div/div[2]/div[1]/table/tbody/tr[4]/td[2]");
+            nodes = doc.DocumentNode.SelectNodes("/html/body/div[2]/main/section/section/section/article/div[3]/ul/li[4]/span[2]");
             if (nodes != null)
             {
                 ask = nodes[0].InnerText;
             }
 
-            nodes = doc.DocumentNode.SelectNodes("/html/body/div[1]/div/div/div[1]/div/div[3]/div[1]/div/div[1]/div/div/div/div[2]/div[1]/table/tbody/tr[3]/td[2]");
+            nodes = doc.DocumentNode.SelectNodes("/html/body/div[2]/main/section/section/section/article/div[3]/ul/li[3]/span[2]");
             if (nodes != null)
             {
                 bid = nodes[0].InnerText;
             }
 
 
-            nodes = doc.DocumentNode.SelectNodes("/html/body/div[1]/div/div/div[1]/div/div[3]/div[1]/div/div[1]/div/div/div/div[2]/div[1]/table/tbody/tr[5]/td[2]");
+            nodes = doc.DocumentNode.SelectNodes("/html/body/div[2]/main/section/section/section/article/div[3]/ul/li[5]/span[2]/fin-streamer");
             if (nodes != null)
             {
                 dayrange = nodes[0].InnerText;
             }
 
-            nodes = doc.DocumentNode.SelectNodes("/html/body/div[1]/div/div/div[1]/div/div[3]/div[1]/div/div[1]/div/div/div/div[2]/div[1]/table/tbody/tr[6]/td[2]");
+            nodes = doc.DocumentNode.SelectNodes("/html/body/div[2]/main/section/section/section/article/div[3]/ul/li[6]/span[2]/fin-streamer");
             if (nodes != null)
             {
                 week52range = nodes[0].InnerText;
@@ -166,13 +166,21 @@ namespace YahooFinance
 
             HtmlWeb web = new HtmlWeb();
             var doc = web.Load("https://time.is/New_York");
-            var nodes = doc.DocumentNode.SelectNodes("/html/body/div[2]/div[2]/div[2]/div/time");
+            var nodes = doc.DocumentNode.SelectNodes("/html/body/div[1]/div[2]/div[3]");
+            string dt="", tm="";
             if (nodes != null)
             {
-                datetime = DateTime.Parse(nodes[0].InnerText).ToString("yyyy-MM-dd HH:mm:ss");
+                var t = nodes[0].InnerText;
+                dt = t.Substring(0, t.LastIndexOf(','));
             }
 
+            nodes = doc.DocumentNode.SelectNodes("/html/body/div[1]/div[2]/div[2]/div/time");
+            if (nodes != null)
+            {
+                tm += nodes[0].InnerText;
+            }
 
+            datetime = DateTime.Parse(dt + " "+ tm).ToString("yyyy-MM-dd HH:mm:ss");
             return new JavaScriptSerializer().Serialize(new  { DateTime= datetime } );
         }
 
@@ -222,8 +230,9 @@ namespace YahooFinance
         static void Main(string[] args)
         {
             //var t = new Quotemate();
-            //var s = t.QueryQuote("NVDA");
+            //var s = t.QueryQuote("nvda");
             //Console.WriteLine(s);
+
             Testwindowsserver();
         }
     }

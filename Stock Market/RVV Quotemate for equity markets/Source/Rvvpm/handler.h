@@ -40,7 +40,7 @@ public:
 	virtual	void OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title) override;
 
 	// CefDownloadHandler methods
-	virtual	void OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
+	virtual	bool OnBeforeDownload(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
 		const CefString& suggested_name, CefRefPtr<CefBeforeDownloadCallback> callback) override;
 	virtual	void OnDownloadUpdated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDownloadItem> download_item,
 		CefRefPtr<CefDownloadItemCallback> callback) override;
@@ -56,7 +56,6 @@ public:
 	}
 	
 	bool IsClosing() {
-		AutoLock lock(this);
 		return m_bIsClosing;
 	}
 	
@@ -86,8 +85,8 @@ private:
 	bool m_bIsClosing;
 	RECT rect, rect2;
 public:
+	// Include the default reference counting implementation.
 	IMPLEMENT_REFCOUNTING(ClientHandler);
-	IMPLEMENT_LOCKING(ClientHandler);
 };
 
 #endif

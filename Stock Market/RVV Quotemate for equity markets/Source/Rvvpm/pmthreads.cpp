@@ -6,7 +6,8 @@
 
 UINT PMClockIndicesThread( LPVOID pParam )
 {
-	CRVVPMApp*  pApp=  (CRVVPMApp*)AfxGetApp();
+	CRVVPMApp*  pApp =  (CRVVPMApp*)AfxGetApp();
+
 	CYahooSource	indexsrc;
 	CString nasdaq, dow, curtime;
 	IniFile         *pimDataSrcs = &pApp->m_imDataSrcs;
@@ -21,6 +22,9 @@ UINT PMClockIndicesThread( LPVOID pParam )
 
 	while (1)
 	{
+		if (pApp->m_quit)
+			break;
+
 		indexsrc.QueryIndices(dow, nasdaq);
 		curtime = (CTime::GetCurrentTime() - difftime).Format("%I:%M %p");
 
@@ -46,7 +50,8 @@ UINT PMClockIndicesThread( LPVOID pParam )
 
 		Sleep(60000);
 	}
-
+	SetEvent(pApp->m_quit_evts[0]);
+	pApp->bstopped[0] = true;
 	return 0;
 }
 
@@ -54,13 +59,17 @@ UINT PMQuotesNewsThread( LPVOID pParam )
 {
 
 	CRVVPMApp*  pApp =  (CRVVPMApp*)AfxGetApp();
-	
+
 	while(1)
 	{
 		WaitForSingleObject(pApp->m_queryevent, INFINITE);
+		if (pApp->m_quit)
+			break;
 		pApp->ProcessJob();
 	}
 
+	pApp->bstopped[1] = true;
+	SetEvent(pApp->m_quit_evts[1]);
 	return 0;
 }
 
@@ -68,9 +77,11 @@ UINT PMQuotesNewsThread( LPVOID pParam )
 
 UINT PMAlaramThread( LPVOID pParam )
 {
-	CEvent&		alertevent = ((CRVVPMApp*)AfxGetApp())->m_alertevent;
+	CRVVPMApp* pApp = (CRVVPMApp*)AfxGetApp();
+
+	CEvent&		alertevent = pApp->m_alertevent;
 	HWND hwnd = AfxGetMainWnd()->m_hWnd;
-	NOTIFYICONDATA* pIconData = &((CRVVPMApp*)AfxGetApp())->m_IconData;
+	NOTIFYICONDATA* pIconData = &pApp->m_IconData;
 	NOTIFYICONDATA IconData;
 
 	memcpy(&IconData, pIconData, sizeof IconData);
@@ -79,10 +90,11 @@ UINT PMAlaramThread( LPVOID pParam )
 	char buf1[300], buf2[50] = "Alert  Alert  Alert";
 		
 	GetWindowText(hwnd, buf1, sizeof buf1);
-	while(1)
+	while (1)
 	{
 		WaitForSingleObject(alertevent, INFINITE);
-
+		if (pApp->m_quit)
+			break;
 		if (IsWindowVisible(hwnd))
 		{
 			for (int i=0; i<20; ++i)
@@ -106,7 +118,8 @@ UINT PMAlaramThread( LPVOID pParam )
 			}
 		}
 	} 
-
+	pApp->bstopped[2] = true;
+	SetEvent(pApp->m_quit_evts[2]);
 	return 0;
 }
 
