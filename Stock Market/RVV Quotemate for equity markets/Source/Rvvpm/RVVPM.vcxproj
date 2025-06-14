@@ -158,7 +158,8 @@ md "$(OutDir)\..\Data"
 copy "$(ProjectDir)data"   "$(OutDir)\..\Data"
 )
 nircmd shortcut "$(TargetPath)"  "$(ProjectDir)$(OutDir)..\"  "$(TargetFileName)"
-</Command>
+if not exist "$(OutDirFullPath)libcef.dll"  MakeZip_Unzip.vbs "$(ProjectDir)cef\bin\libcef.zip"   "$(OutDirFullPath)"
+del "$(OutDirFullPath)libcef.zip"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -238,6 +239,7 @@ nircmd shortcut "$(TargetPath)"  "$(ProjectDir)$(OutDir)..\"  "$(TargetFileName)
     <Image Include="res\toolbar1.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="MakeZip_Unzip.vbs" />
     <None Include="res\RVVPM.rc2" />
   </ItemGroup>
   <ItemGroup>

@@ -8,6 +8,7 @@ QuoteRefresh=1
 NewsRefresh=3
 AutoRefresh=1
 ClearNews=0
+EnableTrigger=1
 [YAHOO_FINANCE]
 name=
 value=

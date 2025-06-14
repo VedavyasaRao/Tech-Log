@@ -221,6 +221,9 @@
     <None Include="res\RVVPM.rc2">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="MakeZip_Unzip.vbs">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
