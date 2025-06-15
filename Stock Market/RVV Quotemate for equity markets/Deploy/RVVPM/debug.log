@@ -1,8 +1,0 @@
-[0601/013039.224:WARNING:D:\temp\cef_download\tests\cefclient\browser\main_context_impl.cc:109] Chrome runtime defaults to the Views framework.
-[0601/013039.224:WARNING:D:\temp\cef_download\tests\cefclient\browser\main_context_impl.cc:130] Using Chrome style; Views-hosted window; Windowed rendering (not a warning)
-[0601/013039.224:WARNING:cef\libcef\common\resource_util.cc:83] Please customize CefSettings.root_cache_path for your application. Use of the default value may lead to unintended process singleton behavior.
-[0601/020404.951:WARNING:D:\temp\cef_download\tests\cefclient\browser\main_context_impl.cc:109] Chrome runtime defaults to the Views framework.
-[0601/020404.951:WARNING:D:\temp\cef_download\tests\cefclient\browser\main_context_impl.cc:130] Using Chrome style; Views-hosted window; Windowed rendering (not a warning)
-[0601/020404.951:WARNING:cef\libcef\common\resource_util.cc:83] Please customize CefSettings.root_cache_path for your application. Use of the default value may lead to unintended process singleton behavior.
-[0601/020604.319:WARNING:D:\temp\cef_download\tests\cefclient\browser\main_context_impl.cc:109] Chrome runtime defaults to the Views framework.
-[0601/020604.319:WARNING:D:\temp\cef_download\tests\cefclient\browser\main_context_impl.cc:130] Using Chrome style; Views-hosted window; Windowed rendering (not a warning)
