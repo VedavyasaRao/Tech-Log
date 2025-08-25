@@ -288,7 +288,9 @@ namespace FileOrganiser.Treeview
         {
             var node = (fileitem)((object[])data)[0];
             var exportfile = (string)((object[])data)[1];
-            FileEx.AppendAllText(exportfile, string.Format("{0}|{1}\r\n", node._fullPath, node._size));
+            if (node._dateupdated == 0)
+                node._dateupdated = new System.IO.FileInfo(node._fullPath).LastWriteTimeUtc.ToFileTimeUtc();
+            FileEx.AppendAllText(exportfile, string.Format("{0}|{1}|{2}|{3}\r\n", ((node.isfile?"File":"Dir")),node._fullPath, node._size,DateTime.FromFileTimeUtc(node._dateupdated)));
             driver.pmon.busycursor();
             foreach (var fi in node._Items)
             {

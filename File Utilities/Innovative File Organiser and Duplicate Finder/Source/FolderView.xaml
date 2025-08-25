@@ -17,7 +17,7 @@
                 <ComboBoxItem>GB</ComboBoxItem>
             </ComboBox>
             <Label Content="Sort:" Margin="10,5,5,0"  DockPanel.Dock="Left"  Height="30" />
-            <ComboBox Name="sort" Margin="0,2,5,0"  DockPanel.Dock="Left"  Height="20" SelectionChanged="sort_SelectionChanged">
+            <ComboBox Name="sort" Margin="0,2,5,0"  DockPanel.Dock="Left"  Height="32" SelectionChanged="sort_SelectionChanged">
                 <ComboBoxItem >Title</ComboBoxItem>
                 <ComboBoxItem >File Count</ComboBoxItem>
                 <ComboBoxItem IsSelected="True">Disk Size</ComboBoxItem>
@@ -26,7 +26,7 @@
             <TextBox Name="width" Margin="0,2,5,0" Text="50"  DockPanel.Dock="Left"  HorizontalAlignment="Left" Height="20"  LostFocus="width_LostFocus" />
             <Label Content="Chars" Margin="0,2,5,0"  DockPanel.Dock="Left" HorizontalAlignment="Left" Height="30" />
             <CheckBox  Margin="10,15,5,0"  Click="CheckBox_Click" DockPanel.Dock="Left"  >
-                <TextBlock Text="Toggle Selection" TextWrapping="NoWrap" Width="90"/>
+                <TextBlock Text="Toggle Selection" TextWrapping="NoWrap" Width="114"/>
             </CheckBox>
 
             <Button Content="Delete" Margin="10,5,5,5"  Height="30" HorizontalAlignment="Right"  Click="Del_Click" DockPanel.Dock="Right"/>
