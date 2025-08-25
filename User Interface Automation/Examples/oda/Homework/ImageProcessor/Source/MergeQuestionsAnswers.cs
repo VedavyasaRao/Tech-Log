@@ -1,0 +1,189 @@
+﻿using ImageHandler;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+
+namespace ImageHandler
+{
+    class MergeQuestionAnswers
+    {
+        string myasnwerimgfile = Program.ImageProcessorloc + @"\baseline\MyAnswer.png";
+        string tempimgfile = Program.ImageProcessorloc + @"\baseline\MyAnswertemp.png";
+        string args = "0.80 0 0 90 23";
+
+        public void MergeAnswer(string imgdir, string filename)
+        {
+            var files = Directory.GetFiles(imgdir, "??.png").OrderBy(f => f);
+            if (files.Count() == 0)
+                return;
+            var imgcmp = new ImageCompare();
+            int skipknt = 0;
+            int bigwd = 0;
+            int bight = 0;
+            var rp = new ReplaceImage();
+            foreach (string f in files)
+            {
+                ++skipknt;
+                using (Bitmap srcbmp = new Bitmap(f))
+                {
+                    if (srcbmp.Height < 75)
+                        continue;
+                    Rectangle dstRect = rp.getboundingrectangle(srcbmp, 0, 160, 75);
+                    if (dstRect.Width < 120 || dstRect.Height < 23)
+                        continue;
+                    var tempbmp = (Bitmap)srcbmp.Clone(dstRect, srcbmp.PixelFormat);
+                    tempbmp.Save(tempimgfile);
+                    if (imgcmp.Process(myasnwerimgfile, tempimgfile,"", args))
+                        break;
+                }
+            }
+            if (File.Exists(tempimgfile))
+                File.Delete(tempimgfile);
+
+            if (skipknt >= files.Count())
+                return;
+
+            skipknt--;
+            int i = 0;
+            foreach (string f in files)
+            {
+                if (i++ < skipknt)
+                    continue;
+
+                using (Bitmap smallBmp = new Bitmap(f))
+                {
+                    if (smallBmp.Width > bigwd)
+                        bigwd = smallBmp.Width;
+                    bight += (smallBmp.Height + 20);
+                }
+            }
+
+            Bitmap bigBmp = new Bitmap(bigwd, bight);
+            Graphics g = Graphics.FromImage(bigBmp);
+            g.Clear(Color.White);
+            int ht = 0;
+            i = 0;
+            foreach (string f in files)
+            {
+                if (i++ < skipknt)
+                    continue;
+                using (Bitmap smallBmp = new Bitmap(f))
+                {
+                    Rectangle smallRect = new Rectangle(0, 0, smallBmp.Width, smallBmp.Height);
+                    Rectangle bigRect = new Rectangle(0, ht, smallBmp.Width, smallBmp.Height);
+                    g.DrawImage(smallBmp, bigRect, smallRect, GraphicsUnit.Pixel);
+                    ht += (smallBmp.Height + 20);
+                }
+                File.Delete(f);
+            }
+            bigBmp.Save(filename);
+        }
+
+        public void MergeQuestions(string imgdir, string filename)
+        {
+            var files = Directory.GetFiles(imgdir, "??.png").OrderBy(f => f);
+            if (files.Count() == 0)
+            {
+                Directory.Delete(imgdir);
+                return;
+            }
+            int bigwd = 0;
+            int bight = 0;
+
+            foreach (string f in files)
+            {
+                using (Bitmap smallBmp = new Bitmap(f))
+                {
+                    if (smallBmp.Width > bigwd)
+                        bigwd = smallBmp.Width;
+                    bight += (smallBmp.Height + 20);
+                }
+            }
+
+            Bitmap bigBmp = new Bitmap(bigwd, bight);
+            Graphics g = Graphics.FromImage(bigBmp);
+            g.Clear(Color.White);
+            int ht = 0;
+            var htfile = Path.GetDirectoryName(filename) + "\\output.txt";
+            File.AppendAllText(htfile, filename + " ");
+            foreach (string f in files)
+            {
+                using (Bitmap smallBmp = new Bitmap(f))
+                {
+                    File.AppendAllText(htfile, ht.ToString() + "," + smallBmp.Height.ToString() + " ");
+                    Rectangle smallRect = new Rectangle(0, 0, smallBmp.Width, smallBmp.Height);
+                    Rectangle bigRect = new Rectangle(0, ht, smallBmp.Width, smallBmp.Height);
+                    g.DrawImage(smallBmp, bigRect, smallRect, GraphicsUnit.Pixel);
+                    ht += (smallBmp.Height + 20);
+                }
+            }
+            File.AppendAllText(htfile, "\n");
+            bigBmp.Save(filename);
+            Directory.Delete(imgdir, true);
+        }
+
+        public void Preprocess(string imgdir)
+        {
+            var files = Directory.GetFiles(imgdir, "??_???.png").OrderBy(f => f);
+            if (files.Count() == 0)
+            {
+                return;
+            }
+
+            foreach (string f in files)
+            {
+                var tempf = Path.GetFileNameWithoutExtension(f);
+                var destf = Path.GetDirectoryName(f) + "\\" + (int.Parse(tempf.Substring(0, 2)) + 1).ToString("00") + ".png";
+                var cpht = int.Parse(tempf.Substring(3));
+
+                using (MemoryStream dstms = new MemoryStream(System.IO.File.ReadAllBytes(destf)))
+                {
+                    using (Bitmap dstBmp = new Bitmap(dstms))
+                    {
+                        using (Graphics g = Graphics.FromImage(dstBmp))
+                        {
+
+                            using (MemoryStream srcms = new MemoryStream(System.IO.File.ReadAllBytes(f)))
+                            {
+                                using (Bitmap srcbmp = new Bitmap(srcms))
+                                {
+                                    Rectangle srcRect = new Rectangle(0, 0, srcbmp.Width, cpht);
+                                    g.DrawImage(srcbmp, srcRect, srcRect, GraphicsUnit.Pixel);
+                                }
+                            }
+                        }
+                        dstBmp.Save(destf);
+                    }
+                }
+                System.IO.File.Delete(f);
+            }
+
+        }
+
+        public void Process(string rootdir)
+        {
+            var pdirlst = Directory.GetDirectories(rootdir, "???").OrderBy(f => f);
+            foreach (var pdir in pdirlst)
+            {
+                int i = 1;
+                var sdirlst = Directory.GetDirectories(pdir).OrderBy(f => f);
+                Directory.CreateDirectory(pdir + "\\Answers");
+                Console.WriteLine("Processing {0}", pdir);
+                foreach (var sdir in sdirlst)
+                {
+                    Preprocess(sdir);
+                    var qfile = pdir + "\\" + i.ToString("00") + "_Question.png";
+                    var ansfile = pdir + "\\Answers\\" + i.ToString("00") + "_Answer.png";
+                    MergeAnswer(sdir, ansfile);
+                    MergeQuestions(sdir, qfile);
+                    i++;
+                }
+            }
+        }
+    }
+}
