@@ -1,9 +1,0 @@
-D:\temp\oda\Homework\OdaCapture\bin\OdaCapture.exe
-D:\temp\oda\Homework\OdaCapture\bin\OdaCapture.pdb
-D:\temp\oda\Homework\OdaCapture\Source\obj\Release\OdaCapture.csproj.AssemblyReference.cache
-D:\temp\oda\Homework\OdaCapture\Source\obj\Release\OdaCapture.csproj.GenerateResource.cache
-D:\temp\oda\Homework\OdaCapture\Source\obj\Release\OdaCapture.csproj.CoreCompileInputs.cache
-D:\temp\oda\Homework\OdaCapture\Source\obj\Release\OdaCapture.csproj.Up2Date
-D:\temp\oda\Homework\OdaCapture\Source\obj\Release\OdaCapture.exe
-D:\temp\oda\Homework\OdaCapture\Source\obj\Release\OdaCapture.pdb
-D:\temp\oda\Homework\OdaCapture\Source\obj\Release\OdaCapture.Properties.Resources.resources
