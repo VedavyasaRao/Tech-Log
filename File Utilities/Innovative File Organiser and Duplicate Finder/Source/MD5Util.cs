@@ -61,13 +61,15 @@ namespace FileOrganiser
             return "";
         }
 
-        private string calucalatemd5optimized(string filename)
+        private string calucalatemd5optimized(string fname)
         {
             const int ONEMB = 1024 * 1024;
             byte[] data;
             long filelen = 0;
+            string filename = driver.sourcedir + fname;
             try
             {
+
                 var fs = FileEx.OpenRead(filename);
                 filelen = fs.Length;
                 if (filelen < ONEMB)

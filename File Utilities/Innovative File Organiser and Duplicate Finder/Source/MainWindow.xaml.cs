@@ -32,6 +32,9 @@ namespace FileOrganiser
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 srcfolder.Text = dialog.SelectedPath;
+                driver.sourcedir= dialog.SelectedPath;
+                if (!driver.sourcedir.EndsWith("\\"))
+                    driver.sourcedir += "\\";
             }
         }
 
