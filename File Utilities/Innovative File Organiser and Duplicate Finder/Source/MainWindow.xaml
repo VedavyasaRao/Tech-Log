@@ -1,7 +1,7 @@
 ﻿<Window x:Class="FileOrganiser.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="File Organiser" Height="350" Width="525" 
+        Title="File Organiser" Height="350"  
         Loaded="Window_Loaded" 
         Closing="Window_Closing" Name="mainwindow">
     <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -16,6 +16,10 @@
                 <Button Content="Compare Folders View"   x:Name="CompareBtn" Margin="10,0,10,0" DockPanel.Dock="Right" HorizontalAlignment="Right"  VerticalAlignment="Top" Click="CompareBtn_Click"/>
                 <Button Content="Duplicates View"  Name="DuplicatesBtn" Margin="0,0,15,0"   DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Click="DupVW_Click"/>
                 <Button Content="Folder View"   Name="TreeViewBtn" Margin="10,0,10,0" DockPanel.Dock="Right" HorizontalAlignment="Right"  VerticalAlignment="Top" Click="TreeVW_Click"/>
+                <CheckBox  Margin="5,5,5,0"  IsChecked="True"  Name="chkfastmd5" Click="chkfastmd5_Click"  DockPanel.Dock="Left"  >
+                    <TextBlock Text="Fast MD5" TextWrapping="NoWrap" />
+                </CheckBox>
+
             </DockPanel>
             <DockPanel HorizontalAlignment="Stretch"  Margin="0,0,8,10" VerticalAlignment="Top" />
             <ProgressBar HorizontalAlignment="Stretch"  Height="20" Name="progress"/>

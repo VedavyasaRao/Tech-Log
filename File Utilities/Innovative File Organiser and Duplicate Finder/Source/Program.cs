@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using System.Diagnostics;
 using System.Configuration;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using System.Windows;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
 
 namespace FileOrganiser
 {
@@ -296,8 +298,11 @@ namespace FileOrganiser
                     FileEx.Delete(outputfile);
                 pmon.busycursor();
                 string args = "";
-                args = "/c chcp 65001 & echo getting file info  & (dir /s /b  /A-D  \"" + parentpath + "\" >> \"" + outputfile + "\")";
-                var ps = new ProcessStartInfo("cmd", args);
+                args = "\"" + parentpath + "\" \"" + outputfile + "\"";
+
+                string execfile = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\getdirinfo.cmd";
+
+                var ps = new ProcessStartInfo(execfile, args);
                 var p = System.Diagnostics.Process.Start(ps);
                 p.WaitForExit();
                 driver.logit("Collecting data .... done");
@@ -313,6 +318,9 @@ namespace FileOrganiser
         static void Loadfileitms(string parentpath)
         {
             string aline = "";
+            int pplen = parentpath.Length;
+            if (!parentpath.EndsWith("\\"))
+                ++pplen;
 
             root = new fileitem { _title = parentpath, _fullPath = parentpath, _parent = null };
             root.Items.Add(driver.tviutil.dummy);
@@ -320,17 +328,35 @@ namespace FileOrganiser
 
             driver.logit("Creating file items .... please wait");
             Dictionary<string, fileitem> parentnodes = new Dictionary<string, fileitem>();
-            String[] lines = FileEx.ReadAllLines(outputfile, System.Text.Encoding.GetEncoding(65001/*437*/));
-            lines = lines.Distinct().ToArray();
+            String[] lines = File.ReadAllLines(outputfile, System.Text.Encoding.GetEncoding(65001/*437*/));
+            lines = (from l in lines where !l.Contains("File(s)") select l).ToArray();
+            lines[0] = "";
+            lines[1] = "";
+            int v = lines.Length;
+            lines[v - 1] = "";
+            lines[v - 2] = "";
+            lines = (from l in lines where !string.IsNullOrEmpty(l) select l).ToArray();
             driver.pmon.initpbar(lines.Length);
+            string parentdir = "";
             for (long k = 0; k < lines.Length; ++k)
             {
                 try
                 {
-                    aline = lines[k].Replace(parentpath + "\\", "");
-
-                    var fic = new fileitem { _title = System.IO.Path.GetFileName(aline), _fullPath = aline, isfile = true };
-                    var parts = fic._fullPath.Replace(aline + "\\", "").Split(new char[] { '\\' });
+                    aline = lines[k];
+                    int p = aline.IndexOf(parentpath);
+                    if (p != -1)
+                    {
+                        if (aline.Length > (p + pplen))
+                            parentdir = aline.Substring(p + pplen) + "\\";
+                        continue;
+                    }
+                    var updatedttm = DateTimeOffset.Parse(aline.Substring(0, 17));
+                    aline = aline.Remove(0, 17).Trim();
+                    p = aline.IndexOf(" ");
+                    var filesz = long.Parse(aline.Substring(0, p));
+                    aline = aline.Remove(0, p).Trim();
+                    var fic = new fileitem { _title = aline, _fullPath = parentdir+aline, _size = filesz, _dateupdated= updatedttm.ToUnixTimeMilliseconds(),  isfile = true };
+                    var parts = fic._fullPath.Split(new char[] { '\\' });
                     var ppn = root;
                     var pp = root._fullPath;
                     for (var i = 0; i < parts.Length - 1; ++i)
@@ -346,7 +372,7 @@ namespace FileOrganiser
                         ppn = parentnodes[pp];
                     }
                     ppn._Items.Add(fic);
-                    fic._fullPath = lines[k];
+                    //fic._fullPath = lines[k];
                     fic._parent = ppn;
                 }
                 catch (Exception ex)

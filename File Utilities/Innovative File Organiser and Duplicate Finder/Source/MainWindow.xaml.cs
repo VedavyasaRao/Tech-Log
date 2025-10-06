@@ -14,6 +14,8 @@ namespace FileOrganiser
     /// </summary>
     public partial class MainWindow : Window
     {
+        bool bfastmd5 = true;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -53,33 +55,33 @@ namespace FileOrganiser
                 fileitem parentfi = driver.root;
                 var leaves = new List<fileitem>();
                 parentfi.getleaves(ref leaves);
-                driver.CorrectFilenames(leaves);
+                //driver.CorrectFilenames(leaves);
 
                 string exportfile = driver.outputpath + "\\" + parentpath.Replace(':', '_').Replace('\\', '_') + ".csv";
                 if (FileEx.Exists(exportfile))
                     FileEx.Delete(exportfile);
 
-                driver.logit("Updating File Items .... please wait");
-                driver.pmon.initpbar(leaves.Count);
-                foreach (var fi in leaves)
-                {
-                    try
-                    {
-                        System.IO.FileInfo fif = FileInfoEx.FileInfo(fi._fullPath);
-                        fi._size = fif.Length;
-                        fi._dateupdated = fif.LastWriteTime.ToFileTime();
-                    }
-                    catch (Exception ex)
-                    {
-                        driver.logit(ex.Message);
-                    }
-                    driver.pmon.updatepbar();
-                }
-                driver.pmon.closebar();
-                driver.logit("Updating File Items .... done");
+                //driver.logit("Updating File Items .... please wait");
+                //driver.pmon.initpbar(leaves.Count);
+                //foreach (var fi in leaves)
+                //{
+                //    try
+                //    {
+                //        System.IO.FileInfo fif = FileInfoEx.FileInfo(fi._fullPath);
+                //        fi._size = fif.Length;
+                //        fi._dateupdated = fif.LastWriteTime.ToFileTime();
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        driver.logit(ex.Message);
+                //    }
+                //    driver.pmon.updatepbar();
+                //}
+                //driver.pmon.closebar();
+                //driver.logit("Updating File Items .... done");
 
                 driver.logit("Calucalating MD5 .... please wait");
-                MD5Util md5 = new MD5Util();
+                MD5Util md5 = new MD5Util( bfastmd5);
                 driver.pmon.initpbar(leaves.Count);
                 md5.md5threadpool2(leaves);
                 driver.pmon.closebar();
@@ -215,29 +217,29 @@ namespace FileOrganiser
                 {
                     var leaves = new List<fileitem>();
                     parentfi.getleaves(ref leaves);
-                    driver.CorrectFilenames(leaves);
-                    driver.logit("Updating File Items .... please wait");
-                    driver.pmon.initpbar(leaves.Count);
-                    foreach (var fi in leaves)
-                    {
-                        try
-                        {
-                            System.IO.FileInfo fif =  FileInfoEx.FileInfo(fi._fullPath);
-                            fi._size = fif.Length;
-                            fi._dateupdated = fif.LastWriteTime.ToFileTime();
-                        }
-                        catch (Exception ex)
-                        {
-                            driver.logit(ex.Message);
-                        }
-                        driver.pmon.updatepbar();
-                    }
-                    driver.pmon.closebar();
+                    //driver.CorrectFilenames(leaves);
+                    //driver.logit("Updating File Items .... please wait");
+                    //driver.pmon.initpbar(leaves.Count);
+                    //foreach (var fi in leaves)
+                    //{
+                    //    try
+                    //    {
+                    //        System.IO.FileInfo fif =  FileInfoEx.FileInfo(fi._fullPath);
+                    //        fi._size = fif.Length;
+                    //        fi._dateupdated = fif.LastWriteTime.ToFileTime();
+                    //    }
+                    //    catch (Exception ex)
+                    //    {
+                    //        driver.logit(ex.Message);
+                    //    }
+                    //    driver.pmon.updatepbar();
+                    //}
+                    //driver.pmon.closebar();
 
-                    driver.logit("Updating File Items .... done");
+                    //driver.logit("Updating File Items .... done");
 
                     driver.logit("Calucalating MD5 .... please wait");
-                    MD5Util md5 = new MD5Util();
+                    MD5Util md5 = new MD5Util( bfastmd5);
                     driver.pmon.initpbar(leaves.Count);
                     md5.md5threadpool2(leaves);
                     driver.pmon.closebar();
@@ -289,30 +291,30 @@ namespace FileOrganiser
                 {
                     var leaves = new List<fileitem>();
                     parentfi.getleaves(ref leaves);
-                    driver.CorrectFilenames(leaves);
+                    //driver.CorrectFilenames(leaves);
 
                     driver.logit("Updating File Items .... please wait");
-                    driver.pmon.initpbar(leaves.Count);
-                    foreach (var fi in leaves)
-                    {
-                        try
-                        {
-                            System.IO.FileInfo fif =  FileInfoEx.FileInfo(fi._fullPath);
-                            fi._size = fif.Length;
-                            fi._dateupdated = fif.LastWriteTime.ToFileTime();
-                        }
-                        catch (Exception ex)
-                        {
-                            driver.logit(ex.Message);
-                        }
-                        driver.pmon.updatepbar();
-                    }
-                    driver.pmon.closebar();
+                    //driver.pmon.initpbar(leaves.Count);
+                    //foreach (var fi in leaves)
+                    //{
+                    //    try
+                    //    {
+                    //        System.IO.FileInfo fif = FileInfoEx.FileInfo(fi._fullPath);
+                    //        fi._size = fif.Length;
+                    //        fi._dateupdated = fif.LastWriteTime.ToFileTime();
+                    //    }
+                    //    catch (Exception ex)
+                    //    {
+                    //        driver.logit(ex.Message);
+                    //    }
+                    //    driver.pmon.updatepbar();
+                    //}
+                    //driver.pmon.closebar();
 
                     driver.logit("Updating File Items .... done");
 
                     driver.logit("Calucalating MD5 .... please wait");
-                    MD5Util md5 = new MD5Util();
+                    MD5Util md5 = new MD5Util( bfastmd5);
                     driver.pmon.initpbar(leaves.Count);
                     md5.md5threadpool2(leaves);
                     driver.pmon.closebar();
@@ -393,5 +395,10 @@ namespace FileOrganiser
 
         }
 
+        private void chkfastmd5_Click(object sender, RoutedEventArgs e)
+        {
+            bfastmd5 = chkfastmd5.IsChecked ?? false;
+
+        }
     }
 }

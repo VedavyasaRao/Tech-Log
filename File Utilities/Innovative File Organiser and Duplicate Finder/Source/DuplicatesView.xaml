@@ -3,7 +3,7 @@
         xmlns:self="clr-namespace:FileOrganiser"
         xmlns:local="clr-namespace:FileOrganiser.Duplicates"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Duplicates View" Height="300" Width="600" Closing="Window_Closing" Loaded="Window_Loaded">
+        Title="Duplicates View" Height="300"  Closing="Window_Closing" Loaded="Window_Loaded">
     <Window.Resources>
         <local:ChkSelctionConverter x:Key="ChkSelctionConverter" />
         <local:SortConverter x:Key="SortConverter" />
@@ -11,13 +11,13 @@
     <DockPanel HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="5,5,5,5" >
         <DockPanel HorizontalAlignment="Stretch"  Height="50" DockPanel.Dock="Top" Margin="0,0,8,0" VerticalAlignment="Top" >
             <Label Content="Units" Margin="10,5,5,0"  DockPanel.Dock="Left" Height="30"/>
-            <ComboBox Name="unit" Margin="0,2,5,0"  DockPanel.Dock="Left"  Height="20" SelectionChanged="unit_SelectionChanged">
+            <ComboBox Name="unit" Margin="0,2,5,0"  DockPanel.Dock="Left"  Height="27" SelectionChanged="unit_SelectionChanged">
                 <ComboBoxItem IsSelected="True">KB</ComboBoxItem>
                 <ComboBoxItem>MB</ComboBoxItem>
                 <ComboBoxItem>GB</ComboBoxItem>
             </ComboBox>
             <Label Content="Sort:" Margin="10,5,0,0"  DockPanel.Dock="Left"  Height="30" />
-            <ComboBox Name="sort" Margin="0,2,5,0"  DockPanel.Dock="Left"  Height="20" Width="100" SelectionChanged="sort_SelectionChanged">
+            <ComboBox Name="sort" Margin="0,2,5,0"  DockPanel.Dock="Left"  Height="30" Width="100" SelectionChanged="sort_SelectionChanged">
                 <ComboBoxItem >Title</ComboBoxItem>
                 <ComboBoxItem>Disk Size</ComboBoxItem>
                 <ComboBoxItem IsSelected="True">Duplicity</ComboBoxItem>
@@ -27,28 +27,29 @@
             <Label Content="Chars" Margin="0,5,5,0"  Height="30"  DockPanel.Dock="Left"  />
             <StackPanel Margin="5,5,5,0"   Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Left">
                 <CheckBox  Margin="0,5,5,0"  Click="CheckBox_Click" DockPanel.Dock="Left"  >
-                <TextBlock Text="Toggle Selection" TextWrapping="NoWrap" Width="90"/>
+                <TextBlock Text="Toggle Selection" TextWrapping="NoWrap" />
                 </CheckBox>
                 <CheckBox  Margin="0,5,5,0" Name="chkexpclpall"  IsChecked="True" Click="chkexpclpall_Click" DockPanel.Dock="Left"  >
-                    <TextBlock Text="Hierarchical View" TextWrapping="NoWrap" Width="120"/>
+                    <TextBlock Text="Hierarchical View" TextWrapping="NoWrap" />
                 </CheckBox>
             </StackPanel>
             <StackPanel Margin="5,5,5,0"   Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Left">
                 <CheckBox  Margin="0,5,5,0"  IsChecked="True"  Name="chkshowdup" Click="chkshowdup_Click" DockPanel.Dock="Left"  >
-                <TextBlock Text="Show Duplicates" TextWrapping="NoWrap" Width="100"/>
+                <TextBlock Text="Show Duplicates" TextWrapping="NoWrap" />
             </CheckBox>
-                <CheckBox  Margin="0,5,5,0"  IsChecked="False" Name="chkshownondup"  Click="chkshownondup_Click" DockPanel.Dock="Left"  >
-                <TextBlock Text="Show Non Duplicates" TextWrapping="NoWrap" Width="120"/>
+            <CheckBox  Margin="0,5,5,0"  IsChecked="False" Name="chkshownondup"  Click="chkshownondup_Click" DockPanel.Dock="Left"  >
+                <TextBlock Text="Show Non Duplicates" TextWrapping="NoWrap" />
             </CheckBox>
             </StackPanel>
+
             <StackPanel x:Name="sliderpnl" Visibility="Hidden" Margin="10,5,5,0" Orientation="Vertical" DockPanel.Dock="Left" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="40" >
                 <Slider x:Name="slider" Height="20" Width="150" LargeChange="0"  VerticalAlignment="Top" IsSnapToTickEnabled="True" TickFrequency="500" 
                         Focusable="False" Minimum="0" Thumb.DragCompleted="slider_DragCompleted"/>
                 <Label Content="{Binding Path=Value, ElementName=slider}" HorizontalAlignment="Center"   VerticalAlignment="Top" Height="30" />
             </StackPanel>
-            <Button Content="Delete" Margin="10,5,5,5"  Height="30" HorizontalAlignment="Right"  Click="Del_Click" DockPanel.Dock="Right"/>
-            <Button Content="Copy" Margin="10,5,5,5" Width="80" Height="30" HorizontalAlignment="Right"  Click="Cpy_Click" DockPanel.Dock="Right"/>
-            <Button Content="Export" Margin="10,5,5,5" Width="80" Height="30" HorizontalAlignment="Right"  Click="Exp_Click" DockPanel.Dock="Right"/>
+            <Button Content="Delete" Margin="10,5,5,5"   HorizontalAlignment="Right"  Click="Del_Click" DockPanel.Dock="Right"/>
+            <Button Content="Copy" Margin="10,5,5,5"  HorizontalAlignment="Right"  Click="Cpy_Click" DockPanel.Dock="Right"/>
+            <Button Content="Export" Margin="10,5,5,5" HorizontalAlignment="Right"  Click="Exp_Click" DockPanel.Dock="Right"/>
         </DockPanel>
         <TreeView Name="TvDirFiles" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" DockPanel.Dock="Top" Margin="5,5,5,5" 
                   TreeViewItem.LostFocus="TvDirFiles_LostFocus" TreeViewItem.Expanded="TreeView_OnExpanded" 

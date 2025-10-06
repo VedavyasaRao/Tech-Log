@@ -11,13 +11,13 @@
     <DockPanel HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="5,5,5,5" >
         <DockPanel HorizontalAlignment="Stretch"  Height="50" DockPanel.Dock="Top" Margin="0,0,8,0" VerticalAlignment="Top" >
             <Label Content="Units" Margin="10,5,5,0"  DockPanel.Dock="Left" Height="30"/>
-            <ComboBox Name="unit" Margin="0,2,5,0"  DockPanel.Dock="Left"  Height="20" SelectionChanged="unit_SelectionChanged">
+            <ComboBox Name="unit" Margin="0,2,5,0"  DockPanel.Dock="Left"  Height="27" SelectionChanged="unit_SelectionChanged">
                 <ComboBoxItem IsSelected="True">KB</ComboBoxItem>
                 <ComboBoxItem>MB</ComboBoxItem>
                 <ComboBoxItem>GB</ComboBoxItem>
             </ComboBox>
             <Label Content="Sort:" Margin="10,5,5,0"  DockPanel.Dock="Left"  Height="30" />
-            <ComboBox Name="sort" Margin="0,2,5,0"  DockPanel.Dock="Left"  Height="32" SelectionChanged="sort_SelectionChanged">
+            <ComboBox Name="sort" Margin="0,2,5,0"  DockPanel.Dock="Left"  Height="34" SelectionChanged="sort_SelectionChanged">
                 <ComboBoxItem >Title</ComboBoxItem>
                 <ComboBoxItem >File Count</ComboBoxItem>
                 <ComboBoxItem IsSelected="True">Disk Size</ComboBoxItem>

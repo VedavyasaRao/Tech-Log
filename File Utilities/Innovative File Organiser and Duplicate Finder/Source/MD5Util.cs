@@ -15,6 +15,11 @@ namespace FileOrganiser
         int dupidx;
         bool bfast = true;
         List<fileitem> ficlist = new List<fileitem>();
+        public MD5Util(bool bfast)
+        {
+            this.bfast = bfast;
+        }
+
         private string calucalatemd5certutil(string filename)
         {
             try
@@ -88,7 +93,7 @@ namespace FileOrganiser
 
         private string calucalatemd5fast(fileitem fi)
         {
-            return String.Format("{0}{1}",fi._dateupdated, fi._size); ;
+            return String.Format("{0}{1}{2}",fi._title,fi._dateupdated, fi._size); ;
         }
 
         public void CalculateMD5(object data)
@@ -118,7 +123,7 @@ namespace FileOrganiser
                 if (idx >= ficlist.Count)
                     break;
                 var fi = ficlist[idx];
-                string temp = calucalatemd5optimized(fi._fullPath);
+                string temp = bfast ? calucalatemd5fast(fi) : calucalatemd5optimized(fi._fullPath);
                 if (temp != "")
                     fi._md5 = temp;
                 driver.pmon.updatepbar();
@@ -195,7 +200,7 @@ namespace FileOrganiser
 
             List<fileitem> duplist = ficlist.FindAll(fi => (fi.hasdup));
             driver.pmon.initpbar(duplist.Count);
-            bfast = false;
+            bfast = true;
             dupidx = -1;
             for (int i = 0; i < nthreads; ++i)
             {

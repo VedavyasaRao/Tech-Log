@@ -416,7 +416,6 @@ namespace FileOrganiser.Duplicates
             bHierarchical = chkexpclpall.IsChecked ?? false;
             Load();
         }
-
     }
 
     public class ChkSelctionConverter : IValueConverter

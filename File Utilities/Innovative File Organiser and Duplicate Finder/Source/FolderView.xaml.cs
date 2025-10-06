@@ -54,7 +54,7 @@ namespace FileOrganiser.Treeview
                 fileitem parentfi = parentfi2 as fileitem;
                 List<fileitem> leaves = new List<fileitem>();
                 parentfi.getleaves(ref leaves);
-                driver.CorrectFilenames(leaves);
+                //driver.CorrectFilenames(leaves);
                 driver.logit("Updating file items .... please wait");
                 driver.pmon.initpbar(leaves.Count);
                 foreach (var fi in leaves)
@@ -63,14 +63,13 @@ namespace FileOrganiser.Treeview
                     try
                     {
                         fi.isdup = true;
-                        System.IO.FileInfo finf = FileInfoEx.FileInfo(fi._fullPath);
-                        sz = finf.Length;
-                        fileitem fic = fi;
+                        //System.IO.FileInfo finf = FileInfoEx.FileInfo(fi._fullPath);
+                        sz = fi._size;
+                        fileitem fic = fi._parent;
                         while (fic != null)
                         {
                             fic._size += sz;
-                            if (!fic.isfile)
-                                fic._count++;
+                            fic._count++;
                             fic = fic._parent;
                         }
                     }
