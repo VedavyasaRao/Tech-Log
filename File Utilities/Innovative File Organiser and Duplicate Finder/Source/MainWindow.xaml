@@ -12,6 +12,7 @@
             <TextBox Name="srcfolder" Text=""  TextWrapping="NoWrap" HorizontalAlignment="Stretch" Margin="0,10,0,0" DockPanel.Dock="Right" VerticalAlignment="Top" />
             </DockPanel>
             <DockPanel HorizontalAlignment="Stretch"  Margin="0,0,8,10" VerticalAlignment="Top" >
+                <Button Content="Diff"   Name="DiffBtn" Margin="10,0,10,0" DockPanel.Dock="Right" HorizontalAlignment="Right"  VerticalAlignment="Top" Click="DiffBtn_Click"/>
                 <Button Content="Export"   Name="ExportBtn" Margin="10,0,10,0" DockPanel.Dock="Right" HorizontalAlignment="Right"  VerticalAlignment="Top" Click="ExportBtn_Click"/>
                 <Button Content="Compare Folders View"   x:Name="CompareBtn" Margin="10,0,10,0" DockPanel.Dock="Right" HorizontalAlignment="Right"  VerticalAlignment="Top" Click="CompareBtn_Click"/>
                 <Button Content="Duplicates View"  Name="DuplicatesBtn" Margin="0,0,15,0"   DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Click="DupVW_Click"/>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -14,7 +14,6 @@ namespace FileOrganiser
     /// </summary>
     public partial class MainWindow : Window
     {
-        bool bfastmd5 = true;
 
         public MainWindow()
         {
@@ -52,6 +51,8 @@ namespace FileOrganiser
             string parentpath = (string)data;
             driver.Load((string)parentpath, 0);
             driver.Load((string)parentpath, 3);
+            if (!parentpath.EndsWith("\\"))
+                parentpath = parentpath+ '\\';
 
             try
             {
@@ -59,7 +60,8 @@ namespace FileOrganiser
                 var leaves = new List<fileitem>();
                 parentfi.getleaves(ref leaves);
                 //driver.CorrectFilenames(leaves);
-
+                var parts = driver.skipfolders4export.Split(new char[] { ',' });
+                leaves = (from l in leaves where !(parts.Any(p => (parentpath + l._fullPath).Contains(p))) select l).ToList();
                 string exportfile = driver.outputpath + "\\" + parentpath.Replace(':', '_').Replace('\\', '_') + ".csv";
                 if (FileEx.Exists(exportfile))
                     FileEx.Delete(exportfile);
@@ -84,11 +86,12 @@ namespace FileOrganiser
                 //driver.logit("Updating File Items .... done");
 
                 driver.logit("Calucalating MD5 .... please wait");
-                MD5Util md5 = new MD5Util( bfastmd5);
+                MD5Util md5 = new MD5Util( driver.bfastmd5);
                 driver.pmon.initpbar(leaves.Count);
                 md5.md5threadpool2(leaves);
                 driver.pmon.closebar();
                 driver.logit("Calucalating MD5 .... done");
+
 
                 driver.logit("Exporting File Items .... please wait");
                 driver.pmon.initpbar(leaves.Count);
@@ -96,7 +99,7 @@ namespace FileOrganiser
                 {
                     try
                     {
-                        FileEx.AppendAllText(exportfile, String.Format("{0}|{1}\n", fi._fullPath, fi._md5));
+                        FileEx.AppendAllText(exportfile, String.Format("{0}|{1}\n", parentpath + fi._fullPath, fi._md5));
                     }
                     catch (Exception ex)
                     {
@@ -145,6 +148,9 @@ namespace FileOrganiser
             if (config.AppSettings.Settings["tvitemscount"] != null)
                 driver.tviutil.maxshow = int.Parse(config.AppSettings.Settings["tvitemscount"].Value);
 
+            if (config.AppSettings.Settings["skipfolders4export"] != null)
+                driver.skipfolders4export = config.AppSettings.Settings["skipfolders4export"].Value;
+
             string[] args = Environment.GetCommandLineArgs();
             if (args.Length == 2)
                 srcfolder.Text = args[1];
@@ -161,6 +167,8 @@ namespace FileOrganiser
             config.AppSettings.Settings.Add("sourcedir", srcfolder.Text);
             config.AppSettings.Settings.Remove("tvitemscount");
             config.AppSettings.Settings.Add("tvitemscount", driver.tviutil.maxshow.ToString());
+            config.AppSettings.Settings.Remove("skipfolders4export");
+            config.AppSettings.Settings.Add("skipfolders4export", driver.skipfolders4export);
 
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
@@ -242,7 +250,7 @@ namespace FileOrganiser
                     //driver.logit("Updating File Items .... done");
 
                     driver.logit("Calucalating MD5 .... please wait");
-                    MD5Util md5 = new MD5Util( bfastmd5);
+                    MD5Util md5 = new MD5Util( driver.bfastmd5);
                     driver.pmon.initpbar(leaves.Count);
                     md5.md5threadpool2(leaves);
                     driver.pmon.closebar();
@@ -317,7 +325,7 @@ namespace FileOrganiser
                     driver.logit("Updating File Items .... done");
 
                     driver.logit("Calucalating MD5 .... please wait");
-                    MD5Util md5 = new MD5Util( bfastmd5);
+                    MD5Util md5 = new MD5Util(driver.bfastmd5);
                     driver.pmon.initpbar(leaves.Count);
                     md5.md5threadpool2(leaves);
                     driver.pmon.closebar();
@@ -400,7 +408,45 @@ namespace FileOrganiser
 
         private void chkfastmd5_Click(object sender, RoutedEventArgs e)
         {
-            bfastmd5 = chkfastmd5.IsChecked ?? false;
+            driver.bfastmd5 = chkfastmd5.IsChecked ?? false;
+
+        }
+
+        private void DiffBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string firstfile = "", secondfile="";
+
+            var dialog = new OpenFileDialog();
+            dialog.CheckFileExists = true;
+            dialog.Multiselect = false;
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                firstfile = dialog.FileName;
+            else
+                return;
+
+            dialog = new OpenFileDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                secondfile = dialog.FileName;
+            else
+                return;
+            var first = File.ReadAllLines(firstfile).Select(f => { var parts = f.Split(new char[] { '|' });  return new KeyValuePair<string, string>(parts[0], parts[1]); }).ToDictionary(f => f.Key, f => f.Value);
+            var second = File.ReadAllLines(secondfile).Select(f => { var parts = f.Split(new char[] { '|' }); return new KeyValuePair<string, string>(parts[0], parts[1]); }).ToDictionary(f => f.Key, f => f.Value);
+            var temp = first.Where(kv => second.ContainsKey(kv.Key) && kv.Value != second[kv.Key]).ToDictionary(f => f.Key, f => f.Value);
+            var temp2 = first.Where(kv => !second.ContainsKey(kv.Key)).ToDictionary(f => f.Key, f => f.Value);
+            var temp3 = first.Where(kv => second.ContainsKey(kv.Key) && kv.Value == second[kv.Key]).ToDictionary(f => f.Key, f => f.Value);
+
+            string parentpath = srcfolder.Text;
+            string exportfile = driver.outputpath + "\\" + parentpath.Replace(':', '_').Replace('\\', '_') + "diff.txt";
+            if (FileEx.Exists(exportfile))
+                FileEx.Delete(exportfile);
+            File.AppendAllText(exportfile, "changed Files\n");
+            File.AppendAllLines(exportfile, temp.Select(f => f.Key).ToArray());
+            File.AppendAllText(exportfile, "new Files\n");
+            File.AppendAllLines(exportfile, temp2.Select(f => f.Key).ToArray());
+            File.AppendAllText(exportfile, "same Files\n");
+            File.AppendAllLines(exportfile, temp3.Select(f => f.Key).ToArray());
+            driver.logit("Exporting File Items to " + exportfile);
+
 
         }
     }

@@ -16,6 +16,8 @@ namespace FileOrganiser
 {
     public class driver
     {
+        public static bool bfastmd5 = true;
+        public static string skipfolders4export = @"C:\$Recycle.Bin,C:\.metadata,\.git\,C:\oem,C:\Program Files,C:\Program Files (x86),C:\ProgramData,C:\Users\All Users,C:\Users\Default,C:\Users\Public,\AppData\,C:\Windows";
         public static TextBlock logtxt;
         public static ScrollViewer vsb;
         public static string outputpath="";
@@ -377,7 +379,8 @@ namespace FileOrganiser
                 }
                 catch (Exception ex)
                 {
-                    driver.logit(ex.Message);
+                    driver.logit(aline+": "+ex.Message);
+
                 }
                 driver.pmon.updatepbar();
             }
