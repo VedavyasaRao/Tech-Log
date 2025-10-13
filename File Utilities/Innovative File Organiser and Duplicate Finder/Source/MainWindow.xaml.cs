@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.SqlTypes;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -43,6 +44,7 @@ namespace FileOrganiser
             t.Start(srcfolder.Text);
         }
 
+
         private void Export_files(object data)
         {
             driver.disp.Invoke(new Action(delegate {
@@ -61,7 +63,7 @@ namespace FileOrganiser
                 parentfi.getleaves(ref leaves);
                 //driver.CorrectFilenames(leaves);
                 var parts = driver.skipfolders4export.Split(new char[] { ',' });
-                leaves = (from l in leaves where !(parts.Any(p => (parentpath + l._fullPath).Contains(p))) select l).ToList();
+                leaves = (from l in leaves where !(parts.Any(p => (parentpath + l._fullPath).IndexOf(p, StringComparison.InvariantCultureIgnoreCase) >= 0)) select l).ToList();
                 string exportfile = driver.outputpath + "\\" + parentpath.Replace(':', '_').Replace('\\', '_') + ".csv";
                 if (FileEx.Exists(exportfile))
                     FileEx.Delete(exportfile);

@@ -17,7 +17,10 @@ namespace FileOrganiser
     public class driver
     {
         public static bool bfastmd5 = true;
-        public static string skipfolders4export = @"C:\$Recycle.Bin,C:\.metadata,\.git\,C:\oem,C:\Program Files,C:\Program Files (x86),C:\ProgramData,C:\Users\All Users,C:\Users\Default,C:\Users\Public,\AppData\,C:\Windows";
+        //public static string skipfolders4export = @"\$Recycle.Bin\,C:\.metadata,\.git\,C:\oem,C:\Program Files,C:\Program Files (x86),C:\ProgramData,C:\Users\All Users,C:\Users\Default,C:\Users\Public,\AppData\,C:\Windows,C:\$Windows.~WS,C:\4DefaultTempSaveScan,C:\hp,C:\hpswsetup,C:\Intel,C:\MahaSecure,C:\Recovery,C:\SWSetup";
+        public static string skipfolders4export = @"\$Recycle.Bin\,C:\.metadata,\.git\,C:\oem,C:\Program Files,C:\Program Files (x86)," +
+              @"C:\ProgramData,C:\Users\All Users,C:\Users\Default,C:\Users\Public,\AppData\,C:\Windows,"  +
+              @"C:\$Windows.~WS,C:\4DefaultTempSaveScan,C:\hp,C:\hpswsetup,C:\Intel,C:\MahaSecure,C:\Recovery,C:\SWSetup";
         public static TextBlock logtxt;
         public static ScrollViewer vsb;
         public static string outputpath="";
