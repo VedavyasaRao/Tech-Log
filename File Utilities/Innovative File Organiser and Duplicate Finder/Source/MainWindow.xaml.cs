@@ -68,25 +68,6 @@ namespace FileOrganiser
                 if (FileEx.Exists(exportfile))
                     FileEx.Delete(exportfile);
 
-                //driver.logit("Updating File Items .... please wait");
-                //driver.pmon.initpbar(leaves.Count);
-                //foreach (var fi in leaves)
-                //{
-                //    try
-                //    {
-                //        System.IO.FileInfo fif = FileInfoEx.FileInfo(fi._fullPath);
-                //        fi._size = fif.Length;
-                //        fi._dateupdated = fif.LastWriteTime.ToFileTime();
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        driver.logit(ex.Message);
-                //    }
-                //    driver.pmon.updatepbar();
-                //}
-                //driver.pmon.closebar();
-                //driver.logit("Updating File Items .... done");
-
                 driver.logit("Calucalating MD5 .... please wait");
                 MD5Util md5 = new MD5Util( driver.bfastmd5);
                 driver.pmon.initpbar(leaves.Count);
@@ -101,7 +82,7 @@ namespace FileOrganiser
                 {
                     try
                     {
-                        FileEx.AppendAllText(exportfile, String.Format("{0}|{1}\n", parentpath + fi._fullPath, fi._md5));
+                        FileEx.AppendAllText(exportfile, String.Format("{0}|{1}|{2}\n",  parentpath, fi._fullPath, fi._md5));
                     }
                     catch (Exception ex)
                     {
@@ -431,22 +412,28 @@ namespace FileOrganiser
                 secondfile = dialog.FileName;
             else
                 return;
-            var first = File.ReadAllLines(firstfile).Select(f => { var parts = f.Split(new char[] { '|' });  return new KeyValuePair<string, string>(parts[0], parts[1]); }).ToDictionary(f => f.Key, f => f.Value);
-            var second = File.ReadAllLines(secondfile).Select(f => { var parts = f.Split(new char[] { '|' }); return new KeyValuePair<string, string>(parts[0], parts[1]); }).ToDictionary(f => f.Key, f => f.Value);
-            var temp = first.Where(kv => second.ContainsKey(kv.Key) && kv.Value != second[kv.Key]).ToDictionary(f => f.Key, f => f.Value);
-            var temp2 = first.Where(kv => !second.ContainsKey(kv.Key)).ToDictionary(f => f.Key, f => f.Value);
-            var temp3 = first.Where(kv => second.ContainsKey(kv.Key) && kv.Value == second[kv.Key]).ToDictionary(f => f.Key, f => f.Value);
+            var first = File.ReadAllLines(firstfile).Select(f => { var parts = f.Split(new char[] { '|' }); return new { fullpath=parts[0], filename=Path.GetFileName(parts[0]), crc=parts[1]}; });
+            var second = File.ReadAllLines(secondfile).Select(f => { var parts = f.Split(new char[] { '|' }); return new { fullpath = parts[0], filename = Path.GetFileName(parts[0]), crc = parts[1] }; });
+            var temp3 = first.Where(kv => second.Where(kv2=>kv2.filename==kv.filename && kv2.crc==kv.crc).Count()>=1).Select(kv3=>kv3.fullpath).ToList();
+            var temp2 = first.Where(kv => second.Where(kv2 => kv2.filename == kv.filename).Count() == 0).Select(kv3 => kv3.fullpath).ToList();
+            var temp = first.Where(kv => second.Where(kv2 => kv2.filename == kv.filename && kv2.crc != kv.crc).Count() >= 1).Select(kv3 => kv3.fullpath).ToList();
+
+            //var first = File.ReadAllLines(firstfile).Select(f => { var parts = f.Split(new char[] { '|' });  return new KeyValuePair<string, string>(parts[0], parts[1]); }).ToDictionary(f => f.Key, f => f.Value);
+            //var second = File.ReadAllLines(secondfile).Select(f => { var parts = f.Split(new char[] { '|' }); return new KeyValuePair<string, string>(Path.GetFileName(parts[0]), parts[1]); }).ToDictionary(f => f.Key, f => f.Value);
+            //var temp = first.Where(kv => second.ContainsKey(kv.Key) && kv.Value != second[kv.Key]).ToDictionary(f => f.Key, f => f.Value);
+            //var temp2 = first.Where(kv => !second.ContainsKey(kv.Key)).ToDictionary(f => f.Key, f => f.Value);
+            //var temp3 = first.Where(kv => second.Contains(kv)).ToDictionary(f => f.Key, f => f.Value);
 
             string parentpath = srcfolder.Text;
             string exportfile = driver.outputpath + "\\" + parentpath.Replace(':', '_').Replace('\\', '_') + "diff.txt";
             if (FileEx.Exists(exportfile))
                 FileEx.Delete(exportfile);
             File.AppendAllText(exportfile, "changed Files\n");
-            File.AppendAllLines(exportfile, temp.Select(f => f.Key).ToArray());
+            File.AppendAllLines(exportfile, temp);
             File.AppendAllText(exportfile, "new Files\n");
-            File.AppendAllLines(exportfile, temp2.Select(f => f.Key).ToArray());
+            File.AppendAllLines(exportfile, temp2);
             File.AppendAllText(exportfile, "same Files\n");
-            File.AppendAllLines(exportfile, temp3.Select(f => f.Key).ToArray());
+            File.AppendAllLines(exportfile, temp3);
             driver.logit("Exporting File Items to " + exportfile);
 
 
