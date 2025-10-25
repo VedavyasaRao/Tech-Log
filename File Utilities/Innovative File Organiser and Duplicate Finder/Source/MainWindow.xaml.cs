@@ -412,28 +412,38 @@ namespace FileOrganiser
                 secondfile = dialog.FileName;
             else
                 return;
-            var first = File.ReadAllLines(firstfile).Select(f => { var parts = f.Split(new char[] { '|' }); return new { fullpath=parts[0], filename=Path.GetFileName(parts[0]), crc=parts[1]}; });
-            var second = File.ReadAllLines(secondfile).Select(f => { var parts = f.Split(new char[] { '|' }); return new { fullpath = parts[0], filename = Path.GetFileName(parts[0]), crc = parts[1] }; });
-            var temp3 = first.Where(kv => second.Where(kv2=>kv2.filename==kv.filename && kv2.crc==kv.crc).Count()>=1).Select(kv3=>kv3.fullpath).ToList();
-            var temp2 = first.Where(kv => second.Where(kv2 => kv2.filename == kv.filename).Count() == 0).Select(kv3 => kv3.fullpath).ToList();
-            var temp = first.Where(kv => second.Where(kv2 => kv2.filename == kv.filename && kv2.crc != kv.crc).Count() >= 1).Select(kv3 => kv3.fullpath).ToList();
 
-            //var first = File.ReadAllLines(firstfile).Select(f => { var parts = f.Split(new char[] { '|' });  return new KeyValuePair<string, string>(parts[0], parts[1]); }).ToDictionary(f => f.Key, f => f.Value);
-            //var second = File.ReadAllLines(secondfile).Select(f => { var parts = f.Split(new char[] { '|' }); return new KeyValuePair<string, string>(Path.GetFileName(parts[0]), parts[1]); }).ToDictionary(f => f.Key, f => f.Value);
-            //var temp = first.Where(kv => second.ContainsKey(kv.Key) && kv.Value != second[kv.Key]).ToDictionary(f => f.Key, f => f.Value);
-            //var temp2 = first.Where(kv => !second.ContainsKey(kv.Key)).ToDictionary(f => f.Key, f => f.Value);
-            //var temp3 = first.Where(kv => second.Contains(kv)).ToDictionary(f => f.Key, f => f.Value);
+            var first = File.ReadAllLines(firstfile).Select(f => { var parts = f.Split(new char[] { '|' }); return new KeyValuePair<string, string>(parts[1], parts[2]); }).ToDictionary(f => f.Key, f => f.Value);
+            var second = File.ReadAllLines(secondfile).Select(f => { var parts = f.Split(new char[] { '|' }); return new KeyValuePair<string, string>(parts[1], parts[2]); }).ToDictionary(f => f.Key, f => f.Value);
+            var third = File.ReadAllLines(firstfile).Select(f => { var parts = f.Split(new char[] { '|' }); return new KeyValuePair<string, string>(parts[1], parts[0]); }).ToDictionary(f => f.Key, f => f.Value);
 
             string parentpath = srcfolder.Text;
-            string exportfile = driver.outputpath + "\\" + parentpath.Replace(':', '_').Replace('\\', '_') + "diff.txt";
-            if (FileEx.Exists(exportfile))
-                FileEx.Delete(exportfile);
-            File.AppendAllText(exportfile, "changed Files\n");
-            File.AppendAllLines(exportfile, temp);
-            File.AppendAllText(exportfile, "new Files\n");
-            File.AppendAllLines(exportfile, temp2);
-            File.AppendAllText(exportfile, "same Files\n");
-            File.AppendAllLines(exportfile, temp3);
+            string exportfile =  "diff.txt";
+            var sdialog = new SaveFileDialog();
+            sdialog.FileName = exportfile;
+            if (sdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                exportfile = sdialog.FileName;
+            else
+                return;
+
+            var changed_files = first.Where(kv => second.ContainsKey(kv.Key) && kv.Value != second[kv.Key]).Select(kv2 => third[kv2.Key] + "\\" + kv2.Key);
+            var tmppath = Path.GetDirectoryName(exportfile) + "\\changed_" + Path.GetFileName(exportfile);
+            if (FileEx.Exists(tmppath))
+                FileEx.Delete(tmppath);
+            File.WriteAllLines(tmppath, changed_files);
+
+            var new_files = first.Where(kv => !second.ContainsKey(kv.Key)).Select(kv2 => third[kv2.Key] + "\\" + kv2.Key);
+            tmppath = Path.GetDirectoryName(exportfile) + "\\new_" + Path.GetFileName(exportfile);
+            if (FileEx.Exists(tmppath))
+                FileEx.Delete(tmppath);
+            File.AppendAllLines(tmppath, new_files);
+
+            var same_files = first.Where(kv => second.Contains(kv)).Select(kv2 => third[kv2.Key] + "\\" + kv2.Key);
+            tmppath = Path.GetDirectoryName(exportfile) + "\\same_" + Path.GetFileName(exportfile);
+            if (FileEx.Exists(tmppath))
+                FileEx.Delete(tmppath);
+            File.AppendAllLines(tmppath, same_files);
+
             driver.logit("Exporting File Items to " + exportfile);
 
 
