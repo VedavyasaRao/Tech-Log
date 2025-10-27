@@ -1,3 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
-src export-ignore
+"Source Code.zip" export-ignore
+"Source Code.tar.gz" export-ignore
