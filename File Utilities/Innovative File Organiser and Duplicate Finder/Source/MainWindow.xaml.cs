@@ -46,8 +46,19 @@ namespace FileOrganiser
 
         private void ExportBtn_Click(object sender, RoutedEventArgs e)
         {
+            var parentpath = srcfolder.Text;
+            string exportfile = driver.outputpath + "\\" + ((parentpath + DateTime.Now.ToString()).Replace(':', '_').Replace('\\', '_')) + ".csv";
+            var sdialog = new SaveFileDialog();
+            sdialog.FileName = exportfile;
+            if (sdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                exportfile = sdialog.FileName;
+            else
+                return;
+
+            if (FileEx.Exists(exportfile))
+                FileEx.Delete(exportfile);
             System.Threading.Thread t = new System.Threading.Thread(Export_files);
-            t.Start(srcfolder.Text);
+            t.Start(new string[] { srcfolder.Text, exportfile });
         }
 
 
@@ -56,7 +67,8 @@ namespace FileOrganiser
             driver.disp.Invoke(new Action(delegate {
                 IsEnabled = false;
             }));
-            string parentpath = (string)data;
+            string parentpath = ((string[])data)[0];
+            string exportfile = ((string[])data)[1];
             driver.Load((string)parentpath, 0);
             driver.Load((string)parentpath, 3);
             if (!parentpath.EndsWith("\\"))
@@ -70,16 +82,6 @@ namespace FileOrganiser
                 //driver.CorrectFilenames(leaves);
                 var parts = driver.skipfolders4export.Split(new char[] { ',' });
                 leaves = (from l in leaves where !(parts.Any(p => (parentpath + l._fullPath).IndexOf(p, StringComparison.InvariantCultureIgnoreCase) >= 0)) select l).ToList();
-                string exportfile = driver.outputpath + "\\" + ((parentpath + DateTime.Now.ToString()).Replace(':', '_').Replace('\\', '_')) + ".csv";
-                var sdialog = new SaveFileDialog();
-                sdialog.FileName = exportfile;
-                if (sdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    exportfile = sdialog.FileName;
-                else
-                    return;
-
-                if (FileEx.Exists(exportfile))
-                    FileEx.Delete(exportfile);
 
                 driver.logit("Calucalating MD5 .... please wait");
                 MD5Util md5 = new MD5Util( driver.bfastmd5);
@@ -513,6 +515,7 @@ namespace FileOrganiser
             File.AppendAllText(exportfile, scripttxt);
             File.AppendAllText(exportfile, "</body></html>");
 
+            driver.logit("Exporting File Items to " + exportfile);
 
         }
     }
