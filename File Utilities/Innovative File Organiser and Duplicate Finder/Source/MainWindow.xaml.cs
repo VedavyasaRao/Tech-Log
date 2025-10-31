@@ -4,9 +4,15 @@ using System.Configuration;
 using System.Data.SqlTypes;
 using System.IO;
 using System.Linq;
+using System.Security;
+using System.Security.Policy;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Media;
+using System.Windows.Shapes;
+using static System.Windows.Forms.AxHost;
 
 namespace FileOrganiser
 {
@@ -64,7 +70,14 @@ namespace FileOrganiser
                 //driver.CorrectFilenames(leaves);
                 var parts = driver.skipfolders4export.Split(new char[] { ',' });
                 leaves = (from l in leaves where !(parts.Any(p => (parentpath + l._fullPath).IndexOf(p, StringComparison.InvariantCultureIgnoreCase) >= 0)) select l).ToList();
-                string exportfile = driver.outputpath + "\\" + parentpath.Replace(':', '_').Replace('\\', '_') + ".csv";
+                string exportfile = driver.outputpath + "\\" + ((parentpath + DateTime.Now.ToString()).Replace(':', '_').Replace('\\', '_')) + ".csv";
+                var sdialog = new SaveFileDialog();
+                sdialog.FileName = exportfile;
+                if (sdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    exportfile = sdialog.FileName;
+                else
+                    return;
+
                 if (FileEx.Exists(exportfile))
                     FileEx.Delete(exportfile);
 
@@ -418,7 +431,7 @@ namespace FileOrganiser
             var third = File.ReadAllLines(firstfile).Select(f => { var parts = f.Split(new char[] { '|' }); return new KeyValuePair<string, string>(parts[1], parts[0]); }).ToDictionary(f => f.Key, f => f.Value);
 
             string parentpath = srcfolder.Text;
-            string exportfile =  "diff.txt";
+            string exportfile = string.Format("diff_{0}_{1}.html", System.IO.Path.GetFileNameWithoutExtension(firstfile), System.IO.Path.GetFileNameWithoutExtension(secondfile));
             var sdialog = new SaveFileDialog();
             sdialog.FileName = exportfile;
             if (sdialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -426,25 +439,79 @@ namespace FileOrganiser
             else
                 return;
 
-            var changed_files = first.Where(kv => second.ContainsKey(kv.Key) && kv.Value != second[kv.Key]).Select(kv2 => third[kv2.Key] + "\\" + kv2.Key);
-            var tmppath = Path.GetDirectoryName(exportfile) + "\\changed_" + Path.GetFileName(exportfile);
-            if (FileEx.Exists(tmppath))
-                FileEx.Delete(tmppath);
-            File.WriteAllLines(tmppath, changed_files);
+            string htmlheadtxt =
+"<!DOCTYPE html>" +
+"<html>" +
+"<head>" +
+"<meta name=\"viewport\" content=\"width = device - width, initial - scale = 1\">" +
+"<style>" +
+".collapsible {" +
+"  background-color: #777;" +
+"  color: white;" +
+"  cursor: pointer;" +
+"  padding: 18px;" +
+"  width: 100%;" +
+"  border: none;" +
+"  text-align: left;" +
+"  outline: none;" +
+"  font-size: 15px;" +
+"}" +
+"" +
+".active, .collapsible:hover {" +
+"  background-color: #555;" +
+"}" +
+"" +
+".content {" +
+"  padding: 0 18px;" +
+"  display: none;" +
+"  overflow: hidden;" +
+"  background-color: #f1f1f1;" +
+"}" +
+"</style>" +
+"</head>";
 
-            var new_files = first.Where(kv => !second.ContainsKey(kv.Key)).Select(kv2 => third[kv2.Key] + "\\" + kv2.Key);
-            tmppath = Path.GetDirectoryName(exportfile) + "\\new_" + Path.GetFileName(exportfile);
-            if (FileEx.Exists(tmppath))
-                FileEx.Delete(tmppath);
-            File.AppendAllLines(tmppath, new_files);
+            var scripttxt =
+"<script>" +
+"var coll = document.getElementsByClassName(\"collapsible\");" +
+"var i;" +
+"" +
+"for (i = 0; i < coll.length; i++) {" +
+"  coll[i].addEventListener(\"click\", function() {" +
+"    this.classList.toggle(\"active\");" +
+"    var content = this.nextElementSibling;" +
+"    if (content.style.display === \"block\") {" +
+"      content.style.display = \"none\";" +
+"    } else {" +
+"      content.style.display = \"block\";" +
+"    }" +
+"  });" +
+"}" +
+"</script>";
 
-            var same_files = first.Where(kv => second.Contains(kv)).Select(kv2 => third[kv2.Key] + "\\" + kv2.Key);
-            tmppath = Path.GetDirectoryName(exportfile) + "\\same_" + Path.GetFileName(exportfile);
-            if (FileEx.Exists(tmppath))
-                FileEx.Delete(tmppath);
-            File.AppendAllLines(tmppath, same_files);
 
-            driver.logit("Exporting File Items to " + exportfile);
+            File.WriteAllText(exportfile, htmlheadtxt);
+            File.AppendAllText(exportfile, "<body>\n");
+
+            File.AppendAllText(exportfile, "<button type=\"button\" class=\"collapsible\">Changed_Files</button><div class=\"content\"><p>");
+            var changed_files = first.Where(kv => second.ContainsKey(kv.Key) && kv.Value != second[kv.Key])
+                .Select(kv2 => (third[kv2.Key] + "\\" + kv2.Key + "<br />"));
+            File.AppendAllLines(exportfile, changed_files);
+            File.AppendAllText(exportfile, "</p></div>");
+
+            File.AppendAllText(exportfile, "<button type=\"button\" class=\"collapsible\">New_Files</button><div class=\"content\"><p>");
+            var new_files = first.Where(kv => !second.ContainsKey(kv.Key))
+                .Select(kv2 => (third[kv2.Key] + "\\" + kv2.Key + "<br />"));
+            File.AppendAllLines(exportfile, new_files);
+            File.AppendAllText(exportfile, "</p></div>");
+
+            File.AppendAllText(exportfile, "<button type=\"button\" class=\"collapsible\">Same_Files</button><div class=\"content\"><p>");
+            var same_files = first.Where(kv => second.Contains(kv))
+                .Select(kv2 => (third[kv2.Key] + "\\" + kv2.Key + "<br />"));
+            File.AppendAllLines(exportfile, same_files);
+            File.AppendAllText(exportfile, "</p></div>");
+
+            File.AppendAllText(exportfile, scripttxt);
+            File.AppendAllText(exportfile, "</body></html>");
 
 
         }
