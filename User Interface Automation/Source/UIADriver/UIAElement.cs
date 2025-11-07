@@ -331,23 +331,25 @@ namespace UITesting.Automated.UIADriver
 
         private bool SearchAEElement(ControlInfo actl, AutomationElement ae, ref AutomationElement searchedele, bool busevalue)
         {
+            bool bret = false;
             Logger.LogMessage(string.Format("current element {0} {1}", ae.Current.ControlType.LocalizedControlType, ae.Current.Name));
             if (actl.AEType == ae.Current.ControlType.LocalizedControlType && (actl.AEText == ae.Current.Name || !busevalue))
             {
+                bret= true;
                 searchedele = ae;
                 Logger.LogMessage(string.Format("current element {0} {1} FOUND", ae.Current.ControlType.LocalizedControlType, ae.Current.Name));
-                return true;
+                return bret;
             }
             else
             {
-
                 try
                 {
                     AutomationElement elementNode = TreeWalker.RawViewWalker.GetFirstChild(ae);
 
                     while (elementNode != null && searchedele == null)
                     {
-                        if (!SearchAEElement(actl, elementNode, ref searchedele, busevalue))
+                        bret = SearchAEElement(actl, elementNode, ref searchedele, busevalue);
+                        if (!bret)
                         {
                             elementNode = TreeWalker.RawViewWalker.GetNextSibling(elementNode);
                         }
@@ -358,7 +360,10 @@ namespace UITesting.Automated.UIADriver
                     string s = ex.Message;
                 }
             }
-            return false;
+
+
+            return bret;
+
 
         }
 

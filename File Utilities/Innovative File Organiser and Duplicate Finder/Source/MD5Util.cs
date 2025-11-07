@@ -95,7 +95,7 @@ namespace FileOrganiser
 
         private string calucalatemd5fast(fileitem fi)
         {
-            return String.Format("{0}{1}",fi._dateupdated, fi._size); ;
+            return String.Format("{0}*{1}",fi._dateupdated, fi._size); ;
         }
 
         public void CalculateMD5(object data)

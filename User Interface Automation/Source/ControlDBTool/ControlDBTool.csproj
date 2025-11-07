@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UITesting.Automated.ControlDBTool</RootNamespace>
     <AssemblyName>UITesting.Automated.ControlDBTool</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -66,6 +66,26 @@
   <PropertyGroup>
     <ApplicationIcon>Resources\cdbt.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
@@ -86,6 +106,18 @@
     <Reference Include="UIAutomationClient" />
     <Reference Include="UIAutomationClientsideProviders" />
     <Reference Include="UIAutomationTypes" />
+    <Reference Include="UITesting.Automated.ControlInf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=646b594764bdedda, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\UITesting.Automated.ControlInf.dll</HintPath>
+    </Reference>
+    <Reference Include="UITesting.Automated.JSonSerializer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=646b594764bdedda, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\UITesting.Automated.JSonSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="UITesting.Automated.MouseKeyboardActivityMonitor, Version=3.0.1.40279, Culture=neutral, PublicKeyToken=646b594764bdedda, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\UITesting.Automated.MouseKeyboardActivityMonitor.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -246,18 +278,6 @@
     <None Include="Resources\list.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ControlInfo\ControlInfo.csproj">
-      <Project>{C54DFF75-8CEC-4C05-B56E-3F08AE5E6444}</Project>
-      <Name>ControlInfo</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\JSonSerializer\JSonSerializer.csproj">
-      <Project>{498A602B-E9C6-4E39-9504-9D2DA50D4ED6}</Project>
-      <Name>JSonSerializer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MouseKeyboardActivityMonitor\MouseKeyboardActivityMonitor.csproj">
-      <Project>{F52AA97E-180A-40ED-8F2B-09080171D6C7}</Project>
-      <Name>MouseKeyboardActivityMonitor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\UIADriver\UIADriver.csproj">
       <Project>{5257B210-234E-4112-8208-C08A4CE3F0E1}</Project>
       <Name>UIADriver</Name>

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UITesting.Automated.UIADriver</RootNamespace>
     <AssemblyName>UITesting.Automated.UIADriver</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -75,12 +75,13 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
+    <OutputPath>..\..\bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
@@ -88,18 +89,6 @@
     <Reference Include="UIAutomationClient" />
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="UITesting.Automated.ControlInf, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\UITesting.Automated.ControlInf.dll</HintPath>
-    </Reference>
-    <Reference Include="UITesting.Automated.JSonSerializer, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\UITesting.Automated.JSonSerializer.dll</HintPath>
-    </Reference>
-    <Reference Include="UITesting.Automated.WindowsInput, Version=0.2.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\UITesting.Automated.WindowsInput.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -113,6 +102,18 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UITesting.Automated.ControlInf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=646b594764bdedda, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\UITesting.Automated.ControlInf.dll</HintPath>
+    </Reference>
+    <Reference Include="UITesting.Automated.JSonSerializer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=646b594764bdedda, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\UITesting.Automated.JSonSerializer.dll</HintPath>
+    </Reference>
+    <Reference Include="UITesting.Automated.WindowsInput, Version=0.2.0.0, Culture=neutral, PublicKeyToken=646b594764bdedda, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\UITesting.Automated.WindowsInput.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>

@@ -11,7 +11,7 @@ namespace UITesting.Automated.WindowsInput
     /// </summary>
     public class MouseSimulator : IMouseSimulator
     {
-        private const int MouseWheelClickSize = 120;
+        private const int MouseWheelClickSize = 60;
 
         /// <summary>
         /// The instance of the <see cref="IInputMessageDispatcher"/> to use for dispatching <see cref="INPUT"/> messages.
