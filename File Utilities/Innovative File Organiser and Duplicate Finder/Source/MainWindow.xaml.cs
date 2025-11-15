@@ -428,9 +428,9 @@ namespace FileOrganiser
             else
                 return;
 
-            var first = File.ReadAllLines(firstfile).Select(f => { var parts = f.Split(new char[] { '|' }); return new KeyValuePair<string, string>(parts[1], parts[2]); }).ToDictionary(f => f.Key, f => f.Value);
-            var second = File.ReadAllLines(secondfile).Select(f => { var parts = f.Split(new char[] { '|' }); return new KeyValuePair<string, string>(parts[1], parts[2]); }).ToDictionary(f => f.Key, f => f.Value);
-            var third = File.ReadAllLines(firstfile).Select(f => { var parts = f.Split(new char[] { '|' }); return new KeyValuePair<string, string>(parts[1], parts[0]); }).ToDictionary(f => f.Key, f => f.Value);
+            var first = File.ReadAllLines(firstfile).Select(f => { var parts = f.Split(new char[] { '|' }); var n = parts.Length;  return new KeyValuePair<string, string>(parts[n-2], parts[n-1]); }).ToDictionary(f => f.Key, f => f.Value);
+            var second = File.ReadAllLines(secondfile).Select(f => { var parts = f.Split(new char[] { '|' }); var n = parts.Length; return new KeyValuePair<string, string>(parts[n-2], parts[n-1]); }).ToDictionary(f => f.Key, f => f.Value);
+            var third = File.ReadAllLines(firstfile).Select(f => { var parts = f.Split(new char[] { '|' }); var n = parts.Length; return new KeyValuePair<string, string>(parts[n-2], parts[n-3]); }).ToDictionary(f => f.Key, f => f.Value);
 
             string parentpath = srcfolder.Text;
             string exportfile = string.Format("diff_{0}_{1}.html", System.IO.Path.GetFileNameWithoutExtension(firstfile), System.IO.Path.GetFileNameWithoutExtension(secondfile));
