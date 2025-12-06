@@ -32,6 +32,7 @@ namespace UITesting.Automated.UIADriver
         string GetAutomationProperty(int id);
         void CaptureBitmap(string filename);
         string GetMousePosition();
+        void SetMousePosition(int x, int y);
         void DragandDrop(int startx, int starty, int endx, int endy);
         void SendVirtualKeyStrokes(int key, int Modifier);
     }
@@ -93,6 +94,16 @@ namespace UITesting.Automated.UIADriver
                 }
             }
             Application.DoEvents();
+        }
+
+        public void SetMousePosition(int x, int y)
+        {
+            var pt = new Point(x, y);
+            curpt = pt;
+            ToScreen(ref pt);
+            mousesim.MoveMouseTo(pt.X, pt.Y);
+            Application.DoEvents();
+            System.Threading.Thread.Sleep(DelayMS);
         }
 
 
