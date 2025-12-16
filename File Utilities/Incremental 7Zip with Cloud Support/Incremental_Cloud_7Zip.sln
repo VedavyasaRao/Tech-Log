@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36301.6 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Incremental_Cloud_7Zip", "Source\Incremental_Cloud_7Zip\Incremental_Cloud_7Zip.csproj", "{39033C79-0EA5-4DBF-8D77-4CDE68F26949}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39033C79-0EA5-4DBF-8D77-4CDE68F26949}.Release|x86.ActiveCfg = Release|x86
+		{39033C79-0EA5-4DBF-8D77-4CDE68F26949}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D74F56BD-2BC9-47BE-9FBB-3DEEEC1F0D64}
+	EndGlobalSection
+EndGlobal
