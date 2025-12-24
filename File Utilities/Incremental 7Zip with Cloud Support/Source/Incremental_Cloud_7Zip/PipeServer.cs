@@ -255,6 +255,9 @@ namespace Incremental_Zip
 
         static bool iszipfile(string path,string passwd)
         {
+            if (!File.Exists(path))
+                return true;
+
             var process = new System.Diagnostics.Process();
             process.StartInfo.FileName = App.sevenzpath;
             process.StartInfo.Arguments = $"t -p{passwd} \"{path}\"";

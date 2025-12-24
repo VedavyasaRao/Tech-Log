@@ -10,6 +10,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Xml.Linq;
 
@@ -227,12 +228,12 @@ namespace BackupRestoreTool
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
 
-            var fi = ((fileitem)((System.Windows.FrameworkElement)(((System.Windows.FrameworkContentElement)(((CheckBox)e.OriginalSource).Parent)).Parent)).DataContext);
+            var fi = ((fileitem)((System.Windows.FrameworkElement)(((System.Windows.FrameworkContentElement)(((System.Windows.Controls.CheckBox)e.OriginalSource).Parent)).Parent)).DataContext);
 
 
             if (fi == null || fi._Items.Count == 0)
                 return;
-            fi.toggleselected(((CheckBox)e.Source).IsChecked,!chksync.IsChecked??false);
+            fi.toggleselected(((System.Windows.Controls.CheckBox)e.Source).IsChecked,!chksync.IsChecked??false);
 
         }
 
@@ -296,13 +297,14 @@ namespace BackupRestoreTool
                         "Click Yes for restoring to different location\r\n" +
                         "Click No for restoring to same location\r\n" +
                         "Click Cancel to exit";
-            var ret = MessageBox.Show(Application.Current.MainWindow, msg, "Save Files", MessageBoxButton.YesNoCancel);
+            var ret = System.Windows.MessageBox.Show(System.Windows.Application.Current.MainWindow, msg, "Save Files", MessageBoxButton.YesNoCancel);
             if (ret == MessageBoxResult.Cancel)
                 return;
             if (ret == MessageBoxResult.Yes)
             {
+                Form topmostWrapper = new Form { TopMost = true };
                 var dialog = new System.Windows.Forms.FolderBrowserDialog();
-                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                if (dialog.ShowDialog(topmostWrapper) == System.Windows.Forms.DialogResult.OK)
                 {
                     outputdir = dialog.SelectedPath;
                 }
@@ -653,6 +655,11 @@ namespace BackupRestoreTool
                 return (fi.archive.Replace("\\backups\\","") + "|" + parentpath + "|" + fi._fullPath.Replace(parentpath,"") + "|" + (((DateTimeOffset)dt).ToUnixTimeSeconds()*1000).ToString() + "*" + fi._size.ToString());
             };
 
+            Func<fileitem, string, string> crcfunc = (fileitem fi, string parentpath) =>
+            {
+                return (fi.archive.Replace("\\backups\\", "") + "|" + parentpath + "|" + fi._fullPath.Replace(parentpath, "") + "|" + fi._crc);
+            };
+
             Func<fileitem, string, string> dirfunc = (fileitem fi, string parentpath) =>
             {
                 return (fi.archive.Replace("\\backups\\", "") + "|" + parentpath + "|" + Path.GetDirectoryName(fi._fullPath).Replace(parentpath, ""));
@@ -690,8 +697,15 @@ namespace BackupRestoreTool
             else 
             {
                 Func<fileitem, string, string> func = nocrcfunc;
-                if ((exportall.IsChecked ?? false))
-                    func = fastcrcfunc;
+                if (exportall.IsChecked ?? false)
+                {
+                    bool isfastcrc = fastcrc.IsChecked ?? false;
+
+                    if (isfastcrc)
+                        func = fastcrcfunc;
+                    else
+                        func = crcfunc;
+                }
 
                 foreach (var node in TvDirFiles.Items)
                 {
@@ -705,7 +719,7 @@ namespace BackupRestoreTool
                         var fp = parentfi._fullPath;
                         if (!fp.EndsWith("\\"))
                             fp += "\\";
-                        var selleaves = (leaves.FindAll(l => (l.Selected == true)).Select(l => fastcrcfunc(l, fp))).ToList();
+                        var selleaves = (leaves.FindAll(l => (l.Selected == true)).Select(l => func(l, fp))).ToList();
                         if (selleaves.Count == 0)
                         {
                             App.logit("nothing to save");

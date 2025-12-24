@@ -2,6 +2,7 @@ using Microsoft.VisualBasic.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using static BackupRestoreTool.ArchiveInfo;
 
 namespace BackupRestoreTool
@@ -46,8 +47,9 @@ namespace BackupRestoreTool
         }
         private void addbtn_Click(object sender, RoutedEventArgs e)
         {
+            Form topmostWrapper = new Form { TopMost = true };
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (dialog.ShowDialog(topmostWrapper) == System.Windows.Forms.DialogResult.OK)
             {
                 if (!dirlist.Items.Contains(dialog.SelectedPath))
                     dirlist.Items.Add(dialog.SelectedPath);
@@ -55,8 +57,9 @@ namespace BackupRestoreTool
         }
         private void Dir_Click(object sender, RoutedEventArgs e)
         {
+            Form topmostWrapper = new Form { TopMost = true };
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (dialog.ShowDialog(topmostWrapper) == System.Windows.Forms.DialogResult.OK)
             {
                 location.Text = dialog.SelectedPath;
             }
@@ -79,44 +82,44 @@ namespace BackupRestoreTool
             {
                 if (txtname.Text == "")
                 {
-                    MessageBox.Show("name cannot be blank");
+                    System.Windows.MessageBox.Show("name cannot be blank");
                     return false;
                 }
 
                 if (location.Text == "")
                 {
-                    MessageBox.Show("location is empty");
+                    System.Windows.MessageBox.Show("location is empty");
                     return false;
                 }
                 archloc = location.Text + "\\" + txtname.Text;
                 if (DirectoryEx.Exists(archloc))
                 {
-                    MessageBox.Show("location is not empty");
+                    System.Windows.MessageBox.Show("location is not empty");
                     return false;
                 }
 
                 if (desc.Text == "")
                 {
-                    MessageBox.Show("description is empty");
+                    System.Windows.MessageBox.Show("description is empty");
                     return false;
                 }
 
                 if (bkuploc.Text == "")
                 {
-                    MessageBox.Show("storage is empty");
+                    System.Windows.MessageBox.Show("storage is empty");
                     return false;
                 }
 
                 if (bkuploc.SelectedIndex == 1 && bkupsz.Text == "")
                 {
-                    MessageBox.Show("storage size is empty");
+                    System.Windows.MessageBox.Show("storage size is empty");
                     return false;
                 }
 
             }
             if (dirlist.SelectedItems.Count == 0)
             {
-                MessageBox.Show("Directorries are empty");
+                System.Windows.MessageBox.Show("Directorries are empty");
                 return false;
             }
             return true;

@@ -144,6 +144,8 @@
     <Content Include="Commands\7z.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Images\harddisk.png" />
+    <Resource Include="Images\icecloud.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

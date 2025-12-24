@@ -10,8 +10,12 @@
         <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,3.4,0.4" Orientation="Vertical"  >
             <DockPanel HorizontalAlignment="Stretch"  Height="50" Margin="0,0,8,0" VerticalAlignment="Top" >
                 <Label Content="Archive Directory" Margin="10,5,5,0" VerticalAlignment="Top"/>
-                <Button Content="Disk"  Margin="10,10,10,0" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Dir_Click"/>
-                <Button Content="Cloud"  Margin="10,10,10,0"  DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Cloud_Click"/>
+                <Button  Margin="10,10,10,0" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Dir_Click">
+                    <Image x:Name="harddiskimage" Source="Images/harddisk.png" Stretch="Uniform" Height="20"/>
+                </Button>
+                <Button   Margin="10,10,10,0"  DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Cloud_Click">
+                    <Image x:Name="cloudimage" Source="/Images/icecloud.png" Stretch="Uniform" Height="20"/>
+                </Button>
                 <TextBox Name="srcfolder" Text=""  TextWrapping="NoWrap" HorizontalAlignment="Stretch" Margin="0,10,0,0" DockPanel.Dock="Right" VerticalAlignment="Top" />
             </DockPanel>
             <DockPanel HorizontalAlignment="Stretch"  Margin="0,0,8,10" VerticalAlignment="Top" >

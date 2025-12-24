@@ -9,6 +9,7 @@ using System.Security.Policy;
 using System.Threading;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace BackupRestoreTool
@@ -33,8 +34,9 @@ namespace BackupRestoreTool
         {
             srcfolder.Text = "";
             App.archivedir = null;
+            Form topmostWrapper = new Form { TopMost = true };
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (dialog.ShowDialog(topmostWrapper) == System.Windows.Forms.DialogResult.OK)
             {
                 srcfolder.Text = dialog.SelectedPath;
                 App.archivedir = dialog.SelectedPath;

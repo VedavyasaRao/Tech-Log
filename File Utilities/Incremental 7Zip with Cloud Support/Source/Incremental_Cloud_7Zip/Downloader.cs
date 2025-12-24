@@ -78,7 +78,7 @@ namespace BackupRestoreTool
             if (!File.Exists(tempfile) || new FileInfo(tempfile).Length == 0)
                 return "";
             var lines = File.ReadAllLines(tempfile, System.Text.Encoding.GetEncoding(65001/*437*/)).Skip(skip_lines).ToArray();
-            if (lines != null)
+            if (lines.Length > 0)
                 return lines[0];
 
             return "";
@@ -115,7 +115,7 @@ namespace BackupRestoreTool
             if (!File.Exists(tempfile) || new FileInfo(tempfile).Length == 0)
                 return 0;
             var lines = File.ReadAllLines(tempfile, System.Text.Encoding.GetEncoding(65001/*437*/)).Skip(skip_lines).ToArray();
-            if (lines != null)
+            if (lines.Length > 0)
             {
                 var parts = lines[0].Split(',');
                 return UInt64.Parse(parts[1]);

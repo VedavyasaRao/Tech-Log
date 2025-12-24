@@ -13,8 +13,12 @@
             <TextBox x:Name="txtname" Height="23" Margin="10,10,0,0" Width="280"/>
         </StackPanel>
             <StackPanel   Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Button x:Name="cloudbtn"  Content="cloud"  Margin="240,10,5,0" DockPanel.Dock="Right" Click="cloudbtn_Click"/>
-                <Button x:Name="dirbtn" Content="hard disk"  Margin="10,10,5,0" DockPanel.Dock="Right" Click="Dir_Click"/>
+                <Button x:Name="cloudbtn"      Margin="240,10,5,0" DockPanel.Dock="Right" Click="cloudbtn_Click">
+                    <Image x:Name="cloudimage" Source="/Images/icecloud.png" Stretch="Uniform"/>
+                </Button>
+                <Button x:Name="dirbtn"   Margin="10,10,5,0" DockPanel.Dock="Right" Click="Dir_Click">
+                    <Image x:Name="harddiskimage" Source="Images/harddisk.png" Stretch="Uniform"/>
+                </Button>
             </StackPanel>
             <StackPanel  DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Label  Content="Location" Margin="10,10,0,0" Width="70"/>

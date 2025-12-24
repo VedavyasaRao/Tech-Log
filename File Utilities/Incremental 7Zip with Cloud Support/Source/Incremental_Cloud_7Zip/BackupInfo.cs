@@ -271,7 +271,7 @@ namespace BackupRestoreTool
                 FileEx.Delete(filelist);
                 bret = true;
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 App.Current.Dispatcher.Invoke(() =>
                 {

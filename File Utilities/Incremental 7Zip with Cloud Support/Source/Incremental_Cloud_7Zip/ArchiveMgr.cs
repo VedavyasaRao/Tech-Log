@@ -189,14 +189,16 @@ namespace BackupRestoreTool
             }
             App.archivedir = null;
             var dlgret = System.Windows.Forms.DialogResult.OK;
-            var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            dialog.SelectedPath = App.clouddrive + "\\";
-            dlgret = dialog.ShowDialog();
-            if (dlgret == System.Windows.Forms.DialogResult.OK)
             {
-                App.archivedir = dialog.SelectedPath;
+                Form topmostWrapper = new Form { TopMost = true };
+                var dialog = new System.Windows.Forms.FolderBrowserDialog();
+                dialog.SelectedPath = App.clouddrive + "\\";
+                dlgret = dialog.ShowDialog(topmostWrapper);
+                if (dlgret == System.Windows.Forms.DialogResult.OK)
+                {
+                    App.archivedir = dialog.SelectedPath;
+                }
             }
-
         }
 
         public void SelectCloudArchive()
@@ -228,8 +230,9 @@ namespace BackupRestoreTool
                     var msg = "Do you want to select a different path for cloud drive?";
                     if (System.Windows.MessageBox.Show(msg, "Open Cloud", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
+                        Form topmostWrapper = new Form { TopMost = true };
                         var dialog = new System.Windows.Forms.FolderBrowserDialog();
-                        if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        if (dialog.ShowDialog(topmostWrapper) == System.Windows.Forms.DialogResult.OK)
                         {
                             App.clouddrivepath = dialog.SelectedPath;
                         }
@@ -255,9 +258,10 @@ namespace BackupRestoreTool
             var dlgret = System.Windows.Forms.DialogResult.OK;
             App.disp.Invoke(new Action<MainWindow>((sender) => 
             {
+                Form topmostWrapper = new Form { TopMost = true };
                 var dialog = new System.Windows.Forms.FolderBrowserDialog();
                 dialog.SelectedPath = ((MainWindow)App.mainwindow).srcfolder.Text;
-                dlgret = dialog.ShowDialog();
+                dlgret = dialog.ShowDialog(topmostWrapper);
                 if (dlgret == System.Windows.Forms.DialogResult.OK)
                 {
                     App.archivedir = dialog.SelectedPath;
@@ -379,7 +383,7 @@ namespace BackupRestoreTool
                 archivepwdmap[archfile] = pwd;
             }
 
-            string[] args = new string[]{ "a", App.sevenzpath, archivepwdmap[archfile], archfile };
+            string[] args = new string[]{ "a", archivepwdmap[archfile], archfile };
             ArchiveInfo o;
             PipeServer.driver(arcinfo, args, out o);
         }
