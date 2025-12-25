@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using System.Windows.Forms;
 using System.Configuration;
 using System.Net.Http;
 
@@ -14,8 +14,9 @@ namespace FileParser
 {
     internal class Program
     {
+
         static string capture_folders = "DCIM,Download,android/media/com.whatsapp";
-        static string adbpath = @"..\platform-tools\adb";
+        static string adbpath = @"platform-tools\adb";
 
         static void launchcmdwindow(string cmdline, string msg)
         {
@@ -36,7 +37,7 @@ namespace FileParser
             process.Start();
 
             // 4. Read the output (synchronously)
-            string output = process.StandardOutput.ReadToEnd();
+            //string output = process.StandardOutput.ReadToEnd();
 
             // 5. Wait for the process to exit
             process.WaitForExit();
@@ -139,12 +140,12 @@ namespace FileParser
                         Directory.CreateDirectory(dir);
 
                     var cmdline = string.Format("/c {0} pull \"{1}\"  \"{2}\" >> {3} 2>&1", adbpath, file.Replace("\\", "/").Replace("/WhatsApp/", "/android/media/com.whatsapp/WhatsApp/"), exportdir + "\\" + file, logfile);
-                    launchcmdwindow(cmdline, "copying file "+ file);
+                    launchcmdwindow(cmdline, "Downloading file "+ file);
                 }
             }
         }
 
-        static void get_capture_folders()
+        static string get_capture_folders()
         {
             System.Configuration.Configuration config =
                            ConfigurationManager.OpenExeConfiguration(
@@ -154,63 +155,89 @@ namespace FileParser
                 devices = config.AppSettings.Settings["Devices"].Value;
 
             string[] parts = devices.Split(',');
-            string msg = "Select number\n";
+            string msg = "Enter the number of the device listed below(e.g, 1):\n";
             int i = 0;
             Dictionary<int, string> devicemap = new Dictionary<int, string>();
             foreach (var part in parts)
             {
                 devicemap.Add(++i, part);
-                msg += $"{i}.{part}\n";
+                msg += $"{i}.        {part}\n";
             }
 
-            string sel = Microsoft.VisualBasic.Interaction.InputBox(msg, "Select a Device", "", -1, -1);
+            string sel = Microsoft.VisualBasic.Interaction.InputBox(msg, "Enter the device number", "", -1, -1);
             if (sel == "")
-                return;
-            sel = devicemap[int.Parse(sel)];
-            if (config.AppSettings.Settings[sel] != null)
-                capture_folders = config.AppSettings.Settings[sel].Value;
+                return sel;
+
+            int isel = int.Parse(sel);
+            if (!devicemap.ContainsKey(isel))
+                return "";
+
+            var device = devicemap[isel];
+            if (config.AppSettings.Settings[device] != null)
+                capture_folders = config.AppSettings.Settings[device].Value;
+
+            return sel;
 
         }
 
         [STAThread]
         static void Main(string[] args)
         {
-            var outputdir = "..\\output";
+            var outputdir = "output";
 
-            get_capture_folders();
-            if (capture_folders == "")
-                return;
+            //1 Select a device to capture folders
+            Console.WriteLine("Select a device to capture folders to download");
+            //1 Select device
+            if (get_capture_folders() == "")
+            {
+                var msg = "Wrong device or No device selected!\n" +
+                    "Edit AndroidStorageUtility.exe.config using notepad to update device list\n" +
+                    "Do you want to proceed with default capture folders?";
+                if (MessageBox.Show(msg,"Capture Folders", MessageBoxButtons.YesNo) == DialogResult.No)
+                    return;
+            }
+
+            System.Console.WriteLine($"Capture Folders:\n{capture_folders}\n");
 
             if (Directory.Exists(outputdir))
                 Directory.Delete(outputdir, true);
             Directory.CreateDirectory(outputdir);
 
-            System.Console.WriteLine("Downloading files...");
+            //2 Download dirs
+            System.Console.WriteLine("Downloading file lists...");
             var srcfile = Path.Combine(outputdir, "outputfile.txt");
             downloadfilelist(srcfile);
 
+            //3 parse
             System.Console.WriteLine("Parsing files...");
             var dstfile = Path.Combine(outputdir, "outputfile.csv");
             parse(srcfile, dstfile);
 
+            //4 select archive list location
+            System.Console.WriteLine("Select Archive File List Location (Cancel if none)...");
             var currentfilelst = "";
             var dialog = new OpenFileDialog();
-            dialog.Title = "Select Saved File Location...";
+            dialog.Title = "Select Archive File List Location (Cancel if none)...";
             if (dialog.ShowDialog() == DialogResult.OK)
                 currentfilelst = dialog.FileName;
 
+            //5 comparing file lists
             System.Console.WriteLine("Comparing files...");
             compare(dstfile, currentfilelst, srcfile);
 
-            dialog.Title = "Select Export Dir Location...";
-            var exportdir = outputdir+"\\sdcard";
+            //6 select the Download Folder Location...
+            System.Console.WriteLine("Select the Download Folder Location...");
+            var exportdir = outputdir + "\\sdcard";
+            var tempfrm = new System.Windows.Forms.Form { TopMost = true };
             var fbd = new FolderBrowserDialog();
-            if (fbd.ShowDialog() == DialogResult.OK)
+            fbd.Description = "Select the Download Folder Location...";
+            if (fbd.ShowDialog(tempfrm) == DialogResult.OK)
                 exportdir = fbd.SelectedPath;
             else
                 return;
 
-            System.Console.WriteLine("Copying files...");
+            //7 Download files
+            System.Console.WriteLine("Downloading files...");
             copyfiles(srcfile, exportdir, outputdir);
         }
     }

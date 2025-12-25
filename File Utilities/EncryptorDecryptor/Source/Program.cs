@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -165,8 +165,8 @@ namespace encryptordecryptor
         {
             Console.WriteLine("Syntax:encryptordecryptor.exe e|d inputfile outputfile password");
             Console.WriteLine("Example:");
-            Console.WriteLine("encryptordecryptor.exe e brinfoK.bin brinfoK.bin.aes abcd");
-            Console.WriteLine("encryptordecryptor.exe d brinfoK.bin.aes brinfoK.bin abcd");
+            Console.WriteLine("encryptordecryptor.exe e secretfile.bin secretfile.bin.aes abcd");
+            Console.WriteLine("encryptordecryptor.exe d secretfile.bin.aes secretfile.bin abcd");
         }
 
         static void Main(string[] args)
