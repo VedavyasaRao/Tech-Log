@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 
 namespace BackupRestoreTool
 {
@@ -164,12 +165,12 @@ namespace BackupRestoreTool
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
 
-            var fi = ((fileitem)((System.Windows.FrameworkElement)(((System.Windows.FrameworkContentElement)(((CheckBox)e.OriginalSource).Parent)).Parent)).DataContext);
+            var fi = ((fileitem)((System.Windows.FrameworkElement)(((System.Windows.FrameworkContentElement)(((System.Windows.Controls.CheckBox)e.OriginalSource).Parent)).Parent)).DataContext);
 
 
             if (fi == null || fi._Items.Count == 0)
                 return;
-            fi.toggleselected(((CheckBox)e.Source).IsChecked, false);
+            fi.toggleselected(((System.Windows.Controls.CheckBox)e.Source).IsChecked, false);
 
         }
 
@@ -465,19 +466,19 @@ namespace BackupRestoreTool
         }
         #endregion
 
-        private void TvDirFiles_Drop(object sender, DragEventArgs e)
+        private void TvDirFiles_Drop(object sender, System.Windows.DragEventArgs e)
         {
             fileitem fi = ((System.Windows.Controls.TreeView)e.Source).SelectedItem as fileitem;
             if (fi == null || fi.isfile)
                 return;
 
-            if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+            if (e.Data.GetDataPresent(System.Windows.DataFormats.FileDrop, false))
             {
-                var maploc = ((string[])(e.Data.GetData(DataFormats.FileDrop, false)));
+                var maploc = ((string[])(e.Data.GetData(System.Windows.DataFormats.FileDrop, false)));
                 var ret = MessageBoxResult.No;
                 App.Current.Dispatcher.Invoke(() =>
                 {
-                    ret = MessageBox.Show(Application.Current.MainWindow, "Do you want to add selected file(s) to  " + fi._fullPath + "?\r\nWARNING: Existing files will be overwritten", "Edit", MessageBoxButton.YesNo);
+                    ret = System.Windows.MessageBox.Show(System.Windows.Application.Current.MainWindow, "Do you want to add selected file(s) to  " + fi._fullPath + "?\r\nWARNING: Existing files will be overwritten", "Edit", MessageBoxButton.YesNo);
                 });
                 if (ret == MessageBoxResult.No)
                     return;
@@ -531,7 +532,7 @@ namespace BackupRestoreTool
             var fi = (fileitem)TvDirFiles.SelectedValue;
             if (fi == null )
                 return;
-            if (MessageBox.Show(Application.Current.MainWindow, "Do you want to delete " + fi._fullPath + "?", "Edit", MessageBoxButton.YesNo) == MessageBoxResult.No)
+            if (System.Windows.MessageBox.Show(System.Windows.Application.Current.MainWindow, "Do you want to delete " + fi._fullPath + "?", "Edit", MessageBoxButton.YesNo) == MessageBoxResult.No)
                 return;
             var parentnode = fi._parent;
             App.disp.Invoke(new Action(() =>
@@ -567,6 +568,14 @@ namespace BackupRestoreTool
         {
             
             App.logit("Gathering data to export...");
+            Form topmostWrapper = new Form { TopMost = true };
+            var dlg = new SaveFileDialog();
+            dlg.FileName = exportfile;
+            if (dlg.ShowDialog(topmostWrapper) == System.Windows.Forms.DialogResult.OK)
+                exportfile = dlg.FileName;
+            else
+                return;
+
             App.arm.selarchive.Export_files(exportfile);
         }
     }
