@@ -33,6 +33,20 @@ namespace BackupRestoreTool
             bkupsz.IsEnabled = false;
         }
 
+        int getszindex()
+        {
+            switch (archinfo.archive_size)
+            {
+                case 1024:
+                    return 0;
+                case 512:
+                    return 1;
+                case 256:
+                    return 2;
+            }
+            return -1;
+        }
+
         public void load(ArchiveInfo ai)
         {
             archinfo = ai;
@@ -43,8 +57,9 @@ namespace BackupRestoreTool
             {
                 dirlist.Items.Add(item.Key);
             }
-            bkupsz.SelectedIndex = (archinfo.arch_loc== archive_location.harddisk)?0:1;
+            bkupsz.SelectedIndex = getszindex();
         }
+
         private void addbtn_Click(object sender, RoutedEventArgs e)
         {
             Form topmostWrapper = new Form { TopMost = true };
