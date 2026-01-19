@@ -1,4 +1,4 @@
-﻿using ImageHandler;
+using ImageHandler;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,12 +12,15 @@ namespace ImageHandler
 {
     class MergeQuestionAnswers
     {
+        string tempdir;
         string myasnwerimgfile = Program.ImageProcessorloc + @"\baseline\MyAnswer.png";
-        string tempimgfile = Program.ImageProcessorloc + @"\baseline\MyAnswertemp.png";
-        string args = "0.80 0 0 90 23";
+        //string args = "0.80 0 0 90 23";
+        string args = "0.80";
+        int skipcount;
 
         public void MergeAnswer(string imgdir, string filename)
         {
+            skipcount = -1;
             var files = Directory.GetFiles(imgdir, "??.png").OrderBy(f => f);
             if (files.Count() == 0)
                 return;
@@ -27,7 +30,16 @@ namespace ImageHandler
             int bight = 0;
             var rp = new ReplaceImage();
             int minht = 48;
-            int startht = 28, imght = 20;
+            int stht = 30, imght = 16, imgwd=80,minimght=10;
+
+            string tempdir = Path.GetTempPath() + "imageprocessor";
+            if (Directory.Exists(tempdir))
+                Directory.Delete(tempdir, true);
+            Directory.CreateDirectory(tempdir);
+
+            string tempimgfile = tempdir + @"\MyAnswertemp.png";
+
+
             foreach (string f in files)
             {
                 ++skipknt;
@@ -35,12 +47,12 @@ namespace ImageHandler
                 {
                     if (srcbmp.Height < minht)
                         continue;
-                    //Rectangle dstRect = rp.getboundingrectangle(srcbmp, 0, 160, skipht);
-                    Rectangle dstRect = rp.getboundingrectangle(srcbmp, 0, 160, minht);
-                    if (dstRect.Width < 120 || dstRect.Height < 23)
+                    Rectangle dstRect = rp.getboundingrectangle(srcbmp, stht, imgwd, imght);
+                    if (dstRect.Width < imgwd || dstRect.Height < minimght)
                         continue;
                     var tempbmp = (Bitmap)srcbmp.Clone(dstRect, srcbmp.PixelFormat);
                     tempbmp.Save(tempimgfile);
+                    myasnwerimgfile = Program.ImageProcessorloc + @"\baseline\MyAnswer_" + dstRect.Height.ToString() + ".png";
                     if (imgcmp.Process(myasnwerimgfile, tempimgfile,"", args))
                         break;
                 }
@@ -52,6 +64,8 @@ namespace ImageHandler
                 return;
 
             skipknt--;
+            skipcount = skipknt;
+
             int i = 0;
             foreach (string f in files)
             {
@@ -82,19 +96,16 @@ namespace ImageHandler
                     g.DrawImage(smallBmp, bigRect, smallRect, GraphicsUnit.Pixel);
                     ht += (smallBmp.Height + 20);
                 }
-                File.Delete(f);
             }
             bigBmp.Save(filename);
         }
 
         public void MergeQuestions(string imgdir, string filename)
         {
-            var files = Directory.GetFiles(imgdir, "??.png").OrderBy(f => f);
+            var files = Directory.GetFiles(imgdir, "??.png").OrderBy(f => f).ToList();
             if (files.Count() == 0)
-            {
-                Directory.Delete(imgdir);
                 return;
-            }
+            files.RemoveRange(skipcount, files.Count - skipcount);
             int bigwd = 0;
             int bight = 0;
 
@@ -127,7 +138,6 @@ namespace ImageHandler
             }
             File.AppendAllText(htfile, "\n");
             bigBmp.Save(filename);
-            Directory.Delete(imgdir, true);
         }
 
         public void Preprocess(string imgdir)
@@ -168,20 +178,21 @@ namespace ImageHandler
 
         }
 
-        public void Process(string rootdir)
+        public void Process(string rootdir, string targetdir)
         {
             var pdirlst = Directory.GetDirectories(rootdir, "???").OrderBy(f => f);
             foreach (var pdir in pdirlst)
             {
                 int i = 1;
                 var sdirlst = Directory.GetDirectories(pdir).OrderBy(f => f);
-                Directory.CreateDirectory(pdir + "\\Answers");
+                var tdir = targetdir + "\\" + Path.GetFileName(pdir);
+                Directory.CreateDirectory(tdir + "\\Answers");
                 Console.WriteLine("Processing {0}", pdir);
                 foreach (var sdir in sdirlst)
                 {
                     Preprocess(sdir);
-                    var qfile = pdir + "\\" + i.ToString("00") + "_Question.png";
-                    var ansfile = pdir + "\\Answers\\" + i.ToString("00") + "_Answer.png";
+                    var qfile = tdir + "\\" + i.ToString("00") + "_Question.png";
+                    var ansfile = tdir + "\\Answers\\" + i.ToString("00") + "_Answer.png";
                     MergeAnswer(sdir, ansfile);
                     MergeQuestions(sdir, qfile);
                     i++;

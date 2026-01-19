@@ -1,4 +1,4 @@
-﻿using ImageHandler;
+using ImageHandler;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -162,7 +162,7 @@ namespace ImageHandler
                     var subparts = part.Split(new char[] { ',' }).ToList();
                     var y = int.Parse(subparts[0]);
                     var ht = int.Parse(subparts[1]);
-                    if (ht < 50)
+                    if (ht < 28)
                         continue;
 
                     var rows = new List<int>();
