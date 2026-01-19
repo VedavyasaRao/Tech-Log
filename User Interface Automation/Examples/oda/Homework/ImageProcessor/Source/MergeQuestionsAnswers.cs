@@ -26,14 +26,17 @@ namespace ImageHandler
             int bigwd = 0;
             int bight = 0;
             var rp = new ReplaceImage();
+            int minht = 48;
+            int startht = 28, imght = 20;
             foreach (string f in files)
             {
                 ++skipknt;
                 using (Bitmap srcbmp = new Bitmap(f))
                 {
-                    if (srcbmp.Height < 75)
+                    if (srcbmp.Height < minht)
                         continue;
-                    Rectangle dstRect = rp.getboundingrectangle(srcbmp, 0, 160, 75);
+                    //Rectangle dstRect = rp.getboundingrectangle(srcbmp, 0, 160, skipht);
+                    Rectangle dstRect = rp.getboundingrectangle(srcbmp, 0, 160, minht);
                     if (dstRect.Width < 120 || dstRect.Height < 23)
                         continue;
                     var tempbmp = (Bitmap)srcbmp.Clone(dstRect, srcbmp.PixelFormat);

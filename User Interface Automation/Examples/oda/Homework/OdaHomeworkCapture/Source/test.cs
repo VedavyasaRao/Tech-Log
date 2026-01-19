@@ -1,13 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Security.Cryptography;
-using System.Text.RegularExpressions;
-using System.Windows;
+using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Threading;
 using System.Windows.Documents;
-using System.Windows.Input;
-using UITesting.Automated.UIADriver;
+using System.Windows.Interop;
 using UITesting.Automated.WindowsInput;
 
 namespace UITesting.Automated.UIADriver
@@ -32,7 +30,6 @@ namespace UITesting.Automated.UIADriver
 
     class firstlevel
     {
-
         //supported patterns:MSAAAccessible,Generic,Navigation
         public string custom_1963_520
         {
@@ -42,24 +39,27 @@ namespace UITesting.Automated.UIADriver
             }
         }
 
-        public bool Process(string root, int skipknt)
+        //supported patterns:MSAAAccessible,Generic,Invoke,Navigation
+        public string hyperlink
+        {
+            get
+            {
+                return "{    \"ci\":    {        \"UserName\":\"hyperlink_225_FRACTIONS_Fun_Time_Overdue_438_713\",        \"AEType\":\"hyperlink\",        \"AEText\":\"\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Invoke\",        \"Path\":\"0 0 0 2 0 4 0 0 0 3 \",        \"CenterPoint\":\"574,572\"    },    \"ciroot\":    {        \"UserName\":\"pane_Oda_Class_394_180\",        \"AEType\":\"pane\",        \"AEText\":\"Oda Class\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window,Transform\",        \"Path\":\"\",        \"CenterPoint\":\"566,360\"    }}";
+            }
+        }
+
+
+        //supported patterns:MSAAAccessible,Generic,Invoke,SelectionItem,Navigation
+
+        public bool Process(string root, int skipknt, int idx)
         {
             string filename = root+"description.txt";
-
-            UIAAutomationElement.UIADriver.SetAutomationElement(custom_1963_520);
-            var hyplnk = UIAAutomationElement.UIADriver.ProviderNavigation.LastChild;
-            if (hyplnk == null)
-                return false;
-            System.Threading.Thread.Sleep(1000);
-            
-            int i = 0;
-            for (; i < skipknt; i++)
-            {
-                hyplnk = hyplnk.ProviderNavigation.PreviousSibling;
-                if (hyplnk == null)
-                    return false;
-                System.Threading.Thread.Sleep(1000);
-            }
+            var newlink = hyperlink.Replace("0 0 0 2 0 4 0 0 0 3", "0 0 0 2 0 4 0 0 0 " + (skipknt).ToString());
+            var temps = UIAAutomationElement.UIADriver.SearchOptions;
+            UIAAutomationElement.UIADriver.SearchOptions = "PACS";
+            UIAAutomationElement.UIADriver.SetAutomationElement(newlink);
+            UIAAutomationElement.UIADriver.SearchOptions = temps;
+            var hyplnk = UIAAutomationElement.UIADriver;
 
             var cusitm = hyplnk.ProviderNavigation.FirstChild;
             if (cusitm == null)
@@ -76,7 +76,7 @@ namespace UITesting.Automated.UIADriver
                 return false;
             System.Threading.Thread.Sleep(1000);
 
-            System.IO.File.AppendAllText(filename, (i+1).ToString("000") + "\n");
+            System.IO.File.AppendAllText(filename, (idx).ToString("000") + "\n");
             System.Threading.Thread.Sleep(1000);
             System.IO.File.AppendAllText(filename, txtitm.ProviderGeneric.GetAutomationProperty(txtitm.Constants.AutomationProperty_Name) + "\n");
             System.Threading.Thread.Sleep(1000);
@@ -202,8 +202,10 @@ namespace UITesting.Automated.UIADriver
             int MouseScrollCount = 78;
             while (true)
             {
+                Player.evt.WaitOne();
                 bool bonce = false;
                 bool bsaved = false;
+                int shouldscrollcount = 0;
                 while (shouldscroll(part,jspobj,ybot, ref parttop))
                 {
                     if (!bonce)
@@ -221,6 +223,8 @@ namespace UITesting.Automated.UIADriver
                         bsaved = true;
                     }
                     ms.VerticalScroll(-1);
+                    if (shouldscrollcount++ == 30)
+                        break;
                 }
                 if (bonce) 
                     lastbrs = partlast.ProviderGeneric.GetAutomationProperty(UIAAutomationElement.UIADriver.Constants.AutomationProperty_BoundingRectangle);
@@ -249,6 +253,7 @@ namespace UITesting.Automated.UIADriver
             char c = 'A';
             while (li != null)
             {
+                Player.evt.WaitOne(); 
                 string tempdir = imgpath + string.Format("{0}\\", c);
                 Directory.CreateDirectory(tempdir);
                 if (li.ProviderInvoke != null)
@@ -278,6 +283,7 @@ namespace UITesting.Automated.UIADriver
     class Player
     {
 
+        internal static EventWaitHandle evt;
         static jsonparser jspobj = new jsonparser();
         static firstlevel first = new firstlevel();
         static secondlevel second = new secondlevel();
@@ -288,32 +294,70 @@ namespace UITesting.Automated.UIADriver
             return jspobj.ParseObj(injson, field);
         }
 
-
         public static void Main(string[] args)
         {
-            //UIAAutomationElement.UIADriver.SetLogFile(@"d:\temp\uia.log", false);
             if (args.Length < 3)
             {
-                var msg="Syntax:OdaHomeworkCapture  <dir> <start> [stop]\n" +
-                    "Example:OdaHomeworkCapture  \"d:\\oda\\\" 95 99";
-                MessageBox.Show(msg);
+                var msg= "Syntax:OdaHomeworkCapture  <dir> <count> \"<item>,<item>,<item>,<item>\"\n" +
+                    "Example:OdaHomeworkCapture  \"d:\\oda\\\" 300 \"95-99\"";
+                System.Windows.MessageBox.Show(msg);
                 return;
             }
 
+            int i = 0;
+
             string root = args[0];
-            int i = int.Parse(args[1])-1;
-            int j = int.Parse(args[2])-1;
-            while (first.Process(root, i++))
+            int n = int.Parse(args[1]);
+            var argitems = args[2].Split(',');
+
+            var items = new List<int>();
+            foreach (var item in argitems)
             {
+                if (item.Contains("-"))
+                {
+                    var parts = item.Split('-');
+                    for (i = int.Parse(parts[0]); i <= int.Parse(parts[1]); ++i)
+                        items.Add(i);
+                }
+                else
+                    items.Add(int.Parse(item));
+            }
+
+
+
+            bool b;
+            EventWaitHandleSecurity ws;
+            ws = new EventWaitHandleSecurity();
+            ws.AddAccessRule(new EventWaitHandleAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), EventWaitHandleRights.FullControl, AccessControlType.Allow));
+            evt = new EventWaitHandle(true, EventResetMode.ManualReset, "Global\\OdaCapture", out b, ws);
+
+            
+            var p = Process.GetProcessesByName("inspect");
+            if (p.Length == 1)
+                p[0].Kill();
+            System.Threading.Thread.Sleep(3000);
+            ProcessStartInfo ps = new ProcessStartInfo();
+            ps.CreateNoWindow = true;
+            ps.WindowStyle = ProcessWindowStyle.Hidden;
+            ps.FileName = "inspect.exe";
+            Process.Start(ps);
+            System.Threading.Thread.Sleep(3000);
+
+
+            //UIAAutomationElement.UIADriver.SetLogFile(root + "uia.log",false);
+
+
+            foreach (int k in items)
+            {
+                first.Process(root, (n - k), k);
+                evt.WaitOne();
                 second.Process();
-                string dir = root + i.ToString("000") + "\\";
+                evt.WaitOne();
+                string dir = root + k.ToString("000") + "\\";
                 Directory.CreateDirectory(dir);
                 third.Process(dir);
-                if (i == 35)
+                if (k == 35)
                     continue;
-
-                if (i==j)
-                    break;
             }
         }
     }

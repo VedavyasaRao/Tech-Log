@@ -135,7 +135,9 @@ namespace UITesting.Automated.UIADriver
             var regx = new Regex(@"[\\/:*?""<>|]");
 
             //UIAAutomationElement.UIADriver.SetAutomationElement(objsample.list_view_2091_540);
+            UIAAutomationElement.UIADriver.SetLogFile(root + "uia.log",false);
             UIAAutomationElement.UIADriver.SetAutomationElement(objsample.list_view_1963_520);
+
             var lstitm = UIAAutomationElement.UIADriver.ProviderNavigation.LastChild;
             if (lstitm == null)
                 return;
@@ -210,38 +212,16 @@ namespace UITesting.Automated.UIADriver
                 dwnbtn.ProviderInvoke.Click();
                 System.Threading.Thread.Sleep(1000);
 
-                var bvisible = UIAAutomationElement.UIADriver.CheckControlVisiblity(objsample.button_Save_Ctrl_S_save_1239_257,true,10*60*1000);
-                if (!bvisible)
-                    return;
-                var savbtn = UIAAutomationElement.UIADriver.SetAutomationElement(objsample.button_Save_Ctrl_S_save_1239_257);
-                if (savbtn == null)
-                    return;
-                System.Threading.Thread.Sleep(1000);
-
-                for (int j = 0; j < 5; ++j)
+                int fk = 0;
+                string[] lst;
+                do
                 {
-                    if (UIAAutomationElement.UIADriver.ProviderGeneric.GetAutomationProperty(UIAAutomationElement.UIADriver.Constants.AutomationProperty_IsEnabled) == "true")
+                    lst = System.IO.Directory.GetFiles(pdfpath, "*.pdf");
+                    if (lst != null && lst.Length != 0)
                         break;
-                    System.Threading.Thread.Sleep(3000);
-                }
-
-                UIAAutomationElement.UIADriver.ProviderInvoke.Click();
-                System.Threading.Thread.Sleep(1000);
-
-                UIAAutomationElement.UIADriver.SetAutomationElement(objsample.edit_File_name_1001_403_525);
-                System.Threading.Thread.Sleep(1000);
-                UIAAutomationElement.UIADriver.ProviderValue.Value = pdfpath + pdffilename;
-                UIAAutomationElement.UIADriver.ProviderGeneric.SendKeyStrokes("{ENTER}");
-                System.Threading.Thread.Sleep(1000);
-
-                UIAAutomationElement.UIADriver.CheckControlVisiblity(objsample.button_Downloads_638_258, true, 90000);
-
-
-                UIAAutomationElement.UIADriver.SetAutomationElement(objsample.button_Close_view_7_1293_126);
-                System.Threading.Thread.Sleep(1000);
-                UIAAutomationElement.UIADriver.ProviderInvoke.Click();
-                System.Threading.Thread.Sleep(1000);
-
+                    System.Threading.Thread.Sleep(5000);
+                } while (fk++ < 10);
+                System.IO.File.Move(lst[0], pdfpath + "copied\\" + pdffilename);
                 lstitm = lstitm.ProviderNavigation.PreviousSibling;
                 if (lstitm== null)
                     return;
