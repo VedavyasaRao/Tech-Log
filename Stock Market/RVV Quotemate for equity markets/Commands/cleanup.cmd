@@ -1,0 +1,5 @@
+del "..\Deploy\YahooFinance\libcef.dll"
+del "..\Deploy\\GoogleNews\libcef.dll"
+del "..\Deploy\RVVPM\libcef.dll"
+rd /s /q  "..\Source\Packages"
+rd /s /q "..\Source\Rvvpm\cef"

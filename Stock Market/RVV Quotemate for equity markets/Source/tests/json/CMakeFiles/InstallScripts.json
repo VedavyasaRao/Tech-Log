@@ -1,0 +1,12 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/temp/json/cmake_install.cmake",
+		"D:/temp/json/src/cmake_install.cmake",
+		"D:/temp/json/src/lib_json/cmake_install.cmake",
+		"D:/temp/json/src/jsontestrunner/cmake_install.cmake",
+		"D:/temp/json/src/test_lib_json/cmake_install.cmake",
+		"D:/temp/json/include/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

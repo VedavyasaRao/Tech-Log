@@ -1,0 +1,36 @@
+# CMake generated Testfile for 
+# Source directory: D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner
+# Build directory: D:/temp/json/src/jsontestrunner
+# 
+# This file includes the relevant testing commands required for 
+# testing this directory and lists subdirectories to be tested as well.
+if(CTEST_CONFIGURATION_TYPE MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
+  add_test(jsoncpp_readerwriter "C:/Users/rvvya/AppData/Local/Programs/Python/Python312/python.exe" "-B" "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/runjsontests.py" "D:/temp/json/bin/Debug/jsontestrunner_exe.exe" "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/data")
+  set_tests_properties(jsoncpp_readerwriter PROPERTIES  WORKING_DIRECTORY "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/data" _BACKTRACE_TRIPLES "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/CMakeLists.txt;43;add_test;D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
+  add_test(jsoncpp_readerwriter "C:/Users/rvvya/AppData/Local/Programs/Python/Python312/python.exe" "-B" "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/runjsontests.py" "D:/temp/json/bin/Release/jsontestrunner_exe.exe" "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/data")
+  set_tests_properties(jsoncpp_readerwriter PROPERTIES  WORKING_DIRECTORY "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/data" _BACKTRACE_TRIPLES "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/CMakeLists.txt;43;add_test;D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Mm][Ii][Nn][Ss][Ii][Zz][Ee][Rr][Ee][Ll])$")
+  add_test(jsoncpp_readerwriter "C:/Users/rvvya/AppData/Local/Programs/Python/Python312/python.exe" "-B" "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/runjsontests.py" "D:/temp/json/bin/MinSizeRel/jsontestrunner_exe.exe" "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/data")
+  set_tests_properties(jsoncpp_readerwriter PROPERTIES  WORKING_DIRECTORY "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/data" _BACKTRACE_TRIPLES "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/CMakeLists.txt;43;add_test;D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Rr][Ee][Ll][Ww][Ii][Tt][Hh][Dd][Ee][Bb][Ii][Nn][Ff][Oo])$")
+  add_test(jsoncpp_readerwriter "C:/Users/rvvya/AppData/Local/Programs/Python/Python312/python.exe" "-B" "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/runjsontests.py" "D:/temp/json/bin/RelWithDebInfo/jsontestrunner_exe.exe" "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/data")
+  set_tests_properties(jsoncpp_readerwriter PROPERTIES  WORKING_DIRECTORY "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/data" _BACKTRACE_TRIPLES "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/CMakeLists.txt;43;add_test;D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/CMakeLists.txt;0;")
+else()
+  add_test(jsoncpp_readerwriter NOT_AVAILABLE)
+endif()
+if(CTEST_CONFIGURATION_TYPE MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
+  add_test(jsoncpp_readerwriter_json_checker "C:/Users/rvvya/AppData/Local/Programs/Python/Python312/python.exe" "-B" "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/runjsontests.py" "--with-json-checker" "D:/temp/json/bin/Debug/jsontestrunner_exe.exe" "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/data")
+  set_tests_properties(jsoncpp_readerwriter_json_checker PROPERTIES  WORKING_DIRECTORY "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/data" _BACKTRACE_TRIPLES "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/CMakeLists.txt;47;add_test;D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
+  add_test(jsoncpp_readerwriter_json_checker "C:/Users/rvvya/AppData/Local/Programs/Python/Python312/python.exe" "-B" "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/runjsontests.py" "--with-json-checker" "D:/temp/json/bin/Release/jsontestrunner_exe.exe" "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/data")
+  set_tests_properties(jsoncpp_readerwriter_json_checker PROPERTIES  WORKING_DIRECTORY "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/data" _BACKTRACE_TRIPLES "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/CMakeLists.txt;47;add_test;D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Mm][Ii][Nn][Ss][Ii][Zz][Ee][Rr][Ee][Ll])$")
+  add_test(jsoncpp_readerwriter_json_checker "C:/Users/rvvya/AppData/Local/Programs/Python/Python312/python.exe" "-B" "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/runjsontests.py" "--with-json-checker" "D:/temp/json/bin/MinSizeRel/jsontestrunner_exe.exe" "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/data")
+  set_tests_properties(jsoncpp_readerwriter_json_checker PROPERTIES  WORKING_DIRECTORY "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/data" _BACKTRACE_TRIPLES "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/CMakeLists.txt;47;add_test;D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Rr][Ee][Ll][Ww][Ii][Tt][Hh][Dd][Ee][Bb][Ii][Nn][Ff][Oo])$")
+  add_test(jsoncpp_readerwriter_json_checker "C:/Users/rvvya/AppData/Local/Programs/Python/Python312/python.exe" "-B" "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/runjsontests.py" "--with-json-checker" "D:/temp/json/bin/RelWithDebInfo/jsontestrunner_exe.exe" "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/data")
+  set_tests_properties(jsoncpp_readerwriter_json_checker PROPERTIES  WORKING_DIRECTORY "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/../../test/data" _BACKTRACE_TRIPLES "D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/CMakeLists.txt;47;add_test;D:/temp/jsoncpp-master/jsoncpp-master/src/jsontestrunner/CMakeLists.txt;0;")
+else()
+  add_test(jsoncpp_readerwriter_json_checker NOT_AVAILABLE)
+endif()

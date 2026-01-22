@@ -1,0 +1,5 @@
+﻿  json_reader.cpp
+  json_value.cpp
+  json_writer.cpp
+  Generating Code...
+  jsoncpp_static.vcxproj -> D:\temp\json\lib\RelWithDebInfo\jsoncpp_static.lib

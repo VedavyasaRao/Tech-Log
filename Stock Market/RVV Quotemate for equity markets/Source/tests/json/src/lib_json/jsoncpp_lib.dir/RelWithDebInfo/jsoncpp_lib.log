@@ -1,0 +1,7 @@
+﻿  Building Custom Rule D:/temp/jsoncpp-master/jsoncpp-master/src/lib_json/CMakeLists.txt
+  json_reader.cpp
+  json_value.cpp
+  json_writer.cpp
+  Generating Code...
+     Creating library D:/temp/json/lib/RelWithDebInfo/jsoncpp.lib and object D:/temp/json/lib/RelWithDebInfo/jsoncpp.exp
+  jsoncpp_lib.vcxproj -> D:\temp\json\bin\RelWithDebInfo\jsoncpp.dll
