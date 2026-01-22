@@ -1,0 +1,8 @@
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\ImageProcessor\bin\ImageProcessor.exe.config
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\ImageProcessor\bin\ImageProcessor.exe
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\ImageProcessor\bin\ImageProcessor.pdb
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\ImageProcessor\Source\obj\Debug\ImageProcessor.csproj.AssemblyReference.cache
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\ImageProcessor\Source\obj\Debug\ImageProcessor.exe.config
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\ImageProcessor\Source\obj\Debug\ImageProcessor.csproj.CoreCompileInputs.cache
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\ImageProcessor\Source\obj\Debug\ImageProcessor.exe
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\ImageProcessor\Source\obj\Debug\ImageProcessor.pdb

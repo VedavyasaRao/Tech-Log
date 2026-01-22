@@ -1,0 +1,6 @@
+C:\Github\Tech-Log\User Interface Automation\bin\UITesting.Automated.ControlInf.dll
+C:\Github\Tech-Log\User Interface Automation\bin\UITesting.Automated.ControlInf.pdb
+C:\Github\Tech-Log\User Interface Automation\Source\ControlInfo\obj\x86\Release\ControlInfo.csproj.AssemblyReference.cache
+C:\Github\Tech-Log\User Interface Automation\Source\ControlInfo\obj\x86\Release\ControlInfo.csproj.CoreCompileInputs.cache
+C:\Github\Tech-Log\User Interface Automation\Source\ControlInfo\obj\x86\Release\UITesting.Automated.ControlInf.dll
+C:\Github\Tech-Log\User Interface Automation\Source\ControlInfo\obj\x86\Release\UITesting.Automated.ControlInf.pdb

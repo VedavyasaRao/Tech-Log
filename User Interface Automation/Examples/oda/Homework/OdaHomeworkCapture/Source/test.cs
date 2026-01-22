@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Threading;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Interop;
 using UITesting.Automated.WindowsInput;
@@ -206,6 +208,8 @@ namespace UITesting.Automated.UIADriver
                 bool bonce = false;
                 bool bsaved = false;
                 int shouldscrollcount = 0;
+                int offset = 0;
+                int m = 0;
                 while (shouldscroll(part,jspobj,ybot, ref parttop))
                 {
                     if (!bonce)
@@ -215,12 +219,27 @@ namespace UITesting.Automated.UIADriver
                         System.Threading.Thread.Sleep(1000);
                         bonce = true;
                     }
-                    if (!bsaved && parttop > 0 && ((parttop - MouseScrollCount) <= ytop))
+                    if (/*!bsaved && */ parttop != 0 && (((parttop + offset) - MouseScrollCount) <= ytop))
                     {
-                        var filename2 = dir + (i++).ToString("00") + "_" + (parttop - MouseScrollCount).ToString("000") + ".png";
-                        part.ProviderGeneric.CaptureBitmap(filename2);
+                        var pbrs = part.ProviderGeneric.GetAutomationProperty(UIAAutomationElement.UIADriver.Constants.AutomationProperty_BoundingRectangle);
+                        int plt = (int)jspobj.ParseObj(pbrs, "Left");
+                        int pwd = (int)jspobj.ParseObj(pbrs, "Width");
+                        var filename2 = dir + i.ToString("00") + "_" + (++m).ToString("00") + ".png";
+                        int ptp=0, ht=0;
+                        if (!bsaved)
+                        {
+                            ptp = Math.Max(parttop, ytop);
+                            bsaved = true;
+                        }
+                        else
+                        {
+                            ptp = ybot - offset;
+                        }
+                        ht = ybot - ptp;
+                        part.ProviderGeneric.CaptureRectBitmap(filename2, new System.Windows.Rect(plt, ptp, pwd, ht));
                         System.Threading.Thread.Sleep(2000);
-                        bsaved = true;
+                        shouldscrollcount = 0;
+                        offset += ht;
                     }
                     ms.VerticalScroll(-1);
                     if (shouldscrollcount++ == 30)
@@ -228,10 +247,22 @@ namespace UITesting.Automated.UIADriver
                 }
                 if (bonce) 
                     lastbrs = partlast.ProviderGeneric.GetAutomationProperty(UIAAutomationElement.UIADriver.Constants.AutomationProperty_BoundingRectangle);
-                var filename = dir + (i).ToString("00") + ".png";
-                part.ProviderGeneric.CaptureBitmap(filename);
-                System.Threading.Thread.Sleep(2000);
                 var brs = part.ProviderGeneric.GetAutomationProperty(UIAAutomationElement.UIADriver.Constants.AutomationProperty_BoundingRectangle);
+                var filename = dir + i.ToString("00") + ".png";
+                if (!bsaved)
+                    part.ProviderGeneric.CaptureBitmap(filename);
+                else
+                {
+                    int plt = (int)jspobj.ParseObj(brs, "Left");
+                    int pwd = (int)jspobj.ParseObj(brs, "Width");
+                    int pbt = (int)jspobj.ParseObj(brs, "Bottom");
+                    int pht = (int)jspobj.ParseObj(brs, "Height");
+                    int ht = pht - offset;
+                    int ptp = pbt - ht;
+                    filename = dir + i.ToString("00") + "_" + (++m).ToString("00") + ".png";
+                    part.ProviderGeneric.CaptureRectBitmap(filename, new System.Windows.Rect(plt, ptp, pwd, ht));
+                }
+                System.Threading.Thread.Sleep(2000);
                 if (brs == lastbrs)
                     break;
                 part = part.ProviderNavigation.NextSibling;

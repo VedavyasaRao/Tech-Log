@@ -51,7 +51,8 @@
     <Reference Include="UITesting.Automated.JSonSerializer">
       <HintPath>.\UITesting.Automated.JSonSerializer.dll</HintPath>
     </Reference>
-    <Reference Include="UITesting.Automated.UIADriver">
+    <Reference Include="UITesting.Automated.UIADriver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=646b594764bdedda, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>.\UITesting.Automated.UIADriver.dll</HintPath>
     </Reference>
     <Reference Include="UITesting.Automated.WindowsInput">

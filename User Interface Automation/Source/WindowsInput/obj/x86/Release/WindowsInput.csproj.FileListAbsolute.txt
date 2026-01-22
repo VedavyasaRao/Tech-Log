@@ -1,0 +1,6 @@
+C:\Github\Tech-Log\User Interface Automation\bin\UITesting.Automated.WindowsInput.dll
+C:\Github\Tech-Log\User Interface Automation\bin\UITesting.Automated.WindowsInput.pdb
+C:\Github\Tech-Log\User Interface Automation\Source\WindowsInput\obj\x86\Release\WindowsInput.csproj.AssemblyReference.cache
+C:\Github\Tech-Log\User Interface Automation\Source\WindowsInput\obj\x86\Release\WindowsInput.csproj.CoreCompileInputs.cache
+C:\Github\Tech-Log\User Interface Automation\Source\WindowsInput\obj\x86\Release\UITesting.Automated.WindowsInput.dll
+C:\Github\Tech-Log\User Interface Automation\Source\WindowsInput\obj\x86\Release\UITesting.Automated.WindowsInput.pdb

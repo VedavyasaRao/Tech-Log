@@ -110,6 +110,15 @@ namespace UITesting.Automated.ControlDBTool
             AppendToLog(message);
         }
 
+        private void showeposition()
+        {
+            Point pt = Cursor.Position;
+            string message = string.Format("Absoute Location: X={0} Y={1}", pt.X, pt.Y);
+            HostForm.UpdateStatus(message);
+            AppendToLog(message);
+        }
+
+
         private void HookManager_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F12)
@@ -123,6 +132,10 @@ namespace UITesting.Automated.ControlDBTool
             if (e.KeyCode == Keys.F11)
             {
                 updateposition();
+            }
+            else if (e.KeyCode == Keys.F10)
+            {
+                showeposition();
             }
             else if (e.KeyCode == Keys.Escape && bfindwindow)
             {

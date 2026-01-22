@@ -1,0 +1,12 @@
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\OdaHomeworkCapture\bin\inspect.exe
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\OdaHomeworkCapture\bin\OdaHomeworkCapture.exe.config
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\OdaHomeworkCapture\bin\OdaHomeworkCapture.exe
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\OdaHomeworkCapture\Source\obj\x86\Release\OdaHomeworkCapture.csproj.AssemblyReference.cache
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\OdaHomeworkCapture\Source\obj\x86\Release\OdaHomeworkCapture.exe.config
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\OdaHomeworkCapture\Source\obj\x86\Release\OdaHomeworkCapture.Properties.Resources.resources
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\OdaHomeworkCapture\Source\obj\x86\Release\OdaHomeworkCapture.csproj.GenerateResource.cache
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\OdaHomeworkCapture\Source\obj\x86\Release\OdaHomeworkCapture.csproj.CoreCompileInputs.cache
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\OdaHomeworkCapture\Source\obj\x86\Release\OdaHomew.DC1D4FA6.Up2Date
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\OdaHomeworkCapture\Source\obj\x86\Release\OdaHomeworkCapture.exe
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\OdaHomeworkCapture\Source\obj\x86\Release\OdaHomeworkCapture.pdb
+C:\Github\Tech-Log\User Interface Automation\Examples\oda\Homework\OdaHomeworkCapture\bin\OdaHomeworkCapture.pdb

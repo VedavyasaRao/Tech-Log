@@ -51,9 +51,9 @@ namespace ImageHandler
             Console.WriteLine();
 
             Console.WriteLine("Option 3: Merge Question and Answers");
-            Console.WriteLine("Arguments: <image dir>");
+            Console.WriteLine("Arguments: <src image dir> <target image dir>");
             Console.WriteLine("Example:");
-            Console.WriteLine("ImageProcessor.exe 3  \"D:\\temp\\odahw\" \"D:\\temp\\oda\"");
+            Console.WriteLine("ImageProcessor.exe 3  \"D:\\temp\\odahw\" \"D:\\temp\\oda\" \"135\"");
             Console.WriteLine();
 
             Console.WriteLine("Option 4: Unselect Options");
@@ -100,7 +100,10 @@ namespace ImageHandler
                     showsyntax();
                     return;
                 }
-                new MergeQuestionAnswers().Process(args[1], args[2]);
+                var item = "";
+                if (args.Length == 4)
+                    item = args[3];
+                new MergeQuestionAnswers().Process(args[1], args[2], item);
             }
 
             if (args[0] == "4")

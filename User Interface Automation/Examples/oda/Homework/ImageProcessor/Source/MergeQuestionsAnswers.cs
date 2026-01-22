@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,9 +13,6 @@ namespace ImageHandler
 {
     class MergeQuestionAnswers
     {
-        string tempdir;
-        string myasnwerimgfile = Program.ImageProcessorloc + @"\baseline\MyAnswer.png";
-        //string args = "0.80 0 0 90 23";
         string args = "0.80";
         int skipcount;
 
@@ -52,7 +50,7 @@ namespace ImageHandler
                         continue;
                     var tempbmp = (Bitmap)srcbmp.Clone(dstRect, srcbmp.PixelFormat);
                     tempbmp.Save(tempimgfile);
-                    myasnwerimgfile = Program.ImageProcessorloc + @"\baseline\MyAnswer_" + dstRect.Height.ToString() + ".png";
+                    var myasnwerimgfile = Program.ImageProcessorloc + @"\baseline\MyAnswer\MyAnswer_" + dstRect.Height.ToString() + ".png";
                     if (imgcmp.Process(myasnwerimgfile, tempimgfile,"", args))
                         break;
                 }
@@ -142,49 +140,52 @@ namespace ImageHandler
 
         public void Preprocess(string imgdir)
         {
-            var files = Directory.GetFiles(imgdir, "??_???.png").OrderBy(f => f);
+            var files = Directory.GetFiles(imgdir, "??_??.png").OrderBy(f => f).ToArray();
             if (files.Count() == 0)
             {
                 return;
             }
 
+            Bitmap dstBmp = new Bitmap(2000, 2000);
+            Graphics g = Graphics.FromImage(dstBmp);
+            g.Clear(Color.White);
+
+
+            Rectangle destrect = new Rectangle(0, 0, 0, 0); ;
+            int offset = 0;
+            var tempf = Path.GetFileNameWithoutExtension(files[0]);
+            var destf = Path.GetDirectoryName(files[0]) + "\\" + (int.Parse(tempf.Substring(0, 2))).ToString("00") + ".png";
             foreach (string f in files)
             {
-                var tempf = Path.GetFileNameWithoutExtension(f);
-                var destf = Path.GetDirectoryName(f) + "\\" + (int.Parse(tempf.Substring(0, 2)) + 1).ToString("00") + ".png";
-                var cpht = int.Parse(tempf.Substring(3));
-
-                using (MemoryStream dstms = new MemoryStream(System.IO.File.ReadAllBytes(destf)))
+                using (MemoryStream srcms = new MemoryStream(System.IO.File.ReadAllBytes(f)))
                 {
-                    using (Bitmap dstBmp = new Bitmap(dstms))
+                    using (Bitmap srcbmp = new Bitmap(srcms))
                     {
-                        using (Graphics g = Graphics.FromImage(dstBmp))
-                        {
-
-                            using (MemoryStream srcms = new MemoryStream(System.IO.File.ReadAllBytes(f)))
-                            {
-                                using (Bitmap srcbmp = new Bitmap(srcms))
-                                {
-                                    Rectangle srcRect = new Rectangle(0, 0, srcbmp.Width, cpht);
-                                    g.DrawImage(srcbmp, srcRect, srcRect, GraphicsUnit.Pixel);
-                                }
-                            }
-                        }
-                        dstBmp.Save(destf);
+                        Rectangle srcRect = new Rectangle(0, 0, srcbmp.Width, srcbmp.Height);
+                        destrect = new Rectangle(0, offset, srcbmp.Width, srcbmp.Height);
+                        g.DrawImage(srcbmp, destrect, srcRect, GraphicsUnit.Pixel);
+                        offset += srcbmp.Height;
                     }
                 }
                 System.IO.File.Delete(f);
             }
-
+            destrect = new Rectangle(0, 0, destrect.Width, offset);
+            var tempbmp = (Bitmap)dstBmp.Clone(destrect, dstBmp.PixelFormat);
+            tempbmp.Save(destf);
         }
 
-        public void Process(string rootdir, string targetdir)
+        public void Process(string rootdir, string targetdir, string item)
         {
-            var pdirlst = Directory.GetDirectories(rootdir, "???").OrderBy(f => f);
+            string[] pdirlst;
+            if (string.IsNullOrEmpty(item))
+                pdirlst = Directory.GetDirectories(rootdir, "???").OrderBy(f => f).ToArray();
+            else
+                pdirlst = Directory.GetDirectories(rootdir, "???").Where(f => f.Contains("\\" + item)).OrderBy(f => f).ToArray();
+
             foreach (var pdir in pdirlst)
             {
                 int i = 1;
-                var sdirlst = Directory.GetDirectories(pdir).OrderBy(f => f);
+                var sdirlst = Directory.GetDirectories(pdir).OrderBy(f => f).ToArray();
                 var tdir = targetdir + "\\" + Path.GetFileName(pdir);
                 Directory.CreateDirectory(tdir + "\\Answers");
                 Console.WriteLine("Processing {0}", pdir);

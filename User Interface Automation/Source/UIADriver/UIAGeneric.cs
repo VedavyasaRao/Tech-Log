@@ -31,6 +31,7 @@ namespace UITesting.Automated.UIADriver
         }
         string GetAutomationProperty(int id);
         void CaptureBitmap(string filename);
+        void CaptureRectBitmap(string filename, System.Windows.Rect rect);
         string GetMousePosition();
         void SetMousePosition(int x, int y);
         void DragandDrop(int startx, int starty, int endx, int endy);
@@ -345,6 +346,20 @@ namespace UITesting.Automated.UIADriver
             try
             {
                 System.Windows.Rect rect = owner.GetAE.Current.BoundingRectangle;
+                CaptureRectBitmap(filename,rect);
+            }
+            catch (Exception ex)
+            {
+                LogError(ex.Message);
+            }
+
+        }
+
+        public void CaptureRectBitmap(string filename, System.Windows.Rect rect)
+        {
+            Log(string.Format("CaptureBitmapRect({0},{1})", filename, rect));
+            try
+            {
                 System.Drawing.Bitmap printscreen = new System.Drawing.Bitmap((int)rect.Width, (int)rect.Height);
                 System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(printscreen as System.Drawing.Image);
                 graphics.CopyFromScreen((int)rect.Left, (int)rect.Top, 0, 0, new System.Drawing.Size((int)rect.Width, (int)rect.Height));

@@ -1,0 +1,7 @@
+C:\Github\Tech-Log\User Interface Automation\bin\UITesting.Automated.UIADriver.dll
+C:\Github\Tech-Log\User Interface Automation\bin\UITesting.Automated.UIADriver.pdb
+C:\Github\Tech-Log\User Interface Automation\Source\UIADriver\obj\x86\Release\UIADriver.csproj.AssemblyReference.cache
+C:\Github\Tech-Log\User Interface Automation\Source\UIADriver\obj\x86\Release\UIADriver.csproj.CoreCompileInputs.cache
+C:\Github\Tech-Log\User Interface Automation\Source\UIADriver\obj\x86\Release\UIADriver.csproj.Up2Date
+C:\Github\Tech-Log\User Interface Automation\Source\UIADriver\obj\x86\Release\UITesting.Automated.UIADriver.dll
+C:\Github\Tech-Log\User Interface Automation\Source\UIADriver\obj\x86\Release\UITesting.Automated.UIADriver.pdb
