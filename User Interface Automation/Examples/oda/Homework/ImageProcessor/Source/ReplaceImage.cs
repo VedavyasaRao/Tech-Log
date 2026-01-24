@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -13,18 +14,35 @@ namespace ImageHandler
 {
     class ReplaceImage
     {
-        string greenimgdir = Program.ImageProcessorloc + @"\baseline\green";
-        string whiteimgdir = Program.ImageProcessorloc + @"\baseline\white";
-        string redimgdir = Program.ImageProcessorloc + @"\baseline\red";
+        string whiteimgbaselinedir = Program.ImageProcessorloc + @"\ImageComparer\baseline\OptionA";
+        string whiteimgdir = Program.ImageProcessorloc + @"\white";
         string questionfile = "";
         string tempdir = "";
         string matchedcolredimgfile = "";
         string matchedtempimgfile = "";
 
-        void replaceimage(string colredimgfile, string[] loc)
+
+        public void CreateImages(string imgdir)
         {
+            var files = Directory.GetFiles(imgdir, "??_Question.png").OrderBy(f => f);
+            foreach (var f in files)
+            {
+                questionfile = f;
+                tempdir = imgdir +  "\\temp\\" + Path.GetFileNameWithoutExtension(questionfile);
+                if (Directory.Exists(tempdir))
+                    Directory.Delete(tempdir, true);
+                Directory.CreateDirectory(tempdir);
+                var lines = File.ReadAllLines(Path.GetDirectoryName(questionfile) + "\\output.txt");
+                var hts = lines.Where(l => l.StartsWith(questionfile)).ToList();
+                Createsubimages(hts[0]);
+            }
+        }
+
+        bool  replaceimage(string colredimgfile, string[] loc)
+        {
+            int imgwdht = 35;
             string tempbmp = tempdir + "\\temp.png";
-            Brush b = new SolidBrush(Color.FromArgb(255,255,255));
+            Brush b = new SolidBrush(Color.FromArgb(255, 255, 255));
 
             using (Bitmap dstBmp = new Bitmap(questionfile))
             {
@@ -33,10 +51,10 @@ namespace ImageHandler
 
                     using (Bitmap srcbmp = new Bitmap(colredimgfile))
                     {
-                        Rectangle srcRect = new Rectangle(0, 0, 60, srcbmp.Height);
-                        Rectangle dstRect = new Rectangle(int.Parse(loc[1]), int.Parse(loc[0]), 60, 60);
+                        Rectangle srcRect = new Rectangle(0, 0, srcbmp.Width, srcbmp.Height);
+                        Rectangle dstRect = new Rectangle(int.Parse(loc[1]), int.Parse(loc[0]), imgwdht, imgwdht);
                         g.FillRectangle(b, dstRect);
-                        dstRect = new Rectangle(dstRect.X, int.Parse(loc[0]), 60, srcbmp.Height);
+                        dstRect = new Rectangle(dstRect.X, int.Parse(loc[0]), srcbmp.Width, srcbmp.Height);
                         g.DrawImage(srcbmp, dstRect, srcRect, GraphicsUnit.Pixel);
                     }
                 }
@@ -44,7 +62,9 @@ namespace ImageHandler
             }
             File.Delete(questionfile);
             File.Move(tempbmp, questionfile);
+            return true;
         }
+
 
 
         public unsafe Rectangle getboundingrectangle(Bitmap bmp, int y, int wd, int ht)
@@ -62,16 +82,6 @@ namespace ImageHandler
             int botx = 0, boty = 0;
 
             byte* scan0 = (byte*)bmpData.Scan0.ToPointer();
-
-            //for (i = 0; i < ht; ++i)
-            //{
-            //    for (j = 0; j < wd; ++j)
-            //    {
-            //        byte* data = scan0 + i * bmpData.Stride + j * bitsPerPixel / 8;
-            //        var l = string.Format("{0}, {1}: {2} {3} {4} {5}\n", i, j, *data, *(data+1), *(data+2), *(data+3));
-            //        File.AppendAllText(@"d:\temp\dump.txt", l);
-            //    }
-            //}
 
             bool btopdone = false;
             bool bfound = false;
@@ -126,24 +136,20 @@ namespace ImageHandler
         }
 
 
-        bool matchoption(string coloredimgdir,string arg)
+        bool matchoption(string optionAFile,string arg)
         {
-            var coloredfiles = Directory.GetFiles(coloredimgdir, "*.png").OrderBy(f => f);
-            var tempfiles = Directory.GetFiles(tempdir, "*.png").OrderByDescending(f => f);
+            var tempfiles = Directory.GetFiles(tempdir, "*.png").OrderBy(f => f);
             var imgcmp = new ImageCompare();
             matchedcolredimgfile = "";
             matchedtempimgfile = "";
-            foreach (var gf in coloredfiles)
+            foreach (var tf in tempfiles)
             {
-                foreach (var tf in tempfiles)
+                if (imgcmp.Process(optionAFile, tf,"", arg))
                 {
-                    if (imgcmp.Process(gf, tf,"", arg))
-                    {
-                        Console.WriteLine("{0}  -> {1}", gf, tf);
-                        matchedcolredimgfile = gf;
-                        matchedtempimgfile = tf;
-                        return true;
-                    }
+                    Console.WriteLine("{0}  -> {1}", optionAFile, tf);
+                    matchedcolredimgfile = optionAFile;
+                    matchedtempimgfile = tf;
+                    return true;
                 }
             }
             return false;
@@ -154,6 +160,8 @@ namespace ImageHandler
             var parts = hts.Split(new char[] { ' ' }).ToList();
             parts.RemoveRange(0, 1);
             parts.RemoveRange(parts.Count - 1, 1);
+            int imgwdht = 35;
+            int minimght = 30;
             using (Bitmap srcbmp = new Bitmap(questionfile))
             {
                 int i = 0;
@@ -167,17 +175,18 @@ namespace ImageHandler
 
                     var rows = new List<int>();
                     rows.Add(y);
-                    if (ht > 110)
-                        rows.Add(y + ht - 55);
+                    if (ht > imgwdht*2)
+                        rows.Add(y + ht - imgwdht);
 
                     foreach (var row in rows)
                     {
                         Rectangle dstRect;
                         if (row == y)
-                            dstRect = getboundingrectangle(srcbmp, row,55,55);
+                            dstRect = getboundingrectangle(srcbmp, row, imgwdht, imgwdht);
                         else
-                            dstRect = getboundingrectangle(srcbmp, row, srcbmp.Width, 55);
-                        if (dstRect.X >= srcbmp.Width || dstRect.Width == 0 || dstRect.Height == 0)
+                            dstRect = getboundingrectangle(srcbmp, row, srcbmp.Width, imgwdht);
+                        //if (dstRect.X >= srcbmp.Width || dstRect.Width == 0 || dstRect.Height < minimght)
+                        if (dstRect.Width  > imgwdht || dstRect.Height < minimght)
                             continue;
                         using (var dstBmp = (Bitmap)srcbmp.Clone(dstRect, srcbmp.PixelFormat))
                         {
@@ -189,7 +198,8 @@ namespace ImageHandler
         }
         public void ProcessOne(string f)
         {
-            string[] args = { "0.75 17 15 20 24", "0.85 17 15 20 24" };
+            string args = "1.0";
+
 
             questionfile = f;
             tempdir = Path.GetDirectoryName(questionfile) + "\\temp";
@@ -199,25 +209,49 @@ namespace ImageHandler
             var lines = File.ReadAllLines(Path.GetDirectoryName(questionfile) + "\\output.txt");
             var hts = lines.Where(l => l.StartsWith(questionfile)).ToList();
             Createsubimages(hts[0]);
-            int i = 0;
-            foreach (var dir in new string[] { greenimgdir, redimgdir })
+            var whitebaselinefiles = Directory.GetFiles(whiteimgbaselinedir, "*.png").OrderBy(wf => wf).ToArray();
+            foreach (var optA in whitebaselinefiles)
             {
-                if (matchoption(dir,args[i++]))
+                matchedtempimgfile = "";
+                if (matchoption(optA, args))
+                    break;
+            }
+
+            if (!string.IsNullOrEmpty(matchedtempimgfile))
+            {
+                var whiteimgfiles = Directory.GetFiles(whiteimgdir, "*.png").OrderBy(cf=> cf).ToArray();
+                var tempfiles = Directory.GetFiles(tempdir, "*.png").OrderBy(tf => tf).ToList();
+
+                int i = tempfiles.IndexOf(matchedtempimgfile);
+
+                for (int j=0; i < tempfiles.Count; ++i)
                 {
-                    var matchfile = Path.GetFileNameWithoutExtension(matchedtempimgfile);
-                    replaceimage(Path.Combine(whiteimgdir, Path.GetFileName(matchedcolredimgfile)), matchfile.Substring(3).Split(new char[] { 'x' }));
+                    var matchfile = Path.GetFileNameWithoutExtension(tempfiles[i]);
+                    if (replaceimage(whiteimgfiles[j], matchfile.Substring(3).Split(new char[] { 'x' })))
+                        j++;
                 }
             }
+
             if (Directory.Exists(tempdir))
                 Directory.Delete(tempdir, true);
         }
 
-        public void Process(string rootdir)
+        public void Process(string rootdir, string dir, string qno)
         {
-            var pdirlst = Directory.GetDirectories(rootdir, "???").OrderBy(f => f);
+            string[] pdirlst;
+            if (string.IsNullOrEmpty(dir))
+                pdirlst = Directory.GetDirectories(rootdir, "???").OrderBy(f => f).ToArray();
+            else
+                pdirlst = Directory.GetDirectories(rootdir, "???").Where(f=>f.Contains(dir)).OrderBy(f => f).ToArray();
+
             foreach (var pdir in pdirlst)
             {
-                var files = Directory.GetFiles(pdir, "??_Question.png").OrderBy(f => f);
+                string[] files;
+                if (string.IsNullOrEmpty(qno))
+                    files = Directory.GetFiles(pdir, "??_Question.png").OrderBy(f => f).ToArray();
+                else
+                    files = Directory.GetFiles(pdir, "??_Question.png").Where(f => f.Contains(qno)).OrderBy(f => f).ToArray();
+
                 Console.WriteLine("Processing {0}", pdir);
                 foreach (var f in files)
                 {

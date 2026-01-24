@@ -23,12 +23,15 @@ namespace ImageHandler
             p.StartInfo.RedirectStandardOutput = true;
             p.StartInfo.WorkingDirectory =  Path.GetTempPath() + "imageprocessor";
             p.Start();
-            if (!string.IsNullOrEmpty(outputfile) )
-                File.WriteAllText(outputfile, p.StandardOutput.ReadToEnd());
-            else
-                File.WriteAllText(p.StartInfo.WorkingDirectory + "\\" + Path.GetFileNameWithoutExtension(srcfile) + ".txt", p.StandardOutput.ReadToEnd());
+            
+            var tempoutputfile = outputfile;
+            if (string.IsNullOrEmpty(outputfile))
+                tempoutputfile = p.StartInfo.WorkingDirectory + "\\" + Path.GetFileNameWithoutExtension(srcfile) + ".txt";
+            
+            File.WriteAllText(tempoutputfile, p.StandardOutput.ReadToEnd());
             p.WaitForExit();
 
+            var ret = (File.ReadAllText(tempoutputfile).Contains("Percentage of different pixels: 0.0000 %"));
 
             var dir = System.IO.Path.GetDirectoryName(tgtfile);
             cmdline = string.Format("/c \"cd/d \"{0}\" &  del  *.txt cropped*.* diff*.* histogram*.*\"", dir);
@@ -40,7 +43,9 @@ namespace ImageHandler
             p2.Start();
             p2.WaitForExit();
 
-            return (p.ExitCode == 0);
+            return ret;
+
+            //return (p.ExitCode == 0);
         }
     }
 }

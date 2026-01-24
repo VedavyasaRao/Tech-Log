@@ -1,6 +1,0 @@
-C:\Github\Tech-Log\User Interface Automation\bin\UITesting.Automated.MouseKeyboardActivityMonitor.dll
-C:\Github\Tech-Log\User Interface Automation\bin\UITesting.Automated.MouseKeyboardActivityMonitor.pdb
-C:\Github\Tech-Log\User Interface Automation\Source\MouseKeyboardActivityMonitor\obj\x86\Release\MouseKeyboardActivityMonitor.csproj.AssemblyReference.cache
-C:\Github\Tech-Log\User Interface Automation\Source\MouseKeyboardActivityMonitor\obj\x86\Release\MouseKeyboardActivityMonitor.csproj.CoreCompileInputs.cache
-C:\Github\Tech-Log\User Interface Automation\Source\MouseKeyboardActivityMonitor\obj\x86\Release\UITesting.Automated.MouseKeyboardActivityMonitor.dll
-C:\Github\Tech-Log\User Interface Automation\Source\MouseKeyboardActivityMonitor\obj\x86\Release\UITesting.Automated.MouseKeyboardActivityMonitor.pdb

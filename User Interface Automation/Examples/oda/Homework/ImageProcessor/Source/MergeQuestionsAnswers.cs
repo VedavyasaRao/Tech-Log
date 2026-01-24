@@ -13,8 +13,22 @@ namespace ImageHandler
 {
     class MergeQuestionAnswers
     {
-        string args = "0.80";
+        string args = "1.0";
         int skipcount;
+
+        public void getboundingrectangle(string srcbmpfile, string dstbmpfile, string args)
+        {
+            var parts = args.Split(',');            
+            int stht = int.Parse(parts[0]), imgwd = int.Parse(parts[1]), imght = int.Parse(parts[2]);
+
+            var rp = new ReplaceImage();
+            using (Bitmap srcbmp = new Bitmap(srcbmpfile))
+            {
+                Rectangle dstRect = rp.getboundingrectangle(srcbmp, stht, imgwd, imght);
+                var tempbmp = (Bitmap)srcbmp.Clone(dstRect, srcbmp.PixelFormat);
+                tempbmp.Save(dstbmpfile);
+            }
+        }
 
         public void MergeAnswer(string imgdir, string filename)
         {
@@ -50,8 +64,17 @@ namespace ImageHandler
                         continue;
                     var tempbmp = (Bitmap)srcbmp.Clone(dstRect, srcbmp.PixelFormat);
                     tempbmp.Save(tempimgfile);
-                    var myasnwerimgfile = Program.ImageProcessorloc + @"\baseline\MyAnswer\MyAnswer_" + dstRect.Height.ToString() + ".png";
-                    if (imgcmp.Process(myasnwerimgfile, tempimgfile,"", args))
+                    var myanswerimgfiles = Directory.GetFiles(Program.ImageProcessorloc + @"\ImageComparer\baseline\MyAnswer").OrderBy(af => af).ToArray();
+                    bool bfound = false;
+                    foreach (var aimgf in myanswerimgfiles)
+                    {
+                        if (imgcmp.Process(aimgf, tempimgfile, "", args))
+                        {
+                            bfound = true;
+                            break;
+                        }
+                    }
+                    if (bfound)
                         break;
                 }
             }

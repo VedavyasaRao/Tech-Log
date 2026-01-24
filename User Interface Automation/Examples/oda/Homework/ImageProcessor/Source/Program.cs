@@ -50,16 +50,28 @@ namespace ImageHandler
             Console.WriteLine("ImageProcessor.exe 2  \"D:\\temp\\oda\\Homework\\ImageProcessor\\baseline\\white\\a.png\" \"D:\\temp\\oda\\Homework\\ImageProcessor\\baseline\\New folder\\white\\a.png\"  \"d:\\temp\\output.txt\" \"0.90 0 60 50 50\"");
             Console.WriteLine();
 
-            Console.WriteLine("Option 3: Merge Question and Answers");
-            Console.WriteLine("Arguments: <src image dir> <target image dir>");
+            Console.WriteLine("Option 3: Get Bounding rectangle");
+            Console.WriteLine("Arguments: <src image> <target image> <args>");
             Console.WriteLine("Example:");
-            Console.WriteLine("ImageProcessor.exe 3  \"D:\\temp\\odahw\" \"D:\\temp\\oda\" \"135\"");
+            Console.WriteLine("ImageProcessor.exe 3  \"C:\\odahw\\108\\A\\06.png\", \"D:\\temp\\test.png\" \"30,80,16\"");
             Console.WriteLine();
 
-            Console.WriteLine("Option 4: Unselect Options");
+            Console.WriteLine("Option 4: Merge Question and Answers");
+            Console.WriteLine("Arguments: <src image dir> <target image dir> <item>");
+            Console.WriteLine("Example:");
+            Console.WriteLine("ImageProcessor.exe 4  \"D:\\temp\\odahw\" \"D:\\temp\\oda\" \"135\"");
+            Console.WriteLine();
+
+            Console.WriteLine("Option 5: Create sub images");
             Console.WriteLine("Arguments: <image dir>");
             Console.WriteLine("Example:");
-            Console.WriteLine("ImageProcessor.exe 4  \"D:\\temp\\oda\"");
+            Console.WriteLine("ImageProcessor.exe 5  \"D:\\temp\\oda\\108\"");
+
+            Console.WriteLine("Option 6: Unselect Options");
+            Console.WriteLine("Arguments: <image dir> <dir> <qno>");
+            Console.WriteLine("Example:");
+            Console.WriteLine("ImageProcessor.exe 6  \"D:\\temp\\oda\" 113 03");
+
             Console.ReadKey();
 
         }
@@ -100,10 +112,7 @@ namespace ImageHandler
                     showsyntax();
                     return;
                 }
-                var item = "";
-                if (args.Length == 4)
-                    item = args[3];
-                new MergeQuestionAnswers().Process(args[1], args[2], item);
+                new MergeQuestionAnswers().getboundingrectangle(args[1], args[2], args[3]);
             }
 
             if (args[0] == "4")
@@ -113,7 +122,36 @@ namespace ImageHandler
                     showsyntax();
                     return;
                 }
-                new ReplaceImage().Process(args[1]);
+                var item = "";
+                if (args.Length == 4)
+                    item = args[3];
+                new MergeQuestionAnswers().Process(args[1], args[2], item);
+            }
+
+            if (args[0] == "5")
+            {
+                if (args.Length < 1)
+                {
+                    showsyntax();
+                    return;
+                }
+                new ReplaceImage().CreateImages(args[1]);
+            }
+
+            if (args[0] == "6")
+            {
+                if (args.Length < 1)
+                {
+                    showsyntax();
+                    return;
+                }
+                var dir = "";
+                var qno = "";
+                if (args.Length > 2)
+                    dir = args[2];
+                if (args.Length > 3)
+                    qno = args[3];
+                new ReplaceImage().Process(args[1],dir,qno);
             }
         }
     }
