@@ -1,6 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
+using System.Windows.Documents;
 using UITesting.Automated.UIADriver;
 
 namespace UITesting.Automated.UIADriver
@@ -110,7 +117,7 @@ namespace UITesting.Automated.UIADriver
     //  ***************Playback Code********************
     class Player
     {
-
+        internal static EventWaitHandle evt;
         static jsonparser jspobj = new jsonparser();
         static sample objsample = new sample();
 
@@ -121,39 +128,83 @@ namespace UITesting.Automated.UIADriver
 
         public static void Main(string[] args)
         {
-            if (args.Length == 0)
+            if (args.Length < 1)
             {
-                MessageBox.Show("Syntax:OdaCourseMaterialCapture <dir> start\nExample\nOdaCourseMaterialCapture \"d:\\oda\\\" 10");
+                var msg = "Syntax:OdaCourseMaterialCapture  <dir> \"<item>,<item>,<item>,<item>\"\n" +
+                    "Example:nOdaCourseMaterialCapture  \"d:\\oda\\\" \"95-900\"";
+                System.Windows.MessageBox.Show(msg);
                 return;
             }
-            string root = args[0];
-            int i = 1;
-            int k = int.Parse(args[1]);
 
+
+            bool b;
+            EventWaitHandleSecurity ws;
+            ws = new EventWaitHandleSecurity();
+            ws.AddAccessRule(new EventWaitHandleAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), EventWaitHandleRights.FullControl, AccessControlType.Allow));
+            evt = new EventWaitHandle(true, EventResetMode.ManualReset, "Global\\OdaCapture", out b, ws);
+
+
+            var p = Process.GetProcessesByName("inspect");
+            if (p.Length == 1)
+                p[0].Kill();
+            System.Threading.Thread.Sleep(3000);
+            ProcessStartInfo ps = new ProcessStartInfo();
+            ps.CreateNoWindow = true;
+            ps.WindowStyle = ProcessWindowStyle.Hidden;
+            ps.FileName = "inspect.exe";
+            Process.Start(ps);
+            System.Threading.Thread.Sleep(3000);
+
+            string root = args[0];
             string filename = root + "description.txt";
             string pdfpath = root;
             var regx = new Regex(@"[\\/:*?""<>|]");
 
-            //UIAAutomationElement.UIADriver.SetAutomationElement(objsample.list_view_2091_540);
-            UIAAutomationElement.UIADriver.SetLogFile(root + "uia.log",false);
+            //UIAAutomationElement.UIADriver.SetLogFile(root + "uia.log",false);
             UIAAutomationElement.UIADriver.SetAutomationElement(objsample.list_view_1963_520);
+            var lstitm = (UIAElement)UIAAutomationElement.UIADriver.ProviderNavigation.LastChild;
+            var s = lstitm.ProviderGeneric.GetAutomationProperty(UIAAutomationElement.UIADriver.Constants.AutomationProperty_RuntimeId);
+            var parts2 = s.Replace('[',' ').Replace(']',' ').Trim().Split(',');
+            int n = int.Parse(parts2[parts2.Length - 1]) + 1;
 
-            var lstitm = UIAAutomationElement.UIADriver.ProviderNavigation.LastChild;
-            if (lstitm == null)
-                return;
-            System.Threading.Thread.Sleep(1000);
 
-            for (; i < k; ++i)
+            int i = 0;
+            var items = new List<int>();
+            var argitems = args[1].Split(',');
+            foreach (var item in argitems)
             {
-                lstitm = lstitm.ProviderNavigation.PreviousSibling;
-                if (lstitm == null)
-                    return;
-                System.Threading.Thread.Sleep(1000);
-
+                if (item.Contains("-"))
+                {
+                    var parts = item.Split('-');
+                    for (i = int.Parse(parts[0]); i <= int.Parse(parts[1]); ++i)
+                        items.Add(i);
+                }
+                else
+                    items.Add(int.Parse(item));
             }
+            items.Sort();
 
-            while (true)
+            int previousk = 0;
+            foreach (int k in items)
             {
+                if ((k - previousk) != 1)
+                {
+                    var newlink = objsample.list_item_43_500.Replace("0 0 0 2 0 4 0 0", "0 0 0 2 0 4 0 " + (n - k).ToString());
+                    var temps = UIAAutomationElement.UIADriver.SearchOptions;
+                    UIAAutomationElement.UIADriver.SearchOptions = "PACS";
+                    UIAAutomationElement.UIADriver.SetAutomationElement(newlink);
+                    UIAAutomationElement.UIADriver.SearchOptions = temps;
+                    lstitm = (UIAElement)UIAAutomationElement.UIADriver;
+                }
+                else
+                {
+                    lstitm = (UIAElement)lstitm.ProviderNavigation.PreviousSibling;
+                }
+
+                if (lstitm == null)
+                    break;
+
+                previousk = k;
                 var custm = lstitm.ProviderNavigation.FirstChild;
                 if (custm == null)
                     return;
@@ -175,6 +226,7 @@ namespace UITesting.Automated.UIADriver
                 System.Threading.Thread.Sleep(1000);
                 System.IO.File.AppendAllText(filename,name + "\n");
                 System.Threading.Thread.Sleep(1000);
+
                 var pdffilename = i.ToString("000")+"_"+regx.Replace(name, "");
 
                 custm = custm.ProviderNavigation.NextSibling;
@@ -222,9 +274,6 @@ namespace UITesting.Automated.UIADriver
                     System.Threading.Thread.Sleep(5000);
                 } while (fk++ < 10);
                 System.IO.File.Move(lst[0], pdfpath + "copied\\" + pdffilename);
-                lstitm = lstitm.ProviderNavigation.PreviousSibling;
-                if (lstitm== null)
-                    return;
                 System.Threading.Thread.Sleep(1000);
                 ++i;
             }

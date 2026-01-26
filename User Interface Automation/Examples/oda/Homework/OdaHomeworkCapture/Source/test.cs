@@ -33,7 +33,7 @@ namespace UITesting.Automated.UIADriver
     class firstlevel
     {
         //supported patterns:MSAAAccessible,Generic,Navigation
-        public string custom_1963_520
+        static public string custom_1963_520
         {
             get
             {
@@ -329,8 +329,8 @@ namespace UITesting.Automated.UIADriver
         {
             if (args.Length < 3)
             {
-                var msg= "Syntax:OdaHomeworkCapture  <dir> <count> \"<item>,<item>,<item>,<item>\"\n" +
-                    "Example:OdaHomeworkCapture  \"d:\\oda\\\" 300 \"95-99\"";
+                var msg= "Syntax:OdaHomeworkCapture  <dir>  \"<item>,<item>,<item>,<item>\"\n" +
+                    "Example:OdaHomeworkCapture  \"d:\\oda\\\" \"95-99\"";
                 System.Windows.MessageBox.Show(msg);
                 return;
             }
@@ -338,8 +338,7 @@ namespace UITesting.Automated.UIADriver
             int i = 0;
 
             string root = args[0];
-            int n = int.Parse(args[1]);
-            var argitems = args[2].Split(',');
+            var argitems = args[1].Split(',');
 
             var items = new List<int>();
             foreach (var item in argitems)
@@ -376,7 +375,13 @@ namespace UITesting.Automated.UIADriver
 
 
             //UIAAutomationElement.UIADriver.SetLogFile(root + "uia.log",false);
+            UIAAutomationElement.UIADriver.SetAutomationElement(firstlevel.custom_1963_520);
+            var lstitm = (UIAElement)UIAAutomationElement.UIADriver.ProviderNavigation.LastChild;
+            var s = lstitm.ProviderGeneric.GetAutomationProperty(UIAAutomationElement.UIADriver.Constants.AutomationProperty_RuntimeId);
+            var parts2 = s.Replace('[', ' ').Replace(']', ' ').Trim().Split(',');
+            int n = int.Parse(parts2[parts2.Length - 1]) + 1;
 
+            
 
             foreach (int k in items)
             {
