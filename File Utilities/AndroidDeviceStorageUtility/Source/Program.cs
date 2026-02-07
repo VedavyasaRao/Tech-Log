@@ -43,6 +43,11 @@ namespace FileParser
             process.WaitForExit();
         }
 
+        static void killadb()
+        {
+            var cmdline = string.Format(@"/c taskkill /f /im adb.exe");
+            launchcmdwindow(cmdline, "kill adb");
+        }
         static void downloadfilelist(string outputfile)
         {
             var folders = capture_folders.Split(',');
@@ -409,18 +414,17 @@ namespace FileParser
             if (sel == "1")
             {
                 downloadfilelist();
-                return;
             }
             else if (sel == "2")
             {
                 backupfiles();
-                return;
             }
             else if (sel == "3")
             {
                 restorefiles();
-                return;
             }
+
+            killadb();
         }
     }
 }
