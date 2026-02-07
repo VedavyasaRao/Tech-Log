@@ -83,4 +83,7 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy /s /r /i  /Y  ..\platform-tools  ..\bin\platform-tools</PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>taskkill /f /im adb.exe 2&gt;nul 1&gt;nul || set errorlevel=0</PreBuildEvent>
+  </PropertyGroup>
 </Project>
