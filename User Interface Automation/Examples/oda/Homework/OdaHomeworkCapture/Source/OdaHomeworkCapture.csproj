@@ -42,21 +42,25 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="UITesting.Automated.ControlInf">
-      <HintPath>.\UITesting.Automated.ControlInf.dll</HintPath>
+    <Reference Include="UITesting.Automated.ControlInf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=646b594764bdedda, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\bin\UITesting.Automated.ControlInf.dll</HintPath>
     </Reference>
-    <Reference Include="UITesting.Automated.JsonParser">
-      <HintPath>.\UITesting.Automated.JsonParser.dll</HintPath>
+    <Reference Include="UITesting.Automated.JsonParser, Version=0.0.0.0, Culture=neutral, PublicKeyToken=646b594764bdedda, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\bin\UITesting.Automated.JsonParser.dll</HintPath>
     </Reference>
-    <Reference Include="UITesting.Automated.JSonSerializer">
-      <HintPath>.\UITesting.Automated.JSonSerializer.dll</HintPath>
+    <Reference Include="UITesting.Automated.JSonSerializer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=646b594764bdedda, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\bin\UITesting.Automated.JSonSerializer.dll</HintPath>
     </Reference>
     <Reference Include="UITesting.Automated.UIADriver, Version=1.0.0.0, Culture=neutral, PublicKeyToken=646b594764bdedda, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\UITesting.Automated.UIADriver.dll</HintPath>
+      <HintPath>..\..\..\..\..\bin\UITesting.Automated.UIADriver.dll</HintPath>
     </Reference>
-    <Reference Include="UITesting.Automated.WindowsInput">
-      <HintPath>.\UITesting.Automated.WindowsInput.dll</HintPath>
+    <Reference Include="UITesting.Automated.WindowsInput, Version=0.2.0.0, Culture=neutral, PublicKeyToken=646b594764bdedda, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\bin\UITesting.Automated.WindowsInput.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />

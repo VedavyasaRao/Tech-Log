@@ -16,15 +16,6 @@
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
   <PropertyGroup>
@@ -52,19 +43,19 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="UITesting.Automated.ControlInf">
-      <HintPath>.\UITesting.Automated.ControlInf.dll</HintPath>
+      <HintPath>..\..\..\..\bin\UITesting.Automated.ControlInf.dll</HintPath>
     </Reference>
     <Reference Include="UITesting.Automated.JsonParser">
-      <HintPath>.\UITesting.Automated.JsonParser.dll</HintPath>
+      <HintPath>..\..\..\..\bin\UITesting.Automated.JsonParser.dll</HintPath>
     </Reference>
     <Reference Include="UITesting.Automated.JSonSerializer">
-      <HintPath>.\UITesting.Automated.JSonSerializer.dll</HintPath>
+      <HintPath>..\..\..\..\bin\UITesting.Automated.JSonSerializer.dll</HintPath>
     </Reference>
     <Reference Include="UITesting.Automated.UIADriver">
-      <HintPath>.\UITesting.Automated.UIADriver.dll</HintPath>
+      <HintPath>..\..\..\..\bin\UITesting.Automated.UIADriver.dll</HintPath>
     </Reference>
     <Reference Include="UITesting.Automated.WindowsInput">
-      <HintPath>.\UITesting.Automated.WindowsInput.dll</HintPath>
+      <HintPath>..\..\..\..\bin\UITesting.Automated.WindowsInput.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />

@@ -46,6 +46,8 @@ namespace UITesting.Automated.UIADriver
             get;
         }
 
+        IUIAElement FetchSibling(int count, bool bForward);
+
     }
 
     class UIANavigationProvider : UIADriverPatternBase, IUIANavigationProvider
@@ -250,6 +252,33 @@ namespace UITesting.Automated.UIADriver
                 return ret;
 
             }
+        }
+
+        public IUIAElement FetchSibling(int count, bool bForward)
+        {
+            UIAElement ret = null;
+            Log($"FetchSibling({count})");
+            try
+            {
+                AutomationElement ae = owner.GetAE;
+                TreeWalker walker = TreeWalker.RawViewWalker;
+                for (int i = 0; i < count; ++i)
+                {
+                    if (bForward)
+                        ae = TreeWalker.RawViewWalker.GetNextSibling(ae);
+                    else
+                        ae = TreeWalker.RawViewWalker.GetPreviousSibling(ae);
+                }
+
+                ret = UIAElement.GetInstance(ae, owner);
+            }
+            catch (Exception ex)
+            {
+                LogError(ex.Message);
+            }
+            return ret;
+
+
         }
 
     }
