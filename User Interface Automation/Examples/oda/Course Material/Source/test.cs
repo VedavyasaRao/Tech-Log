@@ -32,6 +32,15 @@ namespace UITesting.Automated.UIADriver
 
     class sample
     {
+        //supported patterns:MSAAAccessible,Generic,Invoke,Navigation
+        public string text_Course_materials_364_425
+        {
+            get
+            {
+                return "{    \"ci\":    {        \"UserName\":\"text_Course_materials_364_425\",        \"AEType\":\"text\",        \"AEText\":\"Course materials\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Invoke\",        \"Path\":\"1 0 0 0 0 0 0 0 0 \",        \"CenterPoint\":\"368,437\"    },    \"ciroot\":    {        \"UserName\":\"pane_Oda_Class_74_0\",        \"AEType\":\"pane\",        \"AEText\":\"Oda Class\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window,Transform\",        \"Path\":\"\",        \"CenterPoint\":\"885.5,510\"    }}";
+            }
+        }
+    
         //supported patterns:MSAAAccessible,Generic,Invoke,Selection,Navigation
         public string list_view_1963_520
         {
@@ -73,7 +82,7 @@ namespace UITesting.Automated.UIADriver
         {
             get
             {
-                return "{    \"ci\":    {        \"UserName\":\"button_Save_Ctrl_S_save_1239_257\",        \"AEType\":\"button\",        \"AEText\":\"Save (Ctrl+S)\",        \"AEAutomationId\":\"save\",        \"Patterns\":\"Invoke,Scroll,ScrollItem\",        \"Path\":\"2 0 0 3 2 0 0 2 1 0 5 0 0 0 0 0 0 0 0 0 11 0 \",        \"CenterPoint\":\"1042,157\"    },    \"ciroot\":    {        \"UserName\":\"window_combined_1984660ea785062_pdf_Personal_Microsoft_Edge_225_125\",        \"AEType\":\"window\",        \"AEText\":\" - Personal - Microsoft​ Edge\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window,Transform,ScrollItem,ItemContainer\",        \"Path\":\"\",        \"CenterPoint\":\"574.5,724\"    }}";
+                return "{    \"ci\":    {        \"UserName\":\"button_Save_Ctrl_S_save_1239_257\",        \"AEType\":\"button\",        \"AEText\":\"Save (Ctrl+S)\",        \"AEAutomationId\":\"save\",        \"Patterns\":\"Invoke,Scroll,ScrollItem\",        \"Path\":\"2 0 0 3 2 0 0 2 1 0 5 0 0 0 0 0 0 0 0 0 11 0 \",        \"CenterPoint\":\"1042,157\"    },    \"ciroot\":    {        \"UserName\":\"window_combined_1984660ea785062_pdf_Personal_Microsoft_Edge_225_125\",        \"AEType\":\"window\",        \"AEText\":\" - Personal - Microsoft? Edge\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window,Transform,ScrollItem,ItemContainer\",        \"Path\":\"\",        \"CenterPoint\":\"574.5,724\"    }}";
             }
         }
 
@@ -82,7 +91,7 @@ namespace UITesting.Automated.UIADriver
         {
             get
             {
-                return "{    \"ci\":    {        \"UserName\":\"edit_File_name_1001_403_525\",        \"AEType\":\"edit\",        \"AEText\":\"File name:\",        \"AEAutomationId\":\"1001\",        \"Patterns\":\"Value,Text\",        \"Path\":\"0 0 0 5 2 1 0 \",        \"CenterPoint\":\"553,413\"    },    \"ciroot\":    {        \"UserName\":\"window_combined_1984660ea785062_pdf_Personal_Microsoft_Edge_225_125\",        \"AEType\":\"window\",        \"AEText\":\" - Personal - Microsoft​ Edge\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window,Transform,ScrollItem,ItemContainer\",        \"Path\":\"\",        \"CenterPoint\":\"574.5,724\"    }}";
+                return "{    \"ci\":    {        \"UserName\":\"edit_File_name_1001_403_525\",        \"AEType\":\"edit\",        \"AEText\":\"File name:\",        \"AEAutomationId\":\"1001\",        \"Patterns\":\"Value,Text\",        \"Path\":\"0 0 0 5 2 1 0 \",        \"CenterPoint\":\"553,413\"    },    \"ciroot\":    {        \"UserName\":\"window_combined_1984660ea785062_pdf_Personal_Microsoft_Edge_225_125\",        \"AEType\":\"window\",        \"AEText\":\" - Personal - Microsoft? Edge\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window,Transform,ScrollItem,ItemContainer\",        \"Path\":\"\",        \"CenterPoint\":\"574.5,724\"    }}";
             }
         }
 
@@ -91,7 +100,7 @@ namespace UITesting.Automated.UIADriver
         {
             get
             {
-                return "{    \"ci\":    {        \"UserName\":\"button_Save_1_929_662\",        \"AEType\":\"button\",        \"AEText\":\"Save\",        \"AEAutomationId\":\"1\",        \"Patterns\":\"Invoke\",        \"Path\":\"0 2 \",        \"CenterPoint\":\"758,553\"    },    \"ciroot\":    {        \"UserName\":\"window_combined_1984660ea785062_pdf_Personal_Microsoft_Edge_225_125\",        \"AEType\":\"window\",        \"AEText\":\" - Personal - Microsoft​ Edge\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window,Transform,ScrollItem,ItemContainer\",        \"Path\":\"\",        \"CenterPoint\":\"574.5,724\"    }}";
+                return "{    \"ci\":    {        \"UserName\":\"button_Save_1_929_662\",        \"AEType\":\"button\",        \"AEText\":\"Save\",        \"AEAutomationId\":\"1\",        \"Patterns\":\"Invoke\",        \"Path\":\"0 2 \",        \"CenterPoint\":\"758,553\"    },    \"ciroot\":    {        \"UserName\":\"window_combined_1984660ea785062_pdf_Personal_Microsoft_Edge_225_125\",        \"AEType\":\"window\",        \"AEText\":\" - Personal - Microsoft? Edge\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window,Transform,ScrollItem,ItemContainer\",        \"Path\":\"\",        \"CenterPoint\":\"574.5,724\"    }}";
             }
         }
 
@@ -100,7 +109,7 @@ namespace UITesting.Automated.UIADriver
         {
             get
             {
-                return "{    \"ci\":    {        \"UserName\":\"button_Close_view_7_1293_126\",        \"AEType\":\"button\",        \"AEText\":\"Close\",        \"AEAutomationId\":\"view_7\",        \"Patterns\":\"Invoke,ScrollItem\",        \"Path\":\"2 0 0 2 3 \",        \"CenterPoint\":\"1104,2\"    },    \"ciroot\":    {        \"UserName\":\"window_combined_196967c3d03510b_pdf_Personal_Microsoft_Edge_225_125\",        \"AEType\":\"window\",        \"AEText\":\" - Personal - Microsoft​ Edge\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window,Transform,ScrollItem,ItemContainer\",        \"Path\":\"\",        \"CenterPoint\":\"575,724\"    }}";
+                return "{    \"ci\":    {        \"UserName\":\"button_Close_view_7_1293_126\",        \"AEType\":\"button\",        \"AEText\":\"Close\",        \"AEAutomationId\":\"view_7\",        \"Patterns\":\"Invoke,ScrollItem\",        \"Path\":\"2 0 0 2 3 \",        \"CenterPoint\":\"1104,2\"    },    \"ciroot\":    {        \"UserName\":\"window_combined_196967c3d03510b_pdf_Personal_Microsoft_Edge_225_125\",        \"AEType\":\"window\",        \"AEText\":\" - Personal - Microsoft? Edge\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window,Transform,ScrollItem,ItemContainer\",        \"Path\":\"\",        \"CenterPoint\":\"575,724\"    }}";
             }
         }
 
@@ -109,7 +118,7 @@ namespace UITesting.Automated.UIADriver
         {
             get
             {
-                return "{    \"ci\":    {        \"UserName\":\"button_Downloads_638_258\",        \"AEType\":\"button\",        \"AEText\":\"Downloads\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Invoke,ScrollItem\",        \"Path\":\"0 2 0 0 1 0 0 0 1 \",        \"CenterPoint\":\"488,158\"    },    \"ciroot\":    {        \"UserName\":\"window_combined_19686abcf7a7973_pdf_Personal_Microsoft_Edge_225_125\",        \"AEType\":\"window\",        \"AEText\":\" - Personal - Microsoft​ Edge\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window,Transform,ScrollItem,ItemContainer\",        \"Path\":\"\",        \"CenterPoint\":\"575,724\"    }}";
+                return "{    \"ci\":    {        \"UserName\":\"button_Downloads_638_258\",        \"AEType\":\"button\",        \"AEText\":\"Downloads\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Invoke,ScrollItem\",        \"Path\":\"0 2 0 0 1 0 0 0 1 \",        \"CenterPoint\":\"488,158\"    },    \"ciroot\":    {        \"UserName\":\"window_combined_19686abcf7a7973_pdf_Personal_Microsoft_Edge_225_125\",        \"AEType\":\"window\",        \"AEText\":\" - Personal - Microsoft? Edge\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window,Transform,ScrollItem,ItemContainer\",        \"Path\":\"\",        \"CenterPoint\":\"575,724\"    }}";
             }
         }
     }
@@ -126,23 +135,34 @@ namespace UITesting.Automated.UIADriver
             return jspobj.ParseObj(injson, field);
         }
 
-        public static void Main(string[] args)
+
+        public static List<int> preparelist(string args)
         {
-            if (args.Length < 1)
+            var items = new List<int>();
+            var argitems = args.Split(',');
+            foreach (var item in argitems)
             {
-                var msg = "Syntax:OdaCourseMaterialCapture  <dir> \"<item>,<item>,<item>,<item>\"\n" +
-                    "Example:nOdaCourseMaterialCapture  \"d:\\oda\\\" \"95-900\"";
-                System.Windows.MessageBox.Show(msg);
-                return;
+                if (item.Contains("-"))
+                {
+                    var parts = item.Split('-');
+                    for (int i = int.Parse(parts[0]); i <= int.Parse(parts[1]); ++i)
+                        items.Add(i);
+                }
+                else
+                    items.Add(int.Parse(item));
             }
+            items.Sort();
 
+            return items;
+        }
 
+        public static void init()
+        {
             bool b;
             EventWaitHandleSecurity ws;
             ws = new EventWaitHandleSecurity();
             ws.AddAccessRule(new EventWaitHandleAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), EventWaitHandleRights.FullControl, AccessControlType.Allow));
             evt = new EventWaitHandle(true, EventResetMode.ManualReset, "Global\\OdaCapture", out b, ws);
-
 
             var p = Process.GetProcessesByName("inspect");
             if (p.Length == 1)
@@ -154,47 +174,41 @@ namespace UITesting.Automated.UIADriver
             ps.FileName = "inspect.exe";
             Process.Start(ps);
             System.Threading.Thread.Sleep(3000);
+        }
+
+        public static void Main(string[] args)
+        {
+            if (args.Length < 2)
+            {
+                var msg = "Syntax:OdaCourseMaterialCapture  <dir> \"<item>,<item>,<item>,<item>\"\n" +
+                    "Example:nOdaCourseMaterialCapture  \"d:\\oda\\\" \"95-900\"";
+                System.Windows.MessageBox.Show(msg);
+                return;
+            }
+            
+            init();
 
             string root = args[0];
             string filename = root + "description.txt";
             string pdfpath = root;
             var regx = new Regex(@"[\\/:*?""<>|]");
+            var items = preparelist(args[1]);
 
             //UIAAutomationElement.UIADriver.SetLogFile(root + "uia.log",false);
-            UIAAutomationElement.UIADriver.SetAutomationElement(objsample.list_view_1963_520);
-            var lstitm = (UIAElement)UIAAutomationElement.UIADriver.ProviderNavigation.LastChild;
-            var s = lstitm.ProviderGeneric.GetAutomationProperty(UIAAutomationElement.UIADriver.Constants.AutomationProperty_RuntimeId);
-            var parts2 = s.Replace('[',' ').Replace(']',' ').Trim().Split(',');
-            int n = int.Parse(parts2[parts2.Length - 1]) + 1;
 
+            UIAAutomationElement.UIADriver.SetAutomationElement(objsample.text_Course_materials_364_425);
+            UIAAutomationElement.UIADriver.ProviderInvoke.Click();
 
-            int i = 0;
-            var items = new List<int>();
-            var argitems = args[1].Split(',');
-            foreach (var item in argitems)
-            {
-                if (item.Contains("-"))
-                {
-                    var parts = item.Split('-');
-                    for (i = int.Parse(parts[0]); i <= int.Parse(parts[1]); ++i)
-                        items.Add(i);
-                }
-                else
-                    items.Add(int.Parse(item));
-            }
-            items.Sort();
+            UIAElement lstitm = null;
 
             int previousk = 0;
             foreach (int k in items)
             {
                 if ((k - previousk) != 1)
                 {
-                    var newlink = objsample.list_item_43_500.Replace("0 0 0 2 0 4 0 0", "0 0 0 2 0 4 0 " + (n - k).ToString());
-                    var temps = UIAAutomationElement.UIADriver.SearchOptions;
-                    UIAAutomationElement.UIADriver.SearchOptions = "PACS";
-                    UIAAutomationElement.UIADriver.SetAutomationElement(newlink);
-                    UIAAutomationElement.UIADriver.SearchOptions = temps;
-                    lstitm = (UIAElement)UIAAutomationElement.UIADriver;
+                    UIAAutomationElement.UIADriver.SetAutomationElement(objsample.text_Course_materials_364_425);
+                    lstitm = (UIAElement)UIAAutomationElement.UIADriver.ProviderNavigation.Parent.ProviderNavigation.Parent.ProviderNavigation.NextSibling.ProviderNavigation.FirstChild.ProviderNavigation.LastChild;
+                    lstitm = (UIAElement)lstitm.ProviderNavigation.FetchSibling(k - 1, false);
                 }
                 else
                 {
@@ -220,14 +234,14 @@ namespace UITesting.Automated.UIADriver
                     return;
                 System.Threading.Thread.Sleep(1000);
 
-                System.IO.File.AppendAllText(filename, i.ToString("000") + "\n");
+                System.IO.File.AppendAllText(filename, k.ToString("000") + "\n");
                 System.Threading.Thread.Sleep(1000);
                 var name = txttim.ProviderGeneric.GetAutomationProperty(UIAAutomationElement.UIADriver.Constants.AutomationProperty_Name);
                 System.Threading.Thread.Sleep(1000);
                 System.IO.File.AppendAllText(filename,name + "\n");
                 System.Threading.Thread.Sleep(1000);
 
-                var pdffilename = i.ToString("000")+"_"+regx.Replace(name, "");
+                var pdffilename = k.ToString("000")+"_"+regx.Replace(name, "");
 
                 custm = custm.ProviderNavigation.NextSibling;
                 if (custm == null)
@@ -275,7 +289,6 @@ namespace UITesting.Automated.UIADriver
                 } while (fk++ < 10);
                 System.IO.File.Move(lst[0], pdfpath + "copied\\" + pdffilename);
                 System.Threading.Thread.Sleep(1000);
-                ++i;
             }
 
         }

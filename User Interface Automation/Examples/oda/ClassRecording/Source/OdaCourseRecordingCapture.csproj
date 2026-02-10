@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D7E11FD0-35BB-450E-ACAC-2DA46ECCA67C}</ProjectGuid>
+    <ProjectGuid>{A25FB45C-ED31-49F4-9487-6CC8B5A90E20}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>OdaCourseMaterialCapture</RootNamespace>
-    <AssemblyName>OdaCourseMaterialCapture</AssemblyName>
+    <RootNamespace>OdaCourseRecordingCapture</RootNamespace>
+    <AssemblyName>OdaCourseRecordingCapture</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

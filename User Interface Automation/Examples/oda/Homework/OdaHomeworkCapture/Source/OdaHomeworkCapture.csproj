@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A25FB45C-ED31-49F4-9487-6CC8B5A90E20}</ProjectGuid>
+    <ProjectGuid>{B6CEA68D-D21C-49BB-9747-CA9E5BE70CDD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>OdaHomeworkCapture</RootNamespace>
     <AssemblyName>OdaHomeworkCapture</AssemblyName>
@@ -22,7 +22,7 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>..\bin\</OutputPath>
+    <OutputPath>..\..\..\bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>

@@ -32,36 +32,25 @@ namespace UITesting.Automated.UIADriver
 
     class firstlevel
     {
-        //supported patterns:MSAAAccessible,Generic,Navigation
-        static public string custom_1963_520
-        {
-            get
-            {
-                return "{    \"ci\":    {        \"UserName\":\"custom_1963_520\",        \"AEType\":\"custom\",        \"AEText\":\"\",        \"AEAutomationId\":\"\",        \"Patterns\":\"\",        \"Path\":\"0 0 0 2 0 4 0 0 0 \",        \"CenterPoint\":\"961,871\"    },    \"ciroot\":    {        \"UserName\":\"pane_Oda_Class_1920_52\",        \"AEType\":\"pane\",        \"AEText\":\"Oda Class\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window\",        \"Path\":\"\",        \"CenterPoint\":\"960,540\"    }}";
-            }
-        }
-
         //supported patterns:MSAAAccessible,Generic,Invoke,Navigation
-        public string hyperlink
+        static public string text_Homework_1074_432
         {
             get
             {
-                return "{    \"ci\":    {        \"UserName\":\"hyperlink_225_FRACTIONS_Fun_Time_Overdue_438_713\",        \"AEType\":\"hyperlink\",        \"AEText\":\"\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Invoke\",        \"Path\":\"0 0 0 2 0 4 0 0 0 3 \",        \"CenterPoint\":\"574,572\"    },    \"ciroot\":    {        \"UserName\":\"pane_Oda_Class_394_180\",        \"AEType\":\"pane\",        \"AEText\":\"Oda Class\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window,Transform\",        \"Path\":\"\",        \"CenterPoint\":\"566,360\"    }}";
+                return "{    \"ci\":    {        \"UserName\":\"text_Homework_1074_432\",        \"AEType\":\"text\",        \"AEText\":\"Homework\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Invoke\",        \"Path\":\"0 0 0 2 0 3 3 0 \",        \"CenterPoint\":\"532.5,436\"    },    \"ciroot\":    {        \"UserName\":\"pane_Oda_Class_591_8\",        \"AEType\":\"pane\",        \"AEText\":\"Oda Class\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window,Transform\",        \"Path\":\"\",        \"CenterPoint\":\"885.5,510\"    }}";
             }
         }
 
 
-        //supported patterns:MSAAAccessible,Generic,Invoke,SelectionItem,Navigation
-
-        public bool Process(string root, int skipknt, int idx)
+        public bool Process(string root, int idx)
         {
             string filename = root+"description.txt";
-            var newlink = hyperlink.Replace("0 0 0 2 0 4 0 0 0 3", "0 0 0 2 0 4 0 0 0 " + (skipknt).ToString());
-            var temps = UIAAutomationElement.UIADriver.SearchOptions;
-            UIAAutomationElement.UIADriver.SearchOptions = "PACS";
-            UIAAutomationElement.UIADriver.SetAutomationElement(newlink);
-            UIAAutomationElement.UIADriver.SearchOptions = temps;
-            var hyplnk = UIAAutomationElement.UIADriver;
+            //var temps = UIAAutomationElement.UIADriver.SearchOptions;
+            //UIAAutomationElement.UIADriver.SearchOptions = "VPAS";
+            UIAAutomationElement.UIADriver.SetAutomationElement(firstlevel.text_Homework_1074_432);
+            //UIAAutomationElement.UIADriver.SearchOptions = temps;
+            var hyplnk = (UIAElement)UIAAutomationElement.UIADriver.ProviderNavigation.Parent.ProviderNavigation.Parent.ProviderNavigation.NextSibling.ProviderNavigation.FirstChild.ProviderNavigation.FirstChild.ProviderNavigation.FirstChild.ProviderNavigation.LastChild;
+            hyplnk = (UIAElement)hyplnk.ProviderNavigation.FetchSibling(idx - 1, false);
 
             var cusitm = hyplnk.ProviderNavigation.FirstChild;
             if (cusitm == null)
@@ -92,16 +81,6 @@ namespace UITesting.Automated.UIADriver
     }
     class secondlevel
     {
-        //supported patterns:MSAAAccessible,Generic,Invoke,Navigation
-        public string custom_2638_543
-        {
-            get
-            {
-                return "{    \"ci\":    {        \"UserName\":\"custom_2638_543\",        \"AEType\":\"custom\",        \"AEText\":\"\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Invoke\",        \"Path\":\"0 0 0 1 0 0 0 0 0 0 4 \",        \"CenterPoint\":\"675,463\"    },    \"ciroot\":    {        \"UserName\":\"pane_Oda_Class_2000_102\",        \"AEType\":\"pane\",        \"AEText\":\"Oda Class\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window,Transform\",        \"Path\":\"\",        \"CenterPoint\":\"885.5,510\"    }}";
-            }
-
-        }
-
         //supported patterns:MSAAAccessible,Generic,Invoke,Navigation
         public string text_1_2652_552
         {
@@ -140,16 +119,6 @@ namespace UITesting.Automated.UIADriver
             }
         }
 
-        //supported patterns:MSAAAccessible,Generic,Invoke,Navigation
-        public string custom_2006_168
-        {
-            get
-            {
-                return "{    \"ci\":    {        \"UserName\":\"custom_2006_168\",        \"AEType\":\"custom\",        \"AEText\":\"\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Invoke\",        \"Path\":\"0 0 0 1 \",        \"CenterPoint\":\"885,547.5\"    },    \"ciroot\":    {        \"UserName\":\"pane_Oda_Class_2007_92\",        \"AEType\":\"pane\",        \"AEText\":\"Oda Class\",        \"AEAutomationId\":\"\",        \"Patterns\":\"Window,Transform\",        \"Path\":\"\",        \"CenterPoint\":\"885.5,510\"    }}";
-            }
-        }
-
-        
         //supported patterns:MSAAAccessible,Generic,Invoke,Navigation
         public string custom_1181_199
         {
@@ -325,43 +294,34 @@ namespace UITesting.Automated.UIADriver
             return jspobj.ParseObj(injson, field);
         }
 
-        public static void Main(string[] args)
+        public static List<int> preparelist(string args)
         {
-            if (args.Length < 3)
-            {
-                var msg= "Syntax:OdaHomeworkCapture  <dir>  \"<item>,<item>,<item>,<item>\"\n" +
-                    "Example:OdaHomeworkCapture  \"d:\\oda\\\" \"95-99\"";
-                System.Windows.MessageBox.Show(msg);
-                return;
-            }
-
-            int i = 0;
-
-            string root = args[0];
-            var argitems = args[1].Split(',');
-
             var items = new List<int>();
+            var argitems = args.Split(',');
             foreach (var item in argitems)
             {
                 if (item.Contains("-"))
                 {
                     var parts = item.Split('-');
-                    for (i = int.Parse(parts[0]); i <= int.Parse(parts[1]); ++i)
+                    for (int i = int.Parse(parts[0]); i <= int.Parse(parts[1]); ++i)
                         items.Add(i);
                 }
                 else
                     items.Add(int.Parse(item));
             }
+            items.Sort();
 
+            return items;
+        }
 
-
+        public static void init()
+        {
             bool b;
             EventWaitHandleSecurity ws;
             ws = new EventWaitHandleSecurity();
             ws.AddAccessRule(new EventWaitHandleAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), EventWaitHandleRights.FullControl, AccessControlType.Allow));
             evt = new EventWaitHandle(true, EventResetMode.ManualReset, "Global\\OdaCapture", out b, ws);
 
-            
             var p = Process.GetProcessesByName("inspect");
             if (p.Length == 1)
                 p[0].Kill();
@@ -372,20 +332,30 @@ namespace UITesting.Automated.UIADriver
             ps.FileName = "inspect.exe";
             Process.Start(ps);
             System.Threading.Thread.Sleep(3000);
+        }
 
+        public static void Main(string[] args)
+        {
+            if (args.Length < 2)
+            {
+                var msg= "Syntax:OdaHomeworkCapture  <dir>  \"<item>,<item>,<item>,<item>\"\n" +
+                    "Example:OdaHomeworkCapture  \"d:\\oda\\\" \"95-99\"";
+                System.Windows.MessageBox.Show(msg);
+                return;
+            }
+
+            init();
+            string root = args[0];
+            var items = preparelist(args[1]);
 
             //UIAAutomationElement.UIADriver.SetLogFile(root + "uia.log",false);
-            UIAAutomationElement.UIADriver.SetAutomationElement(firstlevel.custom_1963_520);
-            var lstitm = (UIAElement)UIAAutomationElement.UIADriver.ProviderNavigation.LastChild;
-            var s = lstitm.ProviderGeneric.GetAutomationProperty(UIAAutomationElement.UIADriver.Constants.AutomationProperty_RuntimeId);
-            var parts2 = s.Replace('[', ' ').Replace(']', ' ').Trim().Split(',');
-            int n = int.Parse(parts2[parts2.Length - 1]) + 1;
 
-            
+            UIAAutomationElement.UIADriver.SetAutomationElement(firstlevel.text_Homework_1074_432);
+            UIAAutomationElement.UIADriver.ProviderInvoke.Click();
 
             foreach (int k in items)
             {
-                first.Process(root, (n - k), k);
+                first.Process(root, k);
                 evt.WaitOne();
                 second.Process();
                 evt.WaitOne();
