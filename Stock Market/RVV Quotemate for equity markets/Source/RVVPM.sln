@@ -29,6 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CharlesSchwab", "CharlesSch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportsGenerator", "ReportsGen\ReportsGenerator.csproj", "{8B1747A2-C9DD-421C-8D23-168B01982F13}"
 	ProjectSection(ProjectDependencies) = postProject
+		{B10CD327-C271-4F8F-8090-8228C35C9153} = {B10CD327-C271-4F8F-8090-8228C35C9153}
 		{C5C89DF3-7D44-4CBD-B220-E8C301519660} = {C5C89DF3-7D44-4CBD-B220-E8C301519660}
 	EndProjectSection
 EndProject

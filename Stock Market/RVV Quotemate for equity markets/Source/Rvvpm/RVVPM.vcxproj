@@ -93,6 +93,10 @@ copy "$(ProjectDir)data"   "$(OutDir)\..\Data"
 nircmd shortcut "$(TargetPath)"  "$(ProjectDir)$(OutDir)..\"  "$(TargetFileName)"
 </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>"$(SolutionDir)commands\pre_compile.cmd"
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="About.cpp" />
