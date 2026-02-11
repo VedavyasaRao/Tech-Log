@@ -1,5 +1,0 @@
-7z e -o"..\Deploy\YahooFinance" "..\Deploy\YahooFinance\libcef.rar"
-7z e -o"..\Deploy\GoogleNews" "..\Deploy\\GoogleNews\libcef.rar"
-7z e -o"..\Deploy\RVVPM" "..\Deploy\RVVPM\libcef.rar"
-7z x -o"..\Source" "..\Source\Packages.part01.rar"
-7z x -o"..\Source\Rvvpm" "..\Source\Rvvpm\cef.part1.rar"
