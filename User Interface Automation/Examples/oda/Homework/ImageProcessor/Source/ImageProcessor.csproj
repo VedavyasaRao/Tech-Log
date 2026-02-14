@@ -60,4 +60,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /s /i  /y "$(ProjectDir)..\ImageComparer"  "$(TargetDir)ImageComparer"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

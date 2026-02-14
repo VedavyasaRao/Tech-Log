@@ -101,10 +101,25 @@ namespace ParseDescription
                     ret.Add(d3[kv.Key], subj.Value);
                 }
             }
-
             return ret;
         }
 
+        static Dictionary<string, string> getsubject(Dictionary<string, string> d, Dictionary<string, string> d2)
+        {
+            var subx = new Regex("^(\\w+)[ ]-[ ]");
+            var ret = new Dictionary<string, string>();
+            foreach (var kv in d)
+            {
+                var s = kv.Value;
+                Match m = subx.Match(s);
+                if (m.Success)
+                {
+                    var subj = m.Groups[1].Captures[0];
+                    ret.Add(d2[kv.Key], subj.Value);
+                }
+            }
+            return ret;
+        }
 
         static void Main(string[] args)
         {
@@ -123,26 +138,34 @@ namespace ParseDescription
 
             var vikv3 = vikv.Where(kv => hwkv.Values.Count(v => kv.Value.Contains(v)) != 0).ToDictionary(f => f.Key, f => f.Value);
             var vikv4 = vikv2.Where(kv => vikv3.Keys.Contains(kv.Key)).ToList();
-            var vikv5 = getsubject(vikv4, vikv, vikv2);
+            //var vikv5 = getsubject(vikv4, vikv, vikv2);
+            var vikv5 = getsubject(vikv, vikv2);
 
             if (Directory.Exists(finaldir)) 
                 Directory.Delete(finaldir, true);
             Directory.CreateDirectory(finaldir);
 
-            foreach (var k in vikv5.Keys)
+            var prevdate = "";
+            var keys = vikv5.Keys.ToList();
+            keys.Sort();
+            foreach (var k in keys)
             {
                 var dstfldr = finaldir + vikv5[k];
                 if (!Directory.Exists(dstfldr))
                     Directory.CreateDirectory(dstfldr);
-                
-                var dt = k.Substring(0, 10);
-                dstfldr = dstfldr + "\\" + dt;
+
+                var dt = k;
+                if (dt == prevdate)
+                    continue;
+                prevdate = dt;
+                dstfldr = dstfldr + "\\" + dt.Substring(0, 10); 
                 Directory.CreateDirectory(dstfldr);
                 var ck = cmkv.Where(ckv => ckv.Value.Contains(dt));
                 foreach (var fname in ck)
                 {
                     var pdfs = Directory.GetFiles(cm_descf, fname.Key + "*.pdf");
-                    File.Move(pdfs[0], dstfldr + "\\" + Path.GetFileName(pdfs[0]).Substring(4));
+                    if (pdfs.Length != 0)
+                        File.Move(pdfs[0], dstfldr + "\\" + Path.GetFileName(pdfs[0]).Substring(4));
                 }
             }
 

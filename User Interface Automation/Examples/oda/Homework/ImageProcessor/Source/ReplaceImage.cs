@@ -14,8 +14,8 @@ namespace ImageHandler
 {
     class ReplaceImage
     {
-        string whiteimgbaselinedir = Program.ImageProcessorloc + @"\ImageComparer\baseline\OptionA";
-        string whiteimgdir = Program.ImageProcessorloc + @"\white";
+        string whiteimgbaselinedir = Program.ImageProcessorloc + @"\bin\ImageComparer\baseline\OptionA";
+        string whiteimgdir = Program.ImageProcessorloc + @"\bin\ImageComparer\white";
         string questionfile = "";
         string tempdir = "";
         string matchedcolredimgfile = "";
@@ -196,10 +196,12 @@ namespace ImageHandler
                 }
             }
         }
-        public void ProcessOne(string f)
+        public void ProcessOne(string f, string pcnt)
         {
             string args = "1.0";
 
+            if (!string.IsNullOrEmpty(pcnt))
+                args = pcnt;
 
             questionfile = f;
             tempdir = Path.GetDirectoryName(questionfile) + "\\temp";
@@ -236,7 +238,7 @@ namespace ImageHandler
                 Directory.Delete(tempdir, true);
         }
 
-        public void Process(string rootdir, string dir, string qno)
+        public void Process(string rootdir, string dir, string qno, string pcnt)
         {
             string[] pdirlst;
             if (string.IsNullOrEmpty(dir))
@@ -256,7 +258,7 @@ namespace ImageHandler
                 foreach (var f in files)
                 {
                     Console.WriteLine("Processing {0}", f);
-                    ProcessOne(f);
+                    ProcessOne(f,pcnt);
                 }
             }
         }

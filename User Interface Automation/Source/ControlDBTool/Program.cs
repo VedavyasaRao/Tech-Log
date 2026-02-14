@@ -22,6 +22,20 @@ namespace UITesting.Automated.ControlDBTool
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         static extern bool PostMessage(IntPtr  hWnd, uint Msg, uint wParam, uint lParam);
 
+        static void startinspect()
+        {
+            var p = Process.GetProcessesByName("inspect");
+            if (p.Length == 1)
+                p[0].Kill();
+            System.Threading.Thread.Sleep(3000);
+            ProcessStartInfo ps = new ProcessStartInfo();
+            ps.CreateNoWindow = true;
+            ps.WindowStyle = ProcessWindowStyle.Hidden;
+            ps.FileName = "inspect.exe";
+            Process.Start(ps);
+            System.Threading.Thread.Sleep(3000);
+        }
+
 
         /// <summary>
         /// The main entry point for the application.
@@ -29,7 +43,7 @@ namespace UITesting.Automated.ControlDBTool
         [STAThread]
         static void Main(string[] args)
         {
-             //SystemParametersInfo(SPI_SETSCREENREADER, TRUE, NULL, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
+            //SystemParametersInfo(SPI_SETSCREENREADER, TRUE, NULL, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
             //PostMessage(HWND_BROADCAST, WM_WININICHANGE, SPI_SETSCREENREADER, 0);
 
             //SystemParametersInfo(0x0046, 1, IntPtr.Zero, 3);
@@ -41,6 +55,7 @@ namespace UITesting.Automated.ControlDBTool
             //    key.SetValue("On", "1");
             //}
 
+            startinspect();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

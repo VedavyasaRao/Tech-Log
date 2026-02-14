@@ -10,7 +10,7 @@ namespace ImageHandler
 {
     public class ImageCompare
     {
-        string impcompexe = Program.ImageProcessorloc + @"\ImageComparer\ImageComparer.exe";
+        string impcompexe = Program.ImageProcessorloc + @"\bin\ImageComparer\ImageComparer.exe";
         public bool Process(string srcfile, string tgtfile, string outputfile, string args)
         {
 
@@ -26,12 +26,16 @@ namespace ImageHandler
             
             var tempoutputfile = outputfile;
             if (string.IsNullOrEmpty(outputfile))
-                tempoutputfile = p.StartInfo.WorkingDirectory + "\\" + Path.GetFileNameWithoutExtension(srcfile) + ".txt";
-            
+            {
+                //tempoutputfile = p.StartInfo.WorkingDirectory + "\\" + Path.GetFileNameWithoutExtension(srcfile) + ".txt";
+                tempoutputfile = Path.GetDirectoryName(tgtfile) + "\\" + Path.GetFileNameWithoutExtension(srcfile) + ".txt";
+            }
             File.WriteAllText(tempoutputfile, p.StandardOutput.ReadToEnd());
             p.WaitForExit();
 
-            var ret = (File.ReadAllText(tempoutputfile).Contains("Percentage of different pixels: 0.0000 %"));
+
+            //var ret = (File.ReadAllText(tempoutputfile).Contains("Percentage of different pixels: 0.0000 %"));
+            var ret = (p.ExitCode == 0);
 
             var dir = System.IO.Path.GetDirectoryName(tgtfile);
             cmdline = string.Format("/c \"cd/d \"{0}\" &  del  *.txt cropped*.* diff*.* histogram*.*\"", dir);

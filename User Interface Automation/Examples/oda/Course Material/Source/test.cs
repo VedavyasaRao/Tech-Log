@@ -286,7 +286,7 @@ namespace UITesting.Automated.UIADriver
                     if (lst != null && lst.Length != 0)
                         break;
                     System.Threading.Thread.Sleep(5000);
-                } while (fk++ < 10);
+                } while (fk++ < 50);
                 System.IO.File.Move(lst[0], pdfpath + "copied\\" + pdffilename);
                 System.Threading.Thread.Sleep(1000);
             }

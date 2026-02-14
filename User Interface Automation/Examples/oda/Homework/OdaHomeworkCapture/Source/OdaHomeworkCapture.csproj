@@ -92,9 +92,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="inspect.exe">
+    <None Include="..\..\..\..\..\bin\inspect.exe">
+      <Link>inspect.exe</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

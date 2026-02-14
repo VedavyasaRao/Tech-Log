@@ -68,9 +68,9 @@ namespace ImageHandler
             Console.WriteLine("ImageProcessor.exe 5  \"D:\\temp\\oda\\108\"");
 
             Console.WriteLine("Option 6: Unselect Options");
-            Console.WriteLine("Arguments: <image dir> <dir> <qno>");
+            Console.WriteLine("Arguments: <image dir> <dir> <qno> <pcnt");
             Console.WriteLine("Example:");
-            Console.WriteLine("ImageProcessor.exe 6  \"D:\\temp\\oda\" 113 03");
+            Console.WriteLine("ImageProcessor.exe 6  \"D:\\temp\\oda\" 113 03 0.95");
 
             Console.ReadKey();
 
@@ -147,11 +147,14 @@ namespace ImageHandler
                 }
                 var dir = "";
                 var qno = "";
+                var pcnt = "";
                 if (args.Length > 2)
                     dir = args[2];
                 if (args.Length > 3)
                     qno = args[3];
-                new ReplaceImage().Process(args[1],dir,qno);
+                if (args.Length > 4)
+                    pcnt = args[4];
+                new ReplaceImage().Process(args[1],dir,qno,pcnt);
             }
         }
     }

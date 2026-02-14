@@ -64,7 +64,7 @@ namespace ImageHandler
                         continue;
                     var tempbmp = (Bitmap)srcbmp.Clone(dstRect, srcbmp.PixelFormat);
                     tempbmp.Save(tempimgfile);
-                    var myanswerimgfiles = Directory.GetFiles(Program.ImageProcessorloc + @"\ImageComparer\baseline\MyAnswer").OrderBy(af => af).ToArray();
+                    var myanswerimgfiles = Directory.GetFiles(Program.ImageProcessorloc + @"\bin\ImageComparer\baseline\MyAnswer").OrderBy(af => af).ToArray();
                     bool bfound = false;
                     foreach (var aimgf in myanswerimgfiles)
                     {
