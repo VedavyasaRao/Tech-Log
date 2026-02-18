@@ -144,7 +144,16 @@ namespace BackupRestoreTool
                 var p = System.Diagnostics.Process.Start(ps);
                 p.WaitForExit();
                 var temp = FileEx.ReadAllText(outputfile);
-                FileEx.WriteAllText(outputfile, temp.Replace('?', 'Ø').Replace('"', 'Ø').Replace('\v', 'Ø'));
+                //FileEx.WriteAllText(outputfile, temp.Replace('?', 'Ø').Replace('"', 'Ø').Replace('\v', 'Ø');
+                List<char> invalidPathChars = System.IO.Path.GetInvalidPathChars().ToList();
+                invalidPathChars.Add('?');
+                invalidPathChars.Remove('\r');
+                invalidPathChars.Remove('\n');
+                foreach (var ch in invalidPathChars)
+                {
+                    temp = temp.Replace(ch, 'Ø');
+                }
+                FileEx.WriteAllText(outputfile, temp);
                 App.logit("Collecting data .... done");
                 App.arm.stopp();
             }
@@ -202,7 +211,7 @@ namespace BackupRestoreTool
                 }
                 catch (Exception ex)
                 {
-                    App.logit(ex.Message);
+                    App.logit(ex.Message+"  "+aline);
                 }
                 App.pmon.updatepbar();
             }
