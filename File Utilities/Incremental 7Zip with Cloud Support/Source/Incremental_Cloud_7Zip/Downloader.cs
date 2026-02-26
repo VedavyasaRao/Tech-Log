@@ -212,7 +212,14 @@ namespace BackupRestoreTool
             fid = find_filefolder(selarchive.bkupfldrid, Path.GetFileName(dir));
             foreach (var f in Directory.GetFiles(dir))
             {
-                upload_file(fid, f);
+                while (true)
+                {
+                    upload_file(fid, f);
+                    var fid2 = find_filefolder(fid, Path.GetFileName(f));
+                    if (fid2 != 0)
+                        break;
+                }
+
             }
             archive_fileslist = null;
             get_filelist();

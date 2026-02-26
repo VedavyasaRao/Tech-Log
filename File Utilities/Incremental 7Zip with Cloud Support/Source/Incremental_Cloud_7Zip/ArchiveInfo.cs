@@ -235,6 +235,8 @@ namespace BackupRestoreTool
                     {
                         fic._status = "New";
                         fic._size += sz;
+                        if (!fic.isfile)
+                            ++fic._count;
                         fic = fic._parent;
                     }
                 }
