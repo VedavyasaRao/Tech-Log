@@ -7,7 +7,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Windows;
+
 using static System.Net.Mime.MediaTypeNames;
+using System.Windows.Forms;
 
 namespace ParseDescription
 {
@@ -103,8 +106,13 @@ namespace ParseDescription
 
         static void Main(string[] args)
         {
-            if (args.Length  < 3)
+            if (args.Length < 3)
+            {
+                var msg = "Syntax:ParseDescription  <course material description> <homework description> <course lecture description> <dir>\n" +
+                    "Example:ParseDescription  C:\\odacm   C:\\odahw   C:\\odarec  c:\\oda";
+                MessageBox.Show(msg);
                 return;
+            }
 
             var cm_descf = args[0];
             var hw_descf = args[1];

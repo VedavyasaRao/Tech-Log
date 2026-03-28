@@ -66,11 +66,13 @@ namespace ImageHandler
             Console.WriteLine("Arguments: <image dir>");
             Console.WriteLine("Example:");
             Console.WriteLine("ImageProcessor.exe 5  \"D:\\temp\\oda\\108\"");
+            Console.WriteLine();
 
             Console.WriteLine("Option 6: Unselect Options");
-            Console.WriteLine("Arguments: <image dir> <dir> <qno> <pcnt");
+            Console.WriteLine("Arguments: <image dir> <dir> <qno> <pcnt>");
             Console.WriteLine("Example:");
             Console.WriteLine("ImageProcessor.exe 6  \"D:\\temp\\oda\" 113 03 0.95");
+            Console.WriteLine();
 
             Console.ReadKey();
 
