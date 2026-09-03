@@ -146,7 +146,7 @@ Over the period number of files grow, change, removed, copied and moved etc. Kee
 - It should be possible to directly edit a backup to add / remove files without having the backup folder.
 - and much more.
 
-Read more about it [here](https://techlog-vedavyasarao.blogspot.com/2022/08/a-backup-restore-and-update-tool-with.html)
+Read more about it [here](https://techlog-vedavyasarao.blogspot.com/2022/08/a-backup-restore-and-update-tool-with.html)\
 For an overview of ncremental 7Zip with Cloud Support tool, checkout my video on [Youtube](https://www.youtube.com/watch?v=93q0M1qw5_0)
 
 #### An Innovative File organizer with Duplicates finder and Hierarchical viewer ####
@@ -254,7 +254,7 @@ Read more about this [here](https://techlog-vedavyasarao.blogspot.com/search/lab
 There are plenty of free web portals for doing research to pick a stock . Example, Yahoo finance, Google Finance, finviz, trading view etc. These provide valuable information such as  real-time quotes, charts, news, institution actions etc. However, it requires hopping to different web browser tabs or windows.
 RVV Quotemate attempts to provide an integrated view by creating a split view where top view provides real time quotes, alerts etc for the portfolio and bottom view displays the chosen web portal for the selected stock.
 
-Read more about this [here](https://techlog-vedavyasarao.blogspot.com/2022/08/rvv-quotemate-simple-trading-system-for.html)
+Read more about this [here](https://techlog-vedavyasarao.blogspot.com/2022/08/rvv-quotemate-simple-trading-system-for.html)\
 For an overview of Charles Schwab API, checkout my video on [Youtube](https://www.youtube.com/watch?v=t5Mhai7x--E)
 
 -------------------------------------------------------
@@ -266,7 +266,7 @@ For an overview of Charles Schwab API, checkout my video on [Youtube](https://ww
 The Microsoft UI Automation APIs enable navigation of user interfaces programmatically. Some of the areas of application are UI Automation testing,  manufacturing Quality checks, Accessibility etc.
 The User Interface Automation Framework is a light weight framework that can be used to achieve UI Automation, either by Scripting languages or C#. 
 
-Read more about this [here](https://techlog-vedavyasarao.blogspot.com/2022/08/user-interface-automation-framework.html)
+Read more about this [here](https://techlog-vedavyasarao.blogspot.com/2022/08/user-interface-automation-framework.html)\
 For an overview of User Interface Automation Framework, checkout my video on [Youtube](https://www.youtube.com/watch?v=nuj5z27UBSA)
 
 #### Unattended System monitoring with ProcessMonitor and UI automation ####
