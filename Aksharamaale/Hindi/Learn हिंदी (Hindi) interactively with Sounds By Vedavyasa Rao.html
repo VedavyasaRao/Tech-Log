@@ -155,47 +155,24 @@ B {
 	color: green;
 }
 
-        /* Styled anchor link that behaves like a solid action button */
-        .pdf-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 28px;
-            background-color: #d9383a; /* PDF Red accent */
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 16px;
-            box-shadow: 0 4px 6px rgba(217, 56, 58, 0.2);
-            transition: background-color 0.2s ease, transform 0.1s ease;
-			margin-top: 10px;
-			margin-bottom: 10px;
-        }
-
-        /* Hover effect */
-        .pdf-button:hover {
-            background-color: #b82e30;
-        }
-
-        /* Subtle click feedback scale */
-        .pdf-button:active {
-            transform: scale(0.98);
-        }
-
  </style>
  
-<body onload="initurls()">
-<p style="background-color: FloralWhite;border-style: groove; width:1080px">
+<body>
+
+
+  
+<p>
+   <div style="text-align: right;margin-right: 100px;">
+    <button onclick="clearallradiobtnselections()">Clear All</button>
+ &nbsp;
+ <a href="https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Learn हिंदी (Hindi) interactively with Sounds By Vedavyasa Rao.pdf?raw=true" 
+	 target="_blank" rel="noopener noreferrer" style="font-size: 20px; font-weight: bold; color: Red;border: 2px solid pink;background-color: #fff100" >Help! 🗎↗</a></div>
+
+    
+
   <span style="margin-left:10px;font-size: 20px; font-weight: bold; color: Blue;"> 
   Vowels/स्वर (🔵), Matras /मात्रा (🔴), Ayogavaha/अयोगवाह(🟤), Halant/हलंत(⚫)</span>     
-  &nbsp;&nbsp;&nbsp;&nbsp;
- <button onclick="clearallradiobtnselections()" style="margin: 5px 9px;">Clear All</button>
- &nbsp;&nbsp;&nbsp;&nbsp;
-     <a href="https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Learn हिंदी (Hindi) interactively with Sounds By Vedavyasa Rao.pdf?raw=true" 
-	 target="_blank" rel="noopener noreferrer" class="pdf-button">
-        📄 About
-    </a>
+  
 <table border="1" cellpadding="5" style="margin-left:10px;" id="vowels">
 <tr>
   <td    bgcolor="#FFFFFF"><div class="vw"> <sup>a</sup>अ<sub class="sub-kg">◌</sub><sub class="sub-halant">्</sub><br/>
@@ -270,7 +247,7 @@ B {
   <td bgcolor="#FFFFFF">&nbsp;</td>
 </tr>   
   </table> 
-  <button onclick="playavowel()" style="margin: 5px 12px;">🔊▶ <B>V</B>o<B>w</B>el</button>
+  <button id="playvowel" onclick="playavowel()" style="margin: 5px 12px;">🔊▶ <B>V</B>o<B>w</B>el</button>
   
 <!-- <p>status: <span id="status"></span></p>   
 document.getElementById('status').innerText = startTime;
@@ -429,7 +406,7 @@ document.getElementById('status').innerText = startTime;
 </td></tr>  </table>
 </td></tr>  
 </table>
-  <button onclick="playkagunita()" style="margin-top: 5px;margin-left:12px;">🔊▶ <B>Co</B>nsonants</button>
+  <button id="playkagunita"  onclick="playkagunita()" style="margin-top: 5px;margin-left:12px;">🔊▶ <B>Co</B>nsonants</button>
   &nbsp;&nbsp;&nbsp;&nbsp;
   <button onclick="playottakshara()" style="margin: 5px 9px;"><B>S</B>a<B>m</B>yuktakshars</button>
   <br />
@@ -456,10 +433,22 @@ document.getElementById('status').innerText = startTime;
   &nbsp;&nbsp;&nbsp;&nbsp;
 <span style="display: inline-block;border: 2px solid pink;font-size: 24px; margin: 5px; color: Green;width:200px;" id="number">&nbsp;</span>
 
+  
+<audio controls id="Hindi_Vowels_Merged" style="width: 1px;height: 1px;visibility: visible">
+  <source src="https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Hindi_Vowels_Merged.mp3?raw=true" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<audio controls id="Hindi_Barahkhadi_Full_3sec" style="width: 1px;height: 1px;visibility: hidden">
+  <source src="https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Hindi_Barahkhadi_Full_3sec.mp3?raw=true" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+    
 </p>
   
-<script>
-
+<script type='text/javascript'>
+//<![CDATA[
+  
 // 1. Define Kannada Unicode ranges
 var CONSONANTS = [
   'क', 'ख', 'ग', 'घ', 'ङ',
@@ -488,13 +477,21 @@ var startTime = 0;
 var endTime = 0;
 var playknt = 1;
 
-/*
-var vowelsUrl = 'Hindi_Vowels_Merged.mp3';
-var kgUrl = 'Hindi_Barahkhadi_Full_3sec.mp3';
-*/
 
-var vowelsUrl = 'https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Hindi_Vowels_Merged.mp3?raw=true';
-var kgUrl = 'https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Hindi_Barahkhadi_Full_3sec.mp3?raw=true';
+var localvowelsUrl = 'Hindi_Vowels_Merged.mp3';
+var localkgUrl = 'Hindi_Barahkhadi_Full_3sec.mp3';
+
+var githubvowelsUrl = 'https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Hindi_Vowels_Merged.mp3?raw=true';
+var githubkgUrl = 'https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Hindi_Barahkhadi_Full_3sec.mp3?raw=true';
+
+var superbasevowelsUrl = 'https://hxzpzacxsuqtpvlkktjs.supabase.co/storage/v1/object/sign/Hindi%20Audio/Hindi_Vowels_Merged.mp3?token=eyJraWQiOiI5YzAwMWE4Ni01M2Y5LTQxZTktODdlMi1mMDI4NDJlZTAzYTIiLCJhbGciOiJIUzUxMiJ9.eyJ1cmwiOiJIaW5kaSBBdWRpby9IaW5kaV9Wb3dlbHNfTWVyZ2VkLm1wMyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3OTE4MjYwNDMsImV4cCI6MTg3ODIyNjA0M30.1WSDVVmiB0uZe2iRyQTLq6srRmPYfBaGMa2Q9FU7GEPvpAuScET3T4Nes8VtAhtxLEShDXNCaqlpXr5NTjiLHQ';
+
+var superbasekgUrl = 'https://hxzpzacxsuqtpvlkktjs.supabase.co/storage/v1/object/sign/Hindi%20Audio/Hindi_Barahkhadi_Full_3sec.mp3?token=eyJraWQiOiI5YzAwMWE4Ni01M2Y5LTQxZTktODdlMi1mMDI4NDJlZTAzYTIiLCJhbGciOiJIUzUxMiJ9.eyJ1cmwiOiJIaW5kaSBBdWRpby9IaW5kaV9CYXJhaGtoYWRpX0Z1bGxfM3NlYy5tcDMiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzkxODI2MDAzLCJleHAiOjE4NzgyMjYwMDN9.Vpv7XBJkDxnmKVTnPJimpkGxJe3bVJqii7KFhQyNXYBb9ZOoVDrizmuneMzTO4KvHI235I-PG9FrVn6s6oTYXQ';
+
+var vowelsUrl = githubvowelsUrl;
+var kgUrl = githubkgUrl;
+
+  
   
 var gswara = -1;
 var gvyanjana = -1;
@@ -502,8 +499,7 @@ var gottakshara = -1;
 var gkagunita = -1;
 var gayogavaha = -1;
 var ghalant = -1;
-  
-  
+
 
 
   
@@ -512,48 +508,46 @@ var audiodevicetrack = -1;
 var audiodevices=[];
 
 
-function preloadAudioNative(url,idx) {
-  return new Promise((resolve, reject) => {
-	audiodevices[idx].preload = 'auto'; // Hint to the browser to download the whole file
-    
-    const handleCanPlay = () => {
-      cleanup();
-      resolve(audiodevices[idx]);
-    };
+function reloadAndWait(idx, btnname) {
+  const button = document.getElementById(btnname);
+  
+  button.style.backgroundColor = 'red';
+  if (audiodevices[idx].readyState  >= 2)
+  {
+    	button.style.backgroundColor = 'green';
+  }
+  else
+  {
+    // 1. Set up the event listener BEFORE reloading
+    audiodevices[idx].addEventListener('canplay', () => {
+        // At this point, readyState is >= 2 (HAVE_CURRENT_DATA)
+        
+        // Put the code you want to run after it loads here (e.g., audio.play())
+        button.style.backgroundColor = 'rgb(240, 240, 240)';
+    }, { once: true }); // { once: true } prevents the event from firing repeatedly during playback
 
-    const handleError = (err) => {
-      cleanup();
-      reject(new Error("Audio failed to load."));
-    };
-
-    function cleanup() {
-      audiodevices[idx].removeEventListener('canplaythrough', handleCanPlay);
-      audiodevices[idx].removeEventListener('error', handleError);
-    }
-
-    audiodevices[idx].addEventListener('canplaythrough', handleCanPlay, false);
-    audiodevices[idx].addEventListener('error', handleError, false);
-    
-    audiodevices[idx].src = url; // Setting the source starts the download
-    audiodevices[idx].load();    // Forces the browser to load the element
-  });
+    // 2. Trigger the reload
+    audiodevices[idx].load();
+  }
+  
+   	return audiodevices[idx].readyState;
+  
 }
+
+  
 
 // 2. Execute the preloader
  function initurls() {
   
-		for (let i = 0; i < audiotracks.length; i++) {
-			audiodevices[i] =  new Audio();
-			preloadAudioNative(audiotracks[i],i)
-			.then(audioDevice => {
-			//success
-		})
-			.catch(error => alert(error));			
-		}
-		
-	//alert('all  audio files were loaded ✅');
+audiodevices.push(document.getElementById('Hindi_Vowels_Merged'));
+reloadAndWait(0, 'playvowel');   
+audiodevices.push(document.getElementById('Hindi_Barahkhadi_Full_3sec'));   
+reloadAndWait(1, 'playkagunita');   
+
 }
 
+    
+  initurls();
 
 function clearallradiobtnselections() {
 	var radioGroup = document.querySelectorAll('input[name="kagunita"]');
@@ -572,8 +566,6 @@ function clearallradiobtnselections() {
 }
 
 /**************GENERATE START********************/
-
-
 function gatherselections() {
 	var selectedRadioswara = document.querySelector('input[name="swara"]:checked');
 	var selectedRadiovyanjana = document.querySelector('input[name="vyanjana"]:checked');
@@ -724,6 +716,13 @@ function playavowel() {
 
 	if ((gswara == 11 || gswara == 12 || gswara == 13) && gayogavaha != -1) return;
 
+	populateSwaraKagunitaOttakshara(gswara, generateSwaraKagunitaOttakshara(0));	
+  
+	if (audiodevices[0].readyState < 2)
+    {
+      	reloadAndWait(0, 'playvowel'); 
+    	return;
+    }
 
 	if (gayogavaha == 11 || gayogavaha == 13)
 		offset = 13*3;
@@ -738,8 +737,6 @@ function playavowel() {
 		playselectedvowel(gswara, offset);
 	else
 		playallvowels(offset, knt);
-		
-	populateSwaraKagunitaOttakshara(gswara, generateSwaraKagunitaOttakshara(0));	
 }
 
 function playselectedvowel(idx,offset) {
@@ -767,7 +764,17 @@ function playkagunita() {
 	if (gvyanjana == -1) return;
 	if (ghalant != -1 && gkagunita != 0) return;
 	if (ghalant != -1 && gkagunita == 0 && gayogavaha != -1) return;
-	
+
+	var swarakagunitachars = generateSwaraKagunitaOttakshara(1);
+	populateSwaraKagunitaOttakshara(gkagunita, swarakagunitachars);
+
+
+	if (audiodevices[1].readyState < 2)
+    {
+      	reloadAndWait(1, 'playkagunita');
+    	return;
+    }
+  
     if (gkagunita == -1 && gayogavaha == -1) 
 		playallkagunita(gvyanjana);
 	else if (gkagunita == 0)
@@ -786,8 +793,6 @@ function playkagunita() {
         playselectedkagunita(gvyanjana, gkagunita);
 
 
-	var swarakagunitachars = generateSwaraKagunitaOttakshara(1);
-	populateSwaraKagunitaOttakshara(gkagunita, swarakagunitachars);
 }
 
 function playselectedkagunita(akshara, idx) {
@@ -824,13 +829,19 @@ function playottakshara() {
 /**************PLAY OTTAKSHARA STOP********************/
   
 /**************PLAY NUMBER START********************/
+function decodeHtmlEntity(html) {
+  const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
+}
+  
 function playnumberinput() {
     const numberInput = document.getElementById("quantity");
 	clearbuffer();
     // Get the value directly as a number
     const numValue = numberInput.valueAsNumber;
     if (numValue >= 0 && numValue <= 10000000) {
-		document.getElementById('playbuffertext').value = numberToHindiWords(numValue);
+		document.getElementById('playbuffertext').value = decodeHtmlEntity(numberToHindiWords(numValue));
 		document.getElementById('number').innerText = formatHindiNumber(numValue);
     }
 }
@@ -927,29 +938,30 @@ function printbuffer() {
 		gkagunita   = recordbuffer[i+4];
 		gayogavaha   = recordbuffer[i+5];
 		ghalant   = recordbuffer[i+6];
-		
-		
+
 		if (action == 0)
 		{
 			var swarakagunitachars = generateSwaraKagunitaOttakshara(0);
-			ctl.value += swarakagunitachars[gswara];
+			ctl.value += decodeHtmlEntity(swarakagunitachars[gswara]);
 		}
 		else if (action == 1)
 		{
 			var  kagunitachars = generateSwaraKagunitaOttakshara(1);
-			ctl.value += kagunitachars[gkagunita];
+			ctl.value += decodeHtmlEntity(kagunitachars[gkagunita]);
 		}
 		else if (action == 2)
 		{
 			var  kagunitachars = generateSwaraKagunitaOttakshara(2);
-			ctl.value += kagunitachars[gkagunita];
+			ctl.value += decodeHtmlEntity(kagunitachars[gkagunita]);
 		}
 	} 
 }
 /**************PLAY BUFFER MANAGEMENT STOP********************/  
+//]]>  
 </script>
 
-<script>
+<script type='text/javascript'>
+//<![CDATA[  
 /**************PLAY BUFFER AUDIO START********************/  
     let audioCtx = null;
 
@@ -1061,9 +1073,11 @@ function printbuffer() {
       window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
     }
 /**************PLAY BUFFER AUDIO START********************/  
+  //]]>
 </script>
 
-<script>
+<script type='text/javascript'>
+  //<![CDATA[
 /**************HINDI NUMBER START********************/  
 const HINDI_NUMERALS = {
     '0': '०', '1': '१', '2': '२', '3': '३', '4': '४',
@@ -1146,6 +1160,7 @@ function numberToHindiWords(num) {
     return words.trim();
 }
 /**************HINDI NUMBER STOP********************/  
+  //]]>
   </script>
  
       
