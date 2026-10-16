@@ -484,9 +484,11 @@ var localkgUrl = 'Hindi_Barahkhadi_Full_3sec.mp3';
 var githubvowelsUrl = 'https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Hindi_Vowels_Merged.mp3?raw=true';
 var githubkgUrl = 'https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Hindi_Barahkhadi_Full_3sec.mp3?raw=true';
 
-var superbasevowelsUrl = 'https://hxzpzacxsuqtpvlkktjs.supabase.co/storage/v1/object/sign/Hindi%20Audio/Hindi_Vowels_Merged.mp3?token=eyJraWQiOiI5YzAwMWE4Ni01M2Y5LTQxZTktODdlMi1mMDI4NDJlZTAzYTIiLCJhbGciOiJIUzUxMiJ9.eyJ1cmwiOiJIaW5kaSBBdWRpby9IaW5kaV9Wb3dlbHNfTWVyZ2VkLm1wMyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3OTE4MjYwNDMsImV4cCI6MTg3ODIyNjA0M30.1WSDVVmiB0uZe2iRyQTLq6srRmPYfBaGMa2Q9FU7GEPvpAuScET3T4Nes8VtAhtxLEShDXNCaqlpXr5NTjiLHQ';
+var superbasevowelsUrl = 'https://hxzpzacxsuqtpvlkktjs.supabase.co/storage/v1/object/public/Hindi/Hindi_Vowels_Merged.mp3';
+var superbasekgUrl = 'https://hxzpzacxsuqtpvlkktjs.supabase.co/storage/v1/object/public/Hindi/Hindi_Barahkhadi_Full_3sec.mp3';
 
-var superbasekgUrl = 'https://hxzpzacxsuqtpvlkktjs.supabase.co/storage/v1/object/sign/Hindi%20Audio/Hindi_Barahkhadi_Full_3sec.mp3?token=eyJraWQiOiI5YzAwMWE4Ni01M2Y5LTQxZTktODdlMi1mMDI4NDJlZTAzYTIiLCJhbGciOiJIUzUxMiJ9.eyJ1cmwiOiJIaW5kaSBBdWRpby9IaW5kaV9CYXJhaGtoYWRpX0Z1bGxfM3NlYy5tcDMiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzkxODI2MDAzLCJleHAiOjE4NzgyMjYwMDN9.Vpv7XBJkDxnmKVTnPJimpkGxJe3bVJqii7KFhQyNXYBb9ZOoVDrizmuneMzTO4KvHI235I-PG9FrVn6s6oTYXQ';
+
+
 
 var vowelsUrl = githubvowelsUrl;
 var kgUrl = githubkgUrl;
@@ -500,10 +502,6 @@ var gkagunita = -1;
 var gayogavaha = -1;
 var ghalant = -1;
 
-
-
-  
-var audiotracks=[vowelsUrl,kgUrl];
 var audiodevicetrack = -1;
 var audiodevices=[];
 
@@ -538,14 +536,11 @@ function reloadAndWait(idx, btnname) {
 
 // 2. Execute the preloader
  function initurls() {
-  
 audiodevices.push(document.getElementById('Hindi_Vowels_Merged'));
 reloadAndWait(0, 'playvowel');   
 audiodevices.push(document.getElementById('Hindi_Barahkhadi_Full_3sec'));   
 reloadAndWait(1, 'playkagunita');   
-
 }
-
     
   initurls();
 
@@ -758,7 +753,6 @@ function playallvowels(offset,knt) {
 
 /**************PLAY KAGUNITA START********************/
 function playkagunita() {
-
 	gatherselections();	
 
 	if (gvyanjana == -1) return;
@@ -791,12 +785,9 @@ function playkagunita() {
 	}
 	else if (gayogavaha == -1 && ghalant == -1)
         playselectedkagunita(gvyanjana, gkagunita);
-
-
 }
 
 function playselectedkagunita(akshara, idx) {
-
     kount = 0;
     var st = parseFloat((akshara * 13 *  3 + 3 * idx));
     startTime = parseFloat(st);
@@ -817,7 +808,6 @@ function playallkagunita(akshara) {
 
 /**************PLAY OTTAKSHARA START********************/
 function playottakshara() {
-
 	gatherselections();	
 	if (gottakshara  == -1 || gvyanjana  == -1) return;
 	if (ghalant != -1 && gkagunita != 0) return;
@@ -957,125 +947,9 @@ function printbuffer() {
 	} 
 }
 /**************PLAY BUFFER MANAGEMENT STOP********************/  
-//]]>  
 </script>
 
-<script src="https://code.responsivevoice.org/responsivevoice.js"></script>    
 <script type='text/javascript'>
-//<![CDATA[  
-/**************PLAY BUFFER AUDIO START********* ORIGINAL ***********
-    let audioCtx = null;
-
-    async function playFemaleHindiAudio() {
-      const playBtn = document.getElementById('playBtn');
-      const textInput = document.getElementById('playbuffertext').value;
-
-
-      // Initialize AudioContext on user gesture
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      } else if (audioCtx.state === 'suspended') {
-        await audioCtx.resume();
-      }
-
-      playBtn.disabled = true;
-
-      try {
-        // Solution 1: Google TTS Endpoint configured for female pitch/speed parameters
-        const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(textInput)}&tl=hi&client=tw-ob&ttsspeed=0.9`;
-        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(googleUrl)}`;
-
-        const response = await fetch(proxyUrl);
-        if (!response.ok) throw new Error("Network request failed");
-
-        const arrayBuffer = await response.arrayBuffer();
-
-        // Decode audio in Web Audio API
-        const originalBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-
-        // Parameters: 2.5x Amplification & 3-Second Centered Duration Target
-        const volumeGain = 2.5;
-        const targetDurationSec = 3;
-
-        const sampleRate = originalBuffer.sampleRate;
-        const channels = originalBuffer.numberOfChannels;
-        const originalLength = originalBuffer.length;
-        const targetLength = Math.max(originalLength, Math.floor(sampleRate * targetDurationSec));
-
-        // Center sound with leading padding
-        const totalPadding = targetLength - originalLength;
-        const leadPadding = Math.floor(totalPadding / 2);
-
-        // Create new AudioBuffer
-        const processedBuffer = audioCtx.createBuffer(channels, targetLength, sampleRate);
-
-        for (let channel = 0; channel < channels; channel++) {
-          const originalData = originalBuffer.getChannelData(channel);
-          const processedData = processedBuffer.getChannelData(channel);
-
-          for (let i = 0; i < originalLength; i++) {
-            // Apply 2.5x gain with soft-clipping prevention
-            let amplifiedSample = originalData[i] * volumeGain;
-            processedData[i + leadPadding] = Math.max(-1.0, Math.min(1.0, amplifiedSample));
-          }
-        }
-
-        // Connect directly to speakers
-        const sourceNode = audioCtx.createBufferSource();
-        sourceNode.buffer = processedBuffer;
-        sourceNode.connect(audioCtx.destination);
-
-        sourceNode.start(0);
-
-        sourceNode.onended = () => {
-          playBtn.disabled = false;
-        };
-
-      } catch (err) {
-        console.warn("Google TTS fetch failed, switching to native speech engine...", err);
-        playNativeWebSpeech(textInput, playBtn);
-      }
-    }
-
-    // Fallback: Native Browser Speech API (Filters for Female Voices)
-    function playNativeWebSpeech(text, playBtn) {
-      if (!('speechSynthesis' in window)) {
-        playBtn.disabled = false;
-        return;
-      }
-
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'hi-IN';
-      utterance.rate = 0.9;
-      utterance.pitch = 1.2; // Elevated pitch for natural female tone
-
-      const voices = window.speechSynthesis.getVoices();
-      const femaleVoice = voices.find(v => 
-        v.lang.includes('hi') && 
-        (v.name.includes('Female') || v.name.includes('Swara') || v.name.includes('Google') || v.name.includes('Kalpana'))
-      );
-
-      if (femaleVoice) utterance.voice = femaleVoice;
-
-      //utterance.onstart = () => statusDiv.innerText = `Playing natively: "${text}"`;
-      utterance.onend = () => {
-        playBtn.disabled = false;
-      };
-      utterance.onerror = () => {
-        playBtn.disabled = false;
-      };
-
-      window.speechSynthesis.speak(utterance);
-    }
-
-    // Pre-load voices for fallback
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
-    }
-/**************PLAY BUFFER AUDIO START********************/  
-
-
 /**************PLAY BUFFER AUDIO START********COMMA DELAY************/
 let audioCtx = null;
 
@@ -1232,262 +1106,7 @@ let audioCtx = null;
     if ('speechSynthesis' in window) {
       window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
     }
-  
 /**************PLAY BUFFER AUDIO END**********************/  
-
-/**************PLAY BUFFER AUDIO START********************
-
-let audioCtx = null;
-    let currentAndroidAudio = null;
-
-    // Master dispatcher
-    function playFemaleHindiAudio() {
-      const isAndroid = /Android/i.test(navigator.userAgent);
-
-      if (isAndroid) {
-        runAndroidSafePath();
-      } else {
-        runPCAudioPath(); // Your untouched working PC code
-      }
-    }
-
-    // ==========================================
-    // ANDROID SAFE PATH (Guaranteed playback)
-    // ==========================================
-    async function runAndroidSafePath() {
-      const playBtn = document.getElementById('playBtn');
-      const textInput = document.getElementById('playbuffertext').value;
-      playBtn.disabled = true;
-
-      try {
-        const parts = textInput.split(',').map(p => p.trim()).filter(Boolean);
-        if (parts.length === 0) {
-          playBtn.disabled = false;
-          return;
-        }
-
-        const pauseDurationMs = 1000;
-
-        for (let i = 0; i < parts.length; i++) {
-          const part = parts[i];
-          
-          // Try loading via proxy first; if blocked on mobile, use native speech backup for that segment
-          let played = false;
-          try {
-            const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(part)}&tl=hi&client=tw-ob&ttsspeed=0.9`;
-            const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(googleUrl)}&_t=${Date.now()}`;
-            await playAndroidAudioSegment(proxyUrl);
-            played = true;
-          } catch (e) {
-            // Proxy blocked on mobile carrier, fallback to native speech utterance for this segment
-            await playAndroidNativeSegment(part);
-            played = true;
-          }
-
-          if (i < parts.length - 1) {
-            await new Promise(resolve => setTimeout(resolve, pauseDurationMs));
-          }
-        }
-
-        playBtn.disabled = false;
-      } catch (err) {
-        console.warn("Android playback error:", err);
-        playBtn.disabled = false;
-      }
-    }
-
-    function playAndroidAudioSegment(url) {
-      return new Promise((resolve, reject) => {
-        if (currentAndroidAudio) {
-          currentAndroidAudio.pause();
-          currentAndroidAudio = null;
-        }
-
-        currentAndroidAudio = new Audio(url);
-        currentAndroidAudio.onended = () => resolve();
-        currentAndroidAudio.onerror = (e) => reject(e);
-
-        currentAndroidAudio.play().catch(err => reject(err));
-      });
-    }
-
-    function playAndroidNativeSegment(text) {
-      return new Promise((resolve) => {
-        if (!('speechSynthesis' in window)) {
-          resolve();
-          return;
-        }
-
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'hi-IN';
-        utterance.rate = 0.85;
-        utterance.pitch = 1.1;
-
-        const voices = window.speechSynthesis.getVoices();
-        const hindiVoice = voices.find(v => v.lang.includes('hi') && (v.name.includes('Google') || v.name.includes('Swara') || v.name.includes('Female'))) ||
-                           voices.find(v => v.lang.startsWith('hi'));
-        if (hindiVoice) utterance.voice = hindiVoice;
-
-        utterance.onend = () => resolve();
-        utterance.onerror = () => resolve();
-
-        window.speechSynthesis.speak(utterance);
-      });
-    }
-
-    // ==========================================
-    // PC PATH (Your exact working test.js code)
-    // ==========================================
-    async function runPCAudioPath() {
-      const playBtn = document.getElementById('playBtn');
-      const textInput = document.getElementById('playbuffertext').value;
-
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      } else if (audioCtx.state === 'suspended') {
-        await audioCtx.resume();
-      }
-
-      playBtn.disabled = true;
-
-      try {
-        const parts = textInput.split(',').map(p => p.trim()).filter(Boolean);
-        if (parts.length === 0) {
-          playBtn.disabled = false;
-          return;
-        }
-
-        const volumeGain = 2.5;
-        const targetDurationSec = 3;
-        const pauseDurationSec = 1;
-
-        const decodedBuffers = [];
-        let sampleRate = 44100;
-        let channels = 1;
-
-        for (const part of parts) {
-          const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(part)}&tl=hi&client=tw-ob&ttsspeed=0.9`;
-          const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(googleUrl)}`;
-
-          const response = await fetch(proxyUrl);
-          if (!response.ok) throw new Error("Network request failed");
-
-          const arrayBuffer = await response.arrayBuffer();
-          const originalBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-
-          sampleRate = originalBuffer.sampleRate;
-          channels = originalBuffer.numberOfChannels;
-
-          const originalLength = originalBuffer.length;
-          const targetLength = Math.max(originalLength, Math.floor(sampleRate * targetDurationSec));
-          const leadPadding = Math.floor((targetLength - originalLength) / 2);
-
-          const processedPartBuffer = audioCtx.createBuffer(channels, targetLength, sampleRate);
-
-          for (let channel = 0; channel < channels; channel++) {
-            const originalData = originalBuffer.getChannelData(channel);
-            const processedData = processedPartBuffer.getChannelData(channel);
-
-            for (let i = 0; i < originalLength; i++) {
-              let amplifiedSample = originalData[i] * volumeGain;
-              processedData[i + leadPadding] = Math.max(-1.0, Math.min(1.0, amplifiedSample));
-            }
-          }
-          decodedBuffers.push(processedPartBuffer);
-
-          await new Promise(resolve => setTimeout(resolve, 150));
-        }
-
-        const silenceSamples = Math.floor(sampleRate * pauseDurationSec);
-        let totalLength = 0;
-        decodedBuffers.forEach((buf, idx) => {
-          totalLength += buf.length;
-          if (idx < decodedBuffers.length - 1) {
-            totalLength += silenceSamples;
-          }
-        });
-
-        const finalBuffer = audioCtx.createBuffer(channels, totalLength, sampleRate);
-        let offset = 0;
-
-        decodedBuffers.forEach((buf, idx) => {
-          for (let channel = 0; channel < channels; channel++) {
-            finalBuffer.getChannelData(channel).set(buf.getChannelData(channel), offset);
-          }
-          offset += buf.length;
-
-          if (idx < decodedBuffers.length - 1) {
-            offset += silenceSamples;
-          }
-        });
-
-        const sourceNode = audioCtx.createBufferSource();
-        sourceNode.buffer = finalBuffer;
-        sourceNode.connect(audioCtx.destination);
-
-        sourceNode.start(0);
-
-        sourceNode.onended = () => {
-          playBtn.disabled = false;
-        };
-
-      } catch (err) {
-        console.warn("Google TTS fetch failed, switching to queued native speech engine...", err);
-        playNativeWebSpeechSequentially(textInput, playBtn);
-      }
-    }
-
-    function playNativeWebSpeechSequentially(textInput, playBtn) {
-      if (!('speechSynthesis' in window)) {
-        playBtn.disabled = false;
-        return;
-      }
-
-      window.speechSynthesis.cancel();
-      const parts = textInput.split(',').map(p => p.trim()).filter(Boolean);
-      let currentIndex = 0;
-
-      const voices = window.speechSynthesis.getVoices();
-      const femaleVoice = voices.find(v => 
-        v.lang.includes('hi') && 
-        (v.name.includes('Female') || v.name.includes('Swara') || v.name.includes('Google') || v.name.includes('Kalpana'))
-      );
-
-      function speakNext() {
-        if (currentIndex >= parts.length) {
-          playBtn.disabled = false;
-          return;
-        }
-
-        const utterance = new SpeechSynthesisUtterance(parts[currentIndex]);
-        utterance.lang = 'hi-IN';
-        utterance.rate = 0.9;
-        utterance.pitch = 1.2;
-        if (femaleVoice) utterance.voice = femaleVoice;
-
-        currentIndex++;
-
-        utterance.onend = () => {
-          setTimeout(speakNext, 1000);
-        };
-
-        utterance.onerror = () => {
-          playBtn.disabled = false;
-        };
-
-        window.speechSynthesis.speak(utterance);
-      }
-
-      speakNext();
-    }
-
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
-    }  
-  
-/**************PLAY BUFFER AUDIO END**********************/  
-
-  //]]>
 </script>
 
 <script type='text/javascript'>
@@ -1578,7 +1197,7 @@ function numberToHindiWords(num) {
   
   
   
-  //]]>
+  
   </script>
  
       
