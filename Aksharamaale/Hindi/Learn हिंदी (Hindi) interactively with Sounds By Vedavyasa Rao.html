@@ -446,31 +446,32 @@ document.getElementById('status').innerText = startTime;
     
 </p>
   
-<script type='text/javascript'>
+< script type = 'text/javascript' >
 
-  
-// 1. Define Kannada Unicode ranges
-var CONSONANTS = [
-  'क', 'ख', 'ग', 'घ', 'ङ',
-  'च', 'छ', 'ज', 'झ', 'ञ',
-  'ट', 'ठ', 'ड', 'ढ', 'ण',
-  'त', 'थ', 'द', 'ध', 'न',
-  'प', 'फ', 'ब', 'भ', 'म',
-  'य', 'र', 'ल', 'व', 'श', 'ष', 'स', 'ह', 'क्ष', 'त्र', 'ज्ञ'
-  ];
+
+    // 1. Define Kannada Unicode ranges
+    var CONSONANTS = [
+        'क', 'ख', 'ग', 'घ', 'ङ',
+        'च', 'छ', 'ज', 'झ', 'ञ',
+        'ट', 'ठ', 'ड', 'ढ', 'ण',
+        'त', 'थ', 'द', 'ध', 'न',
+        'प', 'फ', 'ब', 'भ', 'म',
+        'य', 'र', 'ल', 'व', 'श', 'ष', 'स', 'ह', 'क्ष', 'त्र', 'ज्ञ'
+    ];
 
 var vowel_chars = [
-'अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ऋ', 'ए', 'ऐ', 'ओ', 'औ', 'अं', 'अः'
+    'अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ऋ', 'ए', 'ऐ', 'ओ', 'औ', 'अं', 'अः'
 ];
 
 var VOWEL_SIGNS = [
-'', 'ा', 'ि', 'ी', 'ु', 'ू', 'ृ', 'े', 'ै', 'ो', 'ौ', 'ं', 'ः','ँ','्'];
+    '', 'ा', 'ि', 'ी', 'ु', 'ू', 'ृ', 'े', 'ै', 'ो', 'ौ', 'ं', 'ः', 'ँ', '्'
+];
 
 const kgstart = [];
 const kgend = new Map([]);
 const kgofst = new Map([]);
 const recordbuffer = [];
- 
+
 
 var kount = 0;
 var startTime = 0;
@@ -493,8 +494,8 @@ var superbasekgUrl = 'https://hxzpzacxsuqtpvlkktjs.supabase.co/storage/v1/object
 var vowelsUrl = githubvowelsUrl;
 var kgUrl = githubkgUrl;
 
-  
-  
+
+
 var gswara = -1;
 var gvyanjana = -1;
 var gottakshara = -1;
@@ -503,178 +504,171 @@ var gayogavaha = -1;
 var ghalant = -1;
 
 var audiodevicetrack = -1;
-var audiodevices=[];
+var audiodevices = [];
 
 
 function reloadAndWait(idx, btnname) {
-  const button = document.getElementById(btnname);
-  
-  button.style.backgroundColor = 'red';
-  if (audiodevices[idx].readyState  >= 2)
-  {
-    	button.style.backgroundColor = 'green';
-  }
-  else
-  {
-    // 1. Set up the event listener BEFORE reloading
-    audiodevices[idx].addEventListener('canplay', () => {
-        // At this point, readyState is >= 2 (HAVE_CURRENT_DATA)
-        
-        // Put the code you want to run after it loads here (e.g., audio.play())
-        button.style.backgroundColor = 'rgb(240, 240, 240)';
-    }, { once: true }); // { once: true } prevents the event from firing repeatedly during playback
+    const button = document.getElementById(btnname);
 
-    // 2. Trigger the reload
-    audiodevices[idx].load();
-  }
-  
-   	return audiodevices[idx].readyState;
-  
+    button.style.backgroundColor = 'red';
+    if (audiodevices[idx].readyState >= 2) {
+        button.style.backgroundColor = 'green';
+    } else {
+        // 1. Set up the event listener BEFORE reloading
+        audiodevices[idx].addEventListener('canplay', () => {
+            // At this point, readyState is >= 2 (HAVE_CURRENT_DATA)
+
+            // Put the code you want to run after it loads here (e.g., audio.play())
+            button.style.backgroundColor = 'rgb(240, 240, 240)';
+        }, {
+            once: true
+        }); // { once: true } prevents the event from firing repeatedly during playback
+
+        // 2. Trigger the reload
+        audiodevices[idx].load();
+    }
+
+    return audiodevices[idx].readyState;
+
 }
 
-  
+
 
 // 2. Execute the preloader
- function initurls() {
-audiodevices.push(document.getElementById('Hindi_Vowels_Merged'));
-reloadAndWait(0, 'playvowel');   
-audiodevices.push(document.getElementById('Hindi_Barahkhadi_Full_3sec'));   
-reloadAndWait(1, 'playkagunita');   
+function initurls() {
+    audiodevices.push(document.getElementById('Hindi_Vowels_Merged'));
+    reloadAndWait(0, 'playvowel');
+    audiodevices.push(document.getElementById('Hindi_Barahkhadi_Full_3sec'));
+    reloadAndWait(1, 'playkagunita');
 }
-    
-  initurls();
+
+initurls();
 
 function clearallradiobtnselections() {
-	var radioGroup = document.querySelectorAll('input[name="kagunita"]');
-	radioGroup.forEach(radio => radio.checked = false);
-	radioGroup = document.querySelectorAll('input[name="ottakshara"]');
-	radioGroup.forEach(radio => radio.checked = false);
-	radioGroup = document.querySelectorAll('input[name="vyanjana"]');
-	radioGroup.forEach(radio => radio.checked = false);
-	radioGroup = document.querySelectorAll('input[name="swara"]');
-	radioGroup.forEach(radio => radio.checked = false);
-	radioGroup = document.querySelectorAll('input[name="halant"]');
-	radioGroup.forEach(radio => radio.checked = false);
-	radioGroup = document.querySelectorAll('input[name="ayogavaha"]');
-	radioGroup.forEach(radio => radio.checked = false);
-	populateSwaraKagunitaOttakshara(-1,['&nbsp;']);
+    var radioGroup = document.querySelectorAll('input[name="kagunita"]');
+    radioGroup.forEach(radio => radio.checked = false);
+    radioGroup = document.querySelectorAll('input[name="ottakshara"]');
+    radioGroup.forEach(radio => radio.checked = false);
+    radioGroup = document.querySelectorAll('input[name="vyanjana"]');
+    radioGroup.forEach(radio => radio.checked = false);
+    radioGroup = document.querySelectorAll('input[name="swara"]');
+    radioGroup.forEach(radio => radio.checked = false);
+    radioGroup = document.querySelectorAll('input[name="halant"]');
+    radioGroup.forEach(radio => radio.checked = false);
+    radioGroup = document.querySelectorAll('input[name="ayogavaha"]');
+    radioGroup.forEach(radio => radio.checked = false);
+    populateSwaraKagunitaOttakshara(-1, ['&nbsp;']);
 }
 
 /**************GENERATE START********************/
 function gatherselections() {
-	var selectedRadioswara = document.querySelector('input[name="swara"]:checked');
-	var selectedRadiovyanjana = document.querySelector('input[name="vyanjana"]:checked');
-	var selectedRadioottakshara = document.querySelector('input[name="ottakshara"]:checked');
-	var selectedRadiokagunita = document.querySelector('input[name="kagunita"]:checked');
-	var selectedRadioayogavaha = document.querySelector('input[name="ayogavaha"]:checked');
-	var selectedRadiohalant = document.querySelector('input[name="halant"]:checked');
-	
-	gswara = -1;
-	gvyanjana=-1;
-	gottakshara=-1;
-	gkagunita = -1;
-	gayogavaha = -1;
-	ghalant = -1;
+    var selectedRadioswara = document.querySelector('input[name="swara"]:checked');
+    var selectedRadiovyanjana = document.querySelector('input[name="vyanjana"]:checked');
+    var selectedRadioottakshara = document.querySelector('input[name="ottakshara"]:checked');
+    var selectedRadiokagunita = document.querySelector('input[name="kagunita"]:checked');
+    var selectedRadioayogavaha = document.querySelector('input[name="ayogavaha"]:checked');
+    var selectedRadiohalant = document.querySelector('input[name="halant"]:checked');
 
-	if (selectedRadioswara) 	gswara = parseInt(selectedRadioswara.value);
-	if (selectedRadiovyanjana) 	gvyanjana  = parseInt(selectedRadiovyanjana.value);
-	if (selectedRadioottakshara) gottakshara  = parseInt(selectedRadioottakshara.value);
-	if (selectedRadiokagunita) gkagunita = parseInt(selectedRadiokagunita.value);
-	if (selectedRadioayogavaha) gayogavaha = parseInt(selectedRadioayogavaha.value);
+    gswara = -1;
+    gvyanjana = -1;
+    gottakshara = -1;
+    gkagunita = -1;
+    gayogavaha = -1;
+    ghalant = -1;
+
+    if (selectedRadioswara) gswara = parseInt(selectedRadioswara.value);
+    if (selectedRadiovyanjana) gvyanjana = parseInt(selectedRadiovyanjana.value);
+    if (selectedRadioottakshara) gottakshara = parseInt(selectedRadioottakshara.value);
+    if (selectedRadiokagunita) gkagunita = parseInt(selectedRadiokagunita.value);
+    if (selectedRadioayogavaha) gayogavaha = parseInt(selectedRadioayogavaha.value);
     if (selectedRadiohalant) ghalant = parseInt(selectedRadiohalant.value);
-	
-	populateSwaraKagunitaOttakshara(-1,['&nbsp;']);
+
+    populateSwaraKagunitaOttakshara(-1, ['&nbsp;']);
 }
 
 /**************Vowels********************/
 function generateVowels() {
-  return vowel_chars.map(vowel => {
-    if (gayogavaha == -1)  return vowel;
-	
-	if (vowel === 'अं') return vowel; 
-	if (vowel === 'अः') return vowel;
-    
-	// Combine the consonant with the vowel sign
-	return vowel + VOWEL_SIGNS[gayogavaha];
-  });
+    return vowel_chars.map(vowel => {
+        if (gayogavaha == -1) return vowel;
+
+        if (vowel === 'अं') return vowel;
+        if (vowel === 'अः') return vowel;
+
+        // Combine the consonant with the vowel sign
+        return vowel + VOWEL_SIGNS[gayogavaha];
+    });
 }
 
 /**************Barakhadi********************/
 function generateBarakhadi() {
-const baseConsonant = CONSONANTS[gvyanjana];
-  var allmatras =  VOWEL_SIGNS.map(matra => {
-    // Exception handling for 'र' (ra)
-    if (baseConsonant  === 'र') {
-      if (matra === 'ु') return 'रु'; // Special glyph for ru
-      if (matra === 'ू') return 'रू'; // Special glyph for roo
-      if (matra === 'ृ') return 'ऋ';  // 'र' combined with 'ृ' naturally defaults back to 'ऋ' or is skipped
-    }	
-    
-    // Combine the consonant with the vowel sign
-    return baseConsonant  + matra;
-  });
-  
-  if (gayogavaha != -1)
-  {
-	return allmatras.map(bk => {return  bk+VOWEL_SIGNS[gayogavaha];});
-  }
-  else 
-	return allmatras;
+    const baseConsonant = CONSONANTS[gvyanjana];
+    var allmatras = VOWEL_SIGNS.map(matra => {
+        // Exception handling for 'र' (ra)
+        if (baseConsonant === 'र') {
+            if (matra === 'ु') return 'रु'; // Special glyph for ru
+            if (matra === 'ू') return 'रू'; // Special glyph for roo
+            if (matra === 'ृ') return 'ऋ'; // 'र' combined with 'ृ' naturally defaults back to 'ऋ' or is skipped
+        }
+
+        // Combine the consonant with the vowel sign
+        return baseConsonant + matra;
+    });
+
+    if (gayogavaha != -1) {
+        return allmatras.map(bk => {
+            return bk + VOWEL_SIGNS[gayogavaha];
+        });
+    } else
+        return allmatras;
 }
 
 /**************Samyuktakshar********************/
 function generateSamyuktaksharBarakhadi() {
-const baseConsonant = CONSONANTS[gvyanjana];
-const baseConsonant2 = CONSONANTS[gottakshara];
+    const baseConsonant = CONSONANTS[gvyanjana];
+    const baseConsonant2 = CONSONANTS[gottakshara];
 
-  var  allmatras = VOWEL_SIGNS.map(matra => {
-    
-    // Combine the consonant with the vowel sign
-    return baseConsonant2  + '्' + baseConsonant  + matra;
-  });
-  
-  if (gayogavaha != -1)
-  {
-	return allmatras.map(bk => {return  bk+VOWEL_SIGNS[gayogavaha];});
-  }
-  else 
-	return allmatras;
-  
+    var allmatras = VOWEL_SIGNS.map(matra => {
+
+        // Combine the consonant with the vowel sign
+        return baseConsonant2 + '्' + baseConsonant + matra;
+    });
+
+    if (gayogavaha != -1) {
+        return allmatras.map(bk => {
+            return bk + VOWEL_SIGNS[gayogavaha];
+        });
+    } else
+        return allmatras;
+
 }
 
 function generateSwaraKagunitaOttakshara(action) {
-    
+
     var swarakagunitachars = [];
-    if (action == 0)
-	{
+    if (action == 0) {
         swarakagunitachars = generateVowels();
-		if (gayogavaha  != -1)
-		{
-			swarakagunitachars.pop();
-			swarakagunitachars.pop();
-		}
-	
-	}
-    else if (action == 1)
-        swarakagunitachars = generateBarakhadi();	
+        if (gayogavaha != -1) {
+            swarakagunitachars.pop();
+            swarakagunitachars.pop();
+        }
+
+    } else if (action == 1)
+        swarakagunitachars = generateBarakhadi();
     else if (action == 2)
         swarakagunitachars = generateSamyuktaksharBarakhadi();
-	if (action == 1 || action == 2)
-	{
-		if (gkagunita == 0 && ghalant != -1)
-		{
-			swarakagunitachars[0] = swarakagunitachars[14];
-		}
-		swarakagunitachars.pop();
-		swarakagunitachars.pop();
-		
-		if (gayogavaha  != -1)
-		{
-			swarakagunitachars.pop();
-			swarakagunitachars.pop();		
-		}		
-	}
-	return swarakagunitachars;
+    if (action == 1 || action == 2) {
+        if (gkagunita == 0 && ghalant != -1) {
+            swarakagunitachars[0] = swarakagunitachars[14];
+        }
+        swarakagunitachars.pop();
+        swarakagunitachars.pop();
+
+        if (gayogavaha != -1) {
+            swarakagunitachars.pop();
+            swarakagunitachars.pop();
+        }
+    }
+    return swarakagunitachars;
 }
 /**************GENERATE END********************/
 
@@ -702,48 +696,47 @@ function populateSwaraKagunitaOttakshara(idx, kagunitachars) {
 
 /**************PLAY VOWELS START********************/
 function playavowel() {
-	var offset = 0;
-	var knt = 13;
+    var offset = 0;
+    var knt = 13;
 
-	gatherselections();	
+    gatherselections();
 
-	if (gkagunita != -1 || ghalant != -1)	return;
+    if (gkagunita != -1 || ghalant != -1) return;
 
-	if ((gswara == 11 || gswara == 12 || gswara == 13) && gayogavaha != -1) return;
+    if ((gswara == 11 || gswara == 12 || gswara == 13) && gayogavaha != -1) return;
 
-	populateSwaraKagunitaOttakshara(gswara, generateSwaraKagunitaOttakshara(0));	
-  
-	if (audiodevices[0].readyState < 2)
-    {
-      	reloadAndWait(0, 'playvowel'); 
-    	return;
+    populateSwaraKagunitaOttakshara(gswara, generateSwaraKagunitaOttakshara(0));
+
+    if (audiodevices[0].readyState < 2) {
+        reloadAndWait(0, 'playvowel');
+        return;
     }
 
-	if (gayogavaha == 11 || gayogavaha == 13)
-		offset = 13*3;
-	
-	if (gayogavaha == 12)
-		offset = 13*3 + 11*3;
+    if (gayogavaha == 11 || gayogavaha == 13)
+        offset = 13 * 3;
 
-	if (gayogavaha != -1)
-		knt = 11;
-	
-	if (gswara != -1) 
-		playselectedvowel(gswara, offset);
-	else
-		playallvowels(offset, knt);
+    if (gayogavaha == 12)
+        offset = 13 * 3 + 11 * 3;
+
+    if (gayogavaha != -1)
+        knt = 11;
+
+    if (gswara != -1)
+        playselectedvowel(gswara, offset);
+    else
+        playallvowels(offset, knt);
 }
 
-function playselectedvowel(idx,offset) {
+function playselectedvowel(idx, offset) {
     var et = 2;
-    startTime = offset + parseFloat(idx*3.0);
-    endTime = (startTime +  parseFloat(et));
+    startTime = offset + parseFloat(idx * 3.0);
+    endTime = (startTime + parseFloat(et));
     setaudiotrack(0);
     playsound();
 }
 
-function playallvowels(offset,knt) {
-    var et = knt*3;
+function playallvowels(offset, knt) {
+    var et = knt * 3;
     startTime = parseFloat(offset);
     endTime = (startTime + parseFloat(et));
     setaudiotrack(0);
@@ -753,43 +746,39 @@ function playallvowels(offset,knt) {
 
 /**************PLAY KAGUNITA START********************/
 function playkagunita() {
-	gatherselections();	
+    gatherselections();
 
-	if (gvyanjana == -1) return;
-	if (ghalant != -1 && gkagunita != 0) return;
-	if (ghalant != -1 && gkagunita == 0 && gayogavaha != -1) return;
+    if (gvyanjana == -1) return;
+    if (ghalant != -1 && gkagunita != 0) return;
+    if (ghalant != -1 && gkagunita == 0 && gayogavaha != -1) return;
 
-	var swarakagunitachars = generateSwaraKagunitaOttakshara(1);
-	populateSwaraKagunitaOttakshara(gkagunita, swarakagunitachars);
+    var swarakagunitachars = generateSwaraKagunitaOttakshara(1);
+    populateSwaraKagunitaOttakshara(gkagunita, swarakagunitachars);
 
 
-	if (audiodevices[1].readyState < 2)
-    {
-      	reloadAndWait(1, 'playkagunita');
-    	return;
+    if (audiodevices[1].readyState < 2) {
+        reloadAndWait(1, 'playkagunita');
+        return;
     }
-  
-    if (gkagunita == -1 && gayogavaha == -1) 
-		playallkagunita(gvyanjana);
-	else if (gkagunita == 0)
-	{	
-		if (ghalant != 0 && gayogavaha == -1) 
-			playselectedkagunita(gvyanjana, 0);
-		else if (gayogavaha != -1) 
-		{
-			var temp = gayogavaha;
-			if (gayogavaha == 13)
-				temp = 11;
-			playselectedkagunita(gvyanjana, temp);		
-		}
-	}
-	else if (gayogavaha == -1 && ghalant == -1)
+
+    if (gkagunita == -1 && gayogavaha == -1)
+        playallkagunita(gvyanjana);
+    else if (gkagunita == 0) {
+        if (ghalant != 0 && gayogavaha == -1)
+            playselectedkagunita(gvyanjana, 0);
+        else if (gayogavaha != -1) {
+            var temp = gayogavaha;
+            if (gayogavaha == 13)
+                temp = 11;
+            playselectedkagunita(gvyanjana, temp);
+        }
+    } else if (gayogavaha == -1 && ghalant == -1)
         playselectedkagunita(gvyanjana, gkagunita);
 }
 
 function playselectedkagunita(akshara, idx) {
     kount = 0;
-    var st = parseFloat((akshara * 13 *  3 + 3 * idx));
+    var st = parseFloat((akshara * 13 * 3 + 3 * idx));
     startTime = parseFloat(st);
     endTime = (startTime + 2);
     setaudiotrack(1);
@@ -808,47 +797,46 @@ function playallkagunita(akshara) {
 
 /**************PLAY OTTAKSHARA START********************/
 function playottakshara() {
-	gatherselections();	
-	if (gottakshara  == -1 || gvyanjana  == -1) return;
-	if (ghalant != -1 && gkagunita != 0) return;
-	if (ghalant != -1 && gkagunita == 0 && gayogavaha != -1) return;
-	
-	var swarakagunitachars = generateSwaraKagunitaOttakshara(2);
-	populateSwaraKagunitaOttakshara(gkagunita , swarakagunitachars);			
+    gatherselections();
+    if (gottakshara == -1 || gvyanjana == -1) return;
+    if (ghalant != -1 && gkagunita != 0) return;
+    if (ghalant != -1 && gkagunita == 0 && gayogavaha != -1) return;
+
+    var swarakagunitachars = generateSwaraKagunitaOttakshara(2);
+    populateSwaraKagunitaOttakshara(gkagunita, swarakagunitachars);
 }
 /**************PLAY OTTAKSHARA STOP********************/
-  
+
 /**************PLAY NUMBER START********************/
 function decodeHtmlEntity(html) {
-  const txt = document.createElement('textarea');
+    const txt = document.createElement('textarea');
     txt.innerHTML = html;
     return txt.value;
 }
-  
+
 function playnumberinput() {
     const numberInput = document.getElementById("quantity");
-	clearbuffer();
+    clearbuffer();
     // Get the value directly as a number
     const numValue = numberInput.valueAsNumber;
     if (numValue >= 0 && numValue <= 10000000) {
-		document.getElementById('playbuffertext').value = decodeHtmlEntity(numberToHindiWords(numValue));
-		document.getElementById('number').innerText = formatHindiNumber(numValue);
+        document.getElementById('playbuffertext').value = decodeHtmlEntity(numberToHindiWords(numValue));
+        document.getElementById('number').innerText = formatHindiNumber(numValue);
     }
 }
 /**************PLAY NUMBER STOP********************/
 
 
-/**************PLAY AUDIO START********************/  
-function setaudiotrack(track)
- {
-	audiodevicetrack = track;
- }
+/**************PLAY AUDIO START********************/
+function setaudiotrack(track) {
+    audiodevicetrack = track;
+}
 
 function playsound() {
 
-	audiodevices[audiodevicetrack].currentTime = startTime;
-	audiodevices[audiodevicetrack].addEventListener('timeupdate', checkTime);  
-	audiodevices[audiodevicetrack].play();
+    audiodevices[audiodevicetrack].currentTime = startTime;
+    audiodevices[audiodevicetrack].addEventListener('timeupdate', checkTime);
+    audiodevices[audiodevicetrack].play();
 }
 
 
@@ -862,9 +850,9 @@ function checkTime() {
     }
 }
 
-/**************PLAY AUDIO STOP********************/  
+/**************PLAY AUDIO STOP********************/
 
-/**************PLAY BUFFER MANAGEMENT START********************/  
+/**************PLAY BUFFER MANAGEMENT START********************/
 function addtobuffer(action) {
     recordbuffer.push(action);
     recordbuffer.push(gswara);
@@ -876,102 +864,99 @@ function addtobuffer(action) {
 }
 
 function eraselastletter() {
-if (recordbuffer.length > 0) {
-	for (let i = 0; i < 7; i++) 
-		recordbuffer.pop();
-	}
-	printbuffer();
+    if (recordbuffer.length > 0) {
+        for (let i = 0; i < 7; i++)
+            recordbuffer.pop();
+    }
+    printbuffer();
 }
 
 function clearbuffer() {
     recordbuffer.length = 0;
-	printbuffer();
+    printbuffer();
 }
 
 function addvwtobuffer() {
-	gatherselections();	
-	if (gswara == -1 || gkagunita != -1 || ghalant != -1)	return;
-	if ((gswara == 11 || gswara == 12 || gswara == 13) && gayogavaha != -1) return;
-		
+    gatherselections();
+    if (gswara == -1 || gkagunita != -1 || ghalant != -1) return;
+    if ((gswara == 11 || gswara == 12 || gswara == 13) && gayogavaha != -1) return;
+
     addtobuffer(0);
-	printbuffer();
+    printbuffer();
 }
 
 function addkgtobuffer() {
-	gatherselections();	
-	if (gvyanjana == -1 || gkagunita ==-1) return;
-	if (ghalant != -1 && gkagunita != 0) return;
-	if (ghalant != -1 && gkagunita == 0 && gayogavaha != -1) return;
+    gatherselections();
+    if (gvyanjana == -1 || gkagunita == -1) return;
+    if (ghalant != -1 && gkagunita != 0) return;
+    if (ghalant != -1 && gkagunita == 0 && gayogavaha != -1) return;
 
     addtobuffer(1);
-	printbuffer();
+    printbuffer();
 }
 
 function addottobuffer() {
-	gatherselections();	
-	if (gottakshara  == -1 || gvyanjana  == -1 || gkagunita ==-1) return;
-	if (ghalant != -1 && gkagunita != 0) return;
-	if (ghalant != -1 && gkagunita == 0 && gayogavaha != -1) return;
+    gatherselections();
+    if (gottakshara == -1 || gvyanjana == -1 || gkagunita == -1) return;
+    if (ghalant != -1 && gkagunita != 0) return;
+    if (ghalant != -1 && gkagunita == 0 && gayogavaha != -1) return;
     addtobuffer(2);
-	printbuffer();
+    printbuffer();
 }
 
 function printbuffer() {
 
-	var ctl = document.getElementById('playbuffertext');
-	ctl.value = '';
-	for (let i = 0; i < recordbuffer.length; i+=7) {
-	    var action = recordbuffer[i];
-		gswara  = recordbuffer[i+1];
-		gvyanjana  = recordbuffer[i+2];
-		gottakshara  = recordbuffer[i+3];
-		gkagunita   = recordbuffer[i+4];
-		gayogavaha   = recordbuffer[i+5];
-		ghalant   = recordbuffer[i+6];
+    var ctl = document.getElementById('playbuffertext');
+    ctl.value = '';
+    for (let i = 0; i < recordbuffer.length; i += 7) {
+        var action = recordbuffer[i];
+        gswara = recordbuffer[i + 1];
+        gvyanjana = recordbuffer[i + 2];
+        gottakshara = recordbuffer[i + 3];
+        gkagunita = recordbuffer[i + 4];
+        gayogavaha = recordbuffer[i + 5];
+        ghalant = recordbuffer[i + 6];
 
-		if (action == 0)
-		{
-			var swarakagunitachars = generateSwaraKagunitaOttakshara(0);
-			ctl.value += decodeHtmlEntity(swarakagunitachars[gswara]);
-		}
-		else if (action == 1)
-		{
-			var  kagunitachars = generateSwaraKagunitaOttakshara(1);
-			ctl.value += decodeHtmlEntity(kagunitachars[gkagunita]);
-		}
-		else if (action == 2)
-		{
-			var  kagunitachars = generateSwaraKagunitaOttakshara(2);
-			ctl.value += decodeHtmlEntity(kagunitachars[gkagunita]);
-		}
-	} 
+        if (action == 0) {
+            var swarakagunitachars = generateSwaraKagunitaOttakshara(0);
+            ctl.value += decodeHtmlEntity(swarakagunitachars[gswara]);
+        } else if (action == 1) {
+            var kagunitachars = generateSwaraKagunitaOttakshara(1);
+            ctl.value += decodeHtmlEntity(kagunitachars[gkagunita]);
+        } else if (action == 2) {
+            var kagunitachars = generateSwaraKagunitaOttakshara(2);
+            ctl.value += decodeHtmlEntity(kagunitachars[gkagunita]);
+        }
+    }
 }
-/**************PLAY BUFFER MANAGEMENT STOP********************/  
-</script>
+/**************PLAY BUFFER MANAGEMENT STOP********************/
+<
+/script>
 
-<script type='text/javascript'>
-/**************PLAY BUFFER AUDIO START********COMMA DELAY************/
-let audioCtx = null;
+<
+script type = 'text/javascript' >
+    /**************PLAY BUFFER AUDIO START********COMMA DELAY************/
+    let audioCtx = null;
 
-    async function playFemaleHindiAudio() {
-      const playBtn = document.getElementById('playBtn');
-      const textInput = document.getElementById('playbuffertext').value;
+async function playFemaleHindiAudio() {
+    const playBtn = document.getElementById('playBtn');
+    const textInput = document.getElementById('playbuffertext').value;
 
-      // Initialize AudioContext on user gesture
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      } else if (audioCtx.state === 'suspended') {
+    // Initialize AudioContext on user gesture
+    if (!audioCtx) {
+        audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+    } else if (audioCtx.state === 'suspended') {
         await audioCtx.resume();
-      }
+    }
 
-      playBtn.disabled = true;
+    playBtn.disabled = true;
 
-      try {
+    try {
         // Split input text by commas and clean up whitespace/empty entries
         const parts = textInput.split(',').map(p => p.trim()).filter(Boolean);
         if (parts.length === 0) {
-          playBtn.disabled = false;
-          return;
+            playBtn.disabled = false;
+            return;
         }
 
         const volumeGain = 2.5;
@@ -984,61 +969,61 @@ let audioCtx = null;
 
         // Fetch and process audio for each part sequentially with a slight delay to prevent proxy rate-limiting
         for (const part of parts) {
-          const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(part)}&tl=hi&client=tw-ob&ttsspeed=0.9`;
-          const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(googleUrl)}`;
+            const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(part)}&tl=hi&client=tw-ob&ttsspeed=0.9`;
+            const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(googleUrl)}`;
 
-          const response = await fetch(proxyUrl);
-          if (!response.ok) throw new Error("Network request failed");
+            const response = await fetch(proxyUrl);
+            if (!response.ok) throw new Error("Network request failed");
 
-          const arrayBuffer = await response.arrayBuffer();
-          const originalBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+            const arrayBuffer = await response.arrayBuffer();
+            const originalBuffer = await audioCtx.decodeAudioData(arrayBuffer);
 
-          sampleRate = originalBuffer.sampleRate;
-          channels = originalBuffer.numberOfChannels;
+            sampleRate = originalBuffer.sampleRate;
+            channels = originalBuffer.numberOfChannels;
 
-          const originalLength = originalBuffer.length;
-          const targetLength = Math.max(originalLength, Math.floor(sampleRate * targetDurationSec));
-          const leadPadding = Math.floor((targetLength - originalLength) / 2);
+            const originalLength = originalBuffer.length;
+            const targetLength = Math.max(originalLength, Math.floor(sampleRate * targetDurationSec));
+            const leadPadding = Math.floor((targetLength - originalLength) / 2);
 
-          const processedPartBuffer = audioCtx.createBuffer(channels, targetLength, sampleRate);
+            const processedPartBuffer = audioCtx.createBuffer(channels, targetLength, sampleRate);
 
-          for (let channel = 0; channel < channels; channel++) {
-            const originalData = originalBuffer.getChannelData(channel);
-            const processedData = processedPartBuffer.getChannelData(channel);
+            for (let channel = 0; channel < channels; channel++) {
+                const originalData = originalBuffer.getChannelData(channel);
+                const processedData = processedPartBuffer.getChannelData(channel);
 
-            for (let i = 0; i < originalLength; i++) {
-              let amplifiedSample = originalData[i] * volumeGain;
-              processedData[i + leadPadding] = Math.max(-1.0, Math.min(1.0, amplifiedSample));
+                for (let i = 0; i < originalLength; i++) {
+                    let amplifiedSample = originalData[i] * volumeGain;
+                    processedData[i + leadPadding] = Math.max(-1.0, Math.min(1.0, amplifiedSample));
+                }
             }
-          }
-          decodedBuffers.push(processedPartBuffer);
+            decodedBuffers.push(processedPartBuffer);
 
-          // Small delay between requests to prevent proxy blocks
-          await new Promise(resolve => setTimeout(resolve, 150));
+            // Small delay between requests to prevent proxy blocks
+            await new Promise(resolve => setTimeout(resolve, 150));
         }
 
         // Calculate total buffer length including 1-second silence gaps
         const silenceSamples = Math.floor(sampleRate * pauseDurationSec);
         let totalLength = 0;
         decodedBuffers.forEach((buf, idx) => {
-          totalLength += buf.length;
-          if (idx < decodedBuffers.length - 1) {
-            totalLength += silenceSamples;
-          }
+            totalLength += buf.length;
+            if (idx < decodedBuffers.length - 1) {
+                totalLength += silenceSamples;
+            }
         });
 
         const finalBuffer = audioCtx.createBuffer(channels, totalLength, sampleRate);
         let offset = 0;
 
         decodedBuffers.forEach((buf, idx) => {
-          for (let channel = 0; channel < channels; channel++) {
-            finalBuffer.getChannelData(channel).set(buf.getChannelData(channel), offset);
-          }
-          offset += buf.length;
+            for (let channel = 0; channel < channels; channel++) {
+                finalBuffer.getChannelData(channel).set(buf.getChannelData(channel), offset);
+            }
+            offset += buf.length;
 
-          if (idx < decodedBuffers.length - 1) {
-            offset += silenceSamples;
-          }
+            if (idx < decodedBuffers.length - 1) {
+                offset += silenceSamples;
+            }
         });
 
         const sourceNode = audioCtx.createBufferSource();
@@ -1048,36 +1033,36 @@ let audioCtx = null;
         sourceNode.start(0);
 
         sourceNode.onended = () => {
-          playBtn.disabled = false;
+            playBtn.disabled = false;
         };
 
-      } catch (err) {
+    } catch (err) {
         console.warn("Google TTS fetch failed, switching to queued native speech engine...", err);
         playNativeWebSpeechSequentially(textInput, playBtn);
-      }
     }
+}
 
-    // Fallback: Native Browser Speech API queued sequentially with 1-second pauses
-    function playNativeWebSpeechSequentially(textInput, playBtn) {
-      if (!('speechSynthesis' in window)) {
+// Fallback: Native Browser Speech API queued sequentially with 1-second pauses
+function playNativeWebSpeechSequentially(textInput, playBtn) {
+    if (!('speechSynthesis' in window)) {
         playBtn.disabled = false;
         return;
-      }
+    }
 
-      window.speechSynthesis.cancel();
-      const parts = textInput.split(',').map(p => p.trim()).filter(Boolean);
-      let currentIndex = 0;
+    window.speechSynthesis.cancel();
+    const parts = textInput.split(',').map(p => p.trim()).filter(Boolean);
+    let currentIndex = 0;
 
-      const voices = window.speechSynthesis.getVoices();
-      const femaleVoice = voices.find(v => 
-        v.lang.includes('hi') && 
+    const voices = window.speechSynthesis.getVoices();
+    const femaleVoice = voices.find(v =>
+        v.lang.includes('hi') &&
         (v.name.includes('Female') || v.name.includes('Swara') || v.name.includes('Google') || v.name.includes('Kalpana'))
-      );
+    );
 
-      function speakNext() {
+    function speakNext() {
         if (currentIndex >= parts.length) {
-          playBtn.disabled = false;
-          return;
+            playBtn.disabled = false;
+            return;
         }
 
         const utterance = new SpeechSynthesisUtterance(parts[currentIndex]);
@@ -1089,45 +1074,55 @@ let audioCtx = null;
         currentIndex++;
 
         utterance.onend = () => {
-          // Wait 1 second before speaking the next item
-          setTimeout(speakNext, 1000);
+            // Wait 1 second before speaking the next item
+            setTimeout(speakNext, 1000);
         };
 
         utterance.onerror = () => {
-          playBtn.disabled = false;
+            playBtn.disabled = false;
         };
 
         window.speechSynthesis.speak(utterance);
-      }
-
-      speakNext();
     }
 
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
-    }
-/**************PLAY BUFFER AUDIO END**********************/  
-</script>
+    speakNext();
+}
 
-<script type='text/javascript'>
-  
-/**************HINDI NUMBER START********************/  
-const HINDI_NUMERALS = {
-    '0': '०', '1': '१', '2': '२', '3': '३', '4': '४',
-    '5': '५', '6': '६', '7': '७', '8': '८', '9': '९'
-};
+if ('speechSynthesis' in window) {
+    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+}
+/**************PLAY BUFFER AUDIO END**********************/
+<
+/script>
+
+<
+script type = 'text/javascript' >
+
+    /**************HINDI NUMBER START********************/
+    const HINDI_NUMERALS = {
+        '0': '०',
+        '1': '१',
+        '2': '२',
+        '3': '३',
+        '4': '४',
+        '5': '५',
+        '6': '६',
+        '7': '७',
+        '8': '८',
+        '9': '९'
+    };
 
 
 function formatHindiNumber(num) {
     let numStr = num.toString();
     let formattedStr = '';
-    
+
     if (numStr.length <= 3) {
         formattedStr = numStr;
     } else {
         let lastThree = numStr.substring(numStr.length - 3);
         let remaining = numStr.substring(0, numStr.length - 3);
-        
+
         // Groups the remaining higher values into pairs of two using regex
         remaining = remaining.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
         formattedStr = remaining + "," + lastThree;
@@ -1140,7 +1135,7 @@ function formatHindiNumber(num) {
 
 function numberToHindiWords(num) {
     if (num === 0) return "शून्य";
-    
+
     // Hindi word arrays for lookups
     const ones = [
         "", "एक", "दो", "तीन", "चार", "पाँच", "छह", "सात", "आठ", "नौ", "दस",
@@ -1192,13 +1187,10 @@ function numberToHindiWords(num) {
 
     return words.trim();
 }
-  
-/**************HINDI NUMBER STOP********************/  
-  
-  
-  
-  
-  </script>
- 
+
+/**************HINDI NUMBER STOP********************/
+
+</script>
+
       
   </body></html>
