@@ -281,16 +281,12 @@ Read more about this [here](https://techlog-vedavyasarao.blogspot.com/2022/08/un
 ### Akshara Maale ###
 
 #### Learn ಕನ್ನಡ(Kannada) interactively with Sounds ####
-
 Learn Kannada, an Indian Language using AI
-
-Read more about it [here](https://aiaksharamaale.blogspot.com/2026/10/learn-kannada-interactively-with-sounds.html)
+Take look at it [here](https://aiaksharamaale.blogspot.com/2026/10/learn-kannada-interactively-with-sounds.html)
 
 #### Learn हिंदी (Hindi) interactively with Sounds ####
-
 Learn Hindi, an Indian Language using AI
-
-Read more about it [here](https://aiaksharamaale.blogspot.com/2026/10/learn-hindi-interactively-with-sounds.html)
+Take look at it [here](https://aiaksharamaale.blogspot.com/2026/10/learn-hindi-interactively-with-sounds.html)
 
 
 
