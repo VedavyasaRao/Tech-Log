@@ -100,6 +100,7 @@ namespace BackupRestoreTool
             System.Threading.Thread t = new System.Threading.Thread(Loadit);
             t.Start();
         }
+
         public  void Loadit()
         {
             Load();
@@ -114,6 +115,7 @@ namespace BackupRestoreTool
             string archpath = App.archivedir + "\\brinfoK.dat";
             App.logit("Getting Archive Info....");
             App.logit(String.Format("Loading Archive {0}....", archpath));
+
             if (!archivepwdmap.ContainsKey(archpath))
             {
                 var pwd = Microsoft.VisualBasic.Interaction.InputBox("Enter the password", "Load Archive", "", -1, -1);

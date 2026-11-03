@@ -15,6 +15,8 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Mcdo-Design-Smooth-Leopard-Backup-Folder-Ash.ico</ApplicationIcon>
@@ -31,9 +33,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.4314.35, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Web.WebView2.1.0.4314.35\lib\net462\Microsoft.Web.WebView2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.WinForms, Version=1.0.4314.35, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Web.WebView2.1.0.4314.35\lib\net462\Microsoft.Web.WebView2.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.Wpf, Version=1.0.4314.35, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Web.WebView2.1.0.4314.35\lib\net462\Microsoft.Web.WebView2.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,12 +70,16 @@
     <Compile Include="ArchiveInfo.cs" />
     <Compile Include="Downloader.cs" />
     <Compile Include="EditVW.xaml.cs" />
+    <Compile Include="IceDriveLogin.xaml.cs">
+      <DependentUpon>IceDriveLogin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IOExtension.cs" />
     <Compile Include="MD5Util.cs" />
     <Compile Include="newcollection.xaml.cs">
       <DependentUpon>newcollection.xaml</DependentUpon>
     </Compile>
     <Compile Include="PipeServer.cs" />
+    <Compile Include="IceDriveInterface.cs" />
     <Compile Include="ProgressMonitor.cs" />
     <Compile Include="RestoreVW.xaml.cs">
       <DependentUpon>RestoreVW.xaml</DependentUpon>
@@ -75,6 +91,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EditVW.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="IceDriveLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -125,6 +145,7 @@
     <None Include="Commands\copy_move_link_files.cmd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -149,8 +170,16 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /I /Y   "$(ProjectDir)\..\icedrive\go-icedrive\bin" "$(TargetDir)\IceDrive\go-icedrive\bin\"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\..\packages\Microsoft.Web.WebView2.1.0.4314.35\build\Microsoft.Web.WebView2.targets" Condition="Exists('..\..\packages\Microsoft.Web.WebView2.1.0.4314.35\build\Microsoft.Web.WebView2.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Microsoft.Web.WebView2.1.0.4314.35\build\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Web.WebView2.1.0.4314.35\build\Microsoft.Web.WebView2.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

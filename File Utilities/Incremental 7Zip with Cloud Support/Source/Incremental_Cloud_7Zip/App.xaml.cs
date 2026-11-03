@@ -40,6 +40,7 @@ namespace BackupRestoreTool
         public static string tempdir = Environment.GetEnvironmentVariable("Temp");
 
         public static Dispatcher disp;
+        public static Window loginwindow;
         public static Window mainwindow;
         public static Window backupvw;
         public static Window restorevw;

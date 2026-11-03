@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace BackupRestoreTool
@@ -31,22 +33,8 @@ namespace BackupRestoreTool
 
     public class ice_interface
     {
-        const string login_exe = "IceDrive\\go-icedrive\\bin\\login.exe";
-        const string create_folder_exe = "IceDrive\\go-icedrive\\bin\\create_folder.exe";
-        const string delete_filefolder_exe = "IceDrive\\go-icedrive\\bin\\delete_filefolder.exe";
-        const string download_file_exe = "IceDrive\\go-icedrive\\bin\\download_file.exe";
-        const string find_filefolder_exe = "IceDrive\\go-icedrive\\bin\\find_filefolder.exe";
-        const string get_files_exe = "IceDrive\\go-icedrive\\bin\\get_files.exe";
-        const string get_folders_exe = "IceDrive\\go-icedrive\\bin\\get_folders.exe";
-        const string rename_filefolder_exe = "IceDrive\\go-icedrive\\bin\\rename_filefolder.exe";
-        const string upload_file_exe = "IceDrive\\go-icedrive\\bin\\upload_file.exe";
-        const int skip_lines = 2;
-        string tempfile;
+        public string status;
 
-        public ice_interface()
-        {
-            tempfile = App.outputpath + "\\temp.txt";
-        }
 
         public icedrive_folderinfo selarchive =null;
         public List<icedrive_folderinfo> archive_folder_list = null;
@@ -62,118 +50,287 @@ namespace BackupRestoreTool
 
         }
 
-        void deletetempfile()
-        {
-            if (File.Exists(tempfile))
-                File.Delete(tempfile);
-
-        }
         public string login()
         {
-            var loginid = Microsoft.VisualBasic.Interaction.InputBox("Enter the login id", "Enter Credentials", "", -1, -1);
-            var passwd = Microsoft.VisualBasic.Interaction.InputBox("Enter the password", "Enter Credentials", "", -1, -1);
-            deletetempfile();
-            string cmdline = string.Format("/c \"echo logging in... &  {0} {1} {2} > \"{3}\"\"", login_exe, loginid, passwd, tempfile);
-            System.Diagnostics.Process.Start("cmd.exe", cmdline).WaitForExit();
-            if (!File.Exists(tempfile) || new FileInfo(tempfile).Length == 0)
-                return "";
-            var lines = File.ReadAllLines(tempfile, System.Text.Encoding.GetEncoding(65001/*437*/)).Skip(skip_lines).ToArray();
-            if (lines.Length > 0)
-                return lines[0];
+            Application.Current.Dispatcher.Invoke((Action)delegate {
+                App.loginwindow = new IceDriveLogin();
+                App.loginwindow.ShowDialog();
+                if (!((IceDriveLogin)App.loginwindow).LoginSuccessful)
+                    return;
+            });
 
-            return "";
+            return ((IceDriveLogin)App.loginwindow).BearerToken;
         }
-
 
         public void create_folder(UInt64 fid, string foldername)
         {
             getuseridpasswd();
-            string cmdline = string.Format("/c \"echo creating folder... &  {0} {1} {2} \"{3}\"\"", create_folder_exe, App.bearertoken, fid, foldername);
-            System.Diagnostics.Process.Start("cmd.exe", cmdline).WaitForExit();
+            status = "";
+            using (IcedriveClient ice =
+                new IcedriveClient())
+            {
+                try
+                {
+                    long newfolderId = ice.CreateFolder((long)fid, foldername);
+                    status = (newfolderId == -1)? "ERROR: Failed to create folder":$"Success";
+                }
+                catch (Exception ex)
+                {
+                    status = $"ERROR: {ex.ToString()}";
+                }
+            }
         }
 
         public void delete_filefolder(UInt64 fid)
         {
             getuseridpasswd();
-            string cmdline = string.Format("/c \"echo deleting  file/folder ... & {0} {1} {2} {3}\"", delete_filefolder_exe, App.bearertoken, selarchive.fldrid, fid);
-            System.Diagnostics.Process.Start("cmd.exe", cmdline).WaitForExit();
+
+            status = "";
+            using (IcedriveClient ice =
+                new IcedriveClient())
+            {
+                try
+                {
+                    var item =  ice.GetItem((long)selarchive.fldrid, (long)fid);
+                    if (!(item is null) && item.Count != 0)
+                    {
+
+                        bool success = ice.DeleteItem(
+                            item[0].id,
+                            (item[0].isFolder == 0));
+
+                        status = (!success) ? "ERROR: Failed to delete" : $"Success";
+                    }
+                    else
+                        status = $"ERROR: Item not found";
+                }
+                catch (Exception ex)
+                {
+                    status = $"ERROR: {ex.ToString()}";
+                }
+            }
         }
 
         public void download_file(UInt64 fid, string target_folder)
         {
             getuseridpasswd();
-            string cmdline = string.Format("/c \"echo downloading files ... & {0} {1} {2} {3} \"{4}\"\"", download_file_exe, App.bearertoken, selarchive.fldrid, fid, target_folder.Replace('\\', '/'));
-            System.Diagnostics.Process.Start("cmd.exe", cmdline).WaitForExit();
+            status = "";
+            using (IcedriveClient ice =
+                new IcedriveClient())
+            {
+                try
+                {
+                    var item = ice.GetItem((long)selarchive.fldrid, (long)fid, true);
+                    if (!(item is null) && item.Count != 0)
+                    {
+                        bool success = ice.DownloadFile(
+                            item[0].id,
+                            target_folder.Replace('\\', '/')+"/"+ item[0].filename);
+
+                        status = (!success) ? "ERROR: Failed to download" : $"Success";
+                    }
+                    else
+                        status = $"ERROR: Item not found";
+
+                }
+                catch (Exception ex)
+                {
+                    status = $"ERROR: {ex.ToString()}";
+                }
+            }
         }
 
         public UInt64 find_filefolder(UInt64 fid, string filefoldername)
         {
             getuseridpasswd();
-            deletetempfile();
-            string cmdline = string.Format("/c \"echo finding file/folder... &  {0} {1} {2} \"{3}\" > \"{4}\"\"", find_filefolder_exe, App.bearertoken, fid, filefoldername, tempfile);
-            System.Diagnostics.Process.Start("cmd.exe", cmdline).WaitForExit();
-            if (!File.Exists(tempfile) || new FileInfo(tempfile).Length == 0)
-                return 0;
-            var lines = File.ReadAllLines(tempfile, System.Text.Encoding.GetEncoding(65001/*437*/)).Skip(skip_lines).ToArray();
-            if (lines.Length > 0)
+            using (IcedriveClient ice =
+                new IcedriveClient())
             {
-                var parts = lines[0].Split(',');
-                return UInt64.Parse(parts[1]);
+                UInt64 ret = 0;
+                try
+                {
+                    
+                    var items = ice.GetItem((long)fid, -1); 
+
+                    foreach (var itm in items)
+                    {
+                        if (itm.filename == filefoldername)
+                        {
+                            ret = (UInt64)itm.id;
+                            break;
+                        }
+                    }
+                    status = $"Success";
+                }
+                catch (Exception ex)
+                {
+                    status = $"ERROR: {ex.ToString()}";
+                }
+                return ret;
             }
-            return 0;
         }
 
-        public void get_folders()
+        public List<icedrive_folderinfo> get_archivefolders(long folderid, string parentfoldername)
+        {
+            status = "";
+            var retlst = new List<icedrive_folderinfo>();
+            using (IcedriveClient ice =
+                new IcedriveClient())
+            {
+                try
+                {
+                    long brinfo = 0;
+                    var items =  ice.ListItems(folderid);
+                    foreach (var itm in items)
+                    {
+                        if (itm.isFolder == 1)
+                        {
+                            if (itm.filename == "backups")
+                            {
+                                retlst.Add (new icedrive_folderinfo { path = $"{parentfoldername}\\{itm.filename}", fldrid = (UInt64)folderid, brinfofid = (UInt64)brinfo, bkupfldrid = (UInt64)itm.id});
+                            }
+                            else
+                            {
+                                var templist =  get_archivefolders(itm.id, $"{parentfoldername}\\{itm.filename}");
+                                retlst.AddRange(templist);
+                            }
+                        }
+                        else if (itm.isFolder == 0)
+                        {
+                            if (itm.filename == "brinfoK.dat")
+                                brinfo = itm.id;
+                        }
+                    }
+                    status = $"Success";
+                }
+                catch (Exception ex)
+                {
+                    status = $"ERROR: {ex.ToString()}";
+                }
+
+            }
+            return retlst;
+        }
+
+        public void get_archivefolders()
         {
             getuseridpasswd();
-            deletetempfile();
 
             if (archive_folder_list != null)
-                return;
-            string cmdline = string.Format("/c \"echo getting folder info... &  {0} {1} {2} ice-drive > \"{3}\"\"", get_folders_exe, App.bearertoken, 0, tempfile);
-            System.Diagnostics.Process.Start("cmd.exe", cmdline).WaitForExit();
-            if (!File.Exists(tempfile) || new FileInfo(tempfile).Length == 0)
-                return;
-            var lines = File.ReadAllLines(tempfile, System.Text.Encoding.GetEncoding(65001/*437*/)).Where(l => !l.Contains("\\2024\\")).Skip(skip_lines).Select(l => l.Replace("ice-drive\\", "").Replace("\\backups", ""));
-            archive_folder_list = lines.Select(l =>
             {
-                var parts = l.Split(',');
-                return new icedrive_folderinfo { path = parts[0], fldrid = UInt64.Parse(parts[1]), brinfofid = UInt64.Parse(parts[2]), bkupfldrid = UInt64.Parse(parts[3]) };
-            }).ToList();
+                status = "Success";
+                return;
+            }
+            
+            archive_folder_list = get_archivefolders(385609617, "ice-drive\\2026");
+            archive_folder_list = archive_folder_list.Where(itm => !itm.path.Contains("\\2024\\")).
+                Select(itm=>new icedrive_folderinfo { path= itm.path.Replace("ice-drive\\", "").Replace("\\backups", ""),
+                    fldrid= itm.fldrid,brinfofid = itm.brinfofid,bkupfldrid = itm.bkupfldrid } ).
+                ToList();
         }
 
-        public void get_filelist()
+        public List<icedrive_fileinfo> get_archivefiles(long folderid, string parentfoldername)
+        {
+            var retlst = new List<icedrive_fileinfo>();
+            status = "";
+            using (IcedriveClient ice =
+                new IcedriveClient())
+            {
+                try
+                {
+                    var items =  ice.ListItems(folderid);
+                    foreach (var itm in items)
+                    {
+
+                        if (itm.isFolder == 1)
+                        {
+                            var templst =  get_archivefiles(itm.id, $"{parentfoldername}\\{itm.filename}");
+                            retlst.AddRange(templst);
+                        }
+                        else
+                            retlst.Add(new icedrive_fileinfo {filename= $"{parentfoldername}\\{itm.filename}", fileid = (ulong)itm.id});
+                    }                      
+                    status = $"Success";
+                }
+                catch (Exception ex)
+                {
+                    status = $"ERROR: {ex.ToString()}";
+                }
+
+            }
+            return retlst;
+        }
+
+
+        public void get_archivefilelist()
         {
             getuseridpasswd();
-            deletetempfile();
-
             if (archive_fileslist != null)
-                return;
-
-            string cmdline = string.Format("/c \"echo getting files info... & {0} {1} {2} backups > \"{3}\"\"", get_files_exe, App.bearertoken, selarchive.bkupfldrid, tempfile);
-            System.Diagnostics.Process.Start("cmd.exe", cmdline).WaitForExit();
-            if (!File.Exists(tempfile) || new FileInfo(tempfile).Length == 0)
-                return;
-
-            archive_fileslist = File.ReadAllLines(tempfile, System.Text.Encoding.GetEncoding(65001/*437*/)).Skip(skip_lines).OrderBy(l => l).Select(l =>
             {
-                var parts = l.Split(',');
-                return new icedrive_fileinfo { filename = parts[0], fileid = UInt64.Parse(parts[1]) };
-            }).ToList();
+                status = "Success";
+                return;
+            }
+
+            archive_fileslist = get_archivefiles((long)selarchive.bkupfldrid, "backups");
         }
 
         public void rename_filefolder(UInt64 fid, string target_filefolder)
         {
             getuseridpasswd();
-            string cmdline = string.Format("/c \"echo renaming file ... & {0} {1} {2} {3} \"{4}\"\"", rename_filefolder_exe, App.bearertoken, selarchive.fldrid, fid, target_filefolder);
-            System.Diagnostics.Process.Start("cmd.exe", cmdline).WaitForExit();
+
+            status = "";
+            using (IcedriveClient ice =
+                new IcedriveClient())
+            {
+                try
+                {
+                    var item = ice.GetItem((long)selarchive.fldrid, (long)fid);
+                    if (!(item is null) && item.Count != 0)
+                    {
+                        bool success = ice.RenameItem(
+                            item[0].id,
+                            target_filefolder,
+                            (item[0].isFolder == 0));
+
+                        status = (!success) ? "ERROR: Failed to rename" : $"Success";
+                    }
+                    else
+                        status = $"ERROR: Item not found";
+                }
+                catch (Exception ex)
+                {
+                    status = $"ERROR: {ex.ToString()}";
+                }
+            }
         }
 
         public void upload_file(UInt64 fid, string filename)
         {
             getuseridpasswd();
-            string cmdline = string.Format("/c \"echo uploading file... &  {0} {1} {2} \"{3}\"\"", upload_file_exe, App.bearertoken, fid, filename);
-            System.Diagnostics.Process.Start("cmd.exe", cmdline).WaitForExit();
+
+            status = "";
+            using (IcedriveClient ice =
+                new IcedriveClient())
+            {
+                try
+                {
+                    //var item = ice.GetItem((long)selarchive.fldrid, (long)fid);
+                    //if (!(item is null) && item.Count != 0)
+                    {
+                        bool success = ice.UploadFile(
+                            filename,
+                            (long)fid);
+
+                        status = (!success) ? "ERROR: Failed to upload" : $"Success";
+                    }
+                    //else
+                      //  status = $"ERROR: Item not found";
+                }
+                catch (Exception ex)
+                {
+                    status = $"ERROR: {ex.ToString()}";
+                }
+            }
         }
 
         public void downloadbrinfo(string target_folder)
@@ -222,53 +379,110 @@ namespace BackupRestoreTool
 
             }
             archive_fileslist = null;
-            get_filelist();
+            get_archivefilelist();
         }
 
     }
+
     public class Downloader
     {
+        int retrycount = 0;
+        string success = "Success";
+
         public ice_interface icedrive = new ice_interface();
 
         public void create_folder(UInt64 fid, string foldername)
         {
-            icedrive.create_folder(fid, foldername);
+            retrycount = 0;
+            do
+            {
+                App.logit($"create_folder() {foldername}...");
+                icedrive.create_folder(fid, foldername);
+            } while (icedrive.status != success && retrycount++ < 3);
+            App.logit(icedrive.status);
         }
+
         public void delete_filefolder(UInt64 fid)
         {
-            icedrive.delete_filefolder(fid);
+            retrycount = 0;
+            do
+            {
+                App.logit($"delete_filefolder() {fid}...");
+                icedrive.delete_filefolder(fid);
+            } while (icedrive.status != success && retrycount++ < 3);
+            App.logit(icedrive.status);
         }
 
         public void download_file(UInt64 fid, string foldername)
         {
-            icedrive.download_file(fid, foldername);
+            retrycount = 0;
+            do
+            {
+                App.logit("download_file() {foldername}...");
+                icedrive.download_file(fid, foldername);
+            } while (icedrive.status != success && retrycount++ < 3);
+            App.logit(icedrive.status);
         }
 
         public List<icedrive_folderinfo> getarchiveinfo()
         {
-            icedrive.get_folders();
+            retrycount = 0;
+            do
+            {
+                App.logit("get_archivefolders()...");
+                icedrive.get_archivefolders();
+            } while (icedrive.status != success && retrycount++ < 3);
+            App.logit(icedrive.status);
             return icedrive.archive_folder_list;
         }
 
         public List<icedrive_fileinfo> getfilelist()
         {
-            icedrive.get_filelist();
+            retrycount = 0;
+            do
+            {
+                App.logit("get_archivefilelist()...");
+                icedrive.get_archivefilelist();
+            } while (icedrive.status != success && retrycount++ < 3);
+            App.logit(icedrive.status);
             return icedrive.archive_fileslist;
+
         }
 
         public UInt64 find_filefolder(UInt64 fid, string filefoldername)
         {
-            return icedrive.find_filefolder(fid, filefoldername);
+            UInt64 ret;
+            retrycount = 0;
+            do
+            {
+                App.logit($"find_filefolder() {filefoldername}...");
+                ret = icedrive.find_filefolder(fid, filefoldername);
+            } while (icedrive.status != success && retrycount++ < 3);
+            App.logit(icedrive.status);
+            return ret;
+
         }
 
         public void rename_filefolder(UInt64 fid, string target_filefolder)
         {
-            icedrive.upload_file(fid, target_filefolder);
+            retrycount = 0;
+            do
+            {
+                App.logit($"rename_filefolder() {target_filefolder}...");
+                icedrive.upload_file(fid, target_filefolder);
+            } while (icedrive.status != success && retrycount++ < 3);
+            App.logit(icedrive.status);
         }
 
         public void upload_file(UInt64 fid, string filename)
         {
-            icedrive.upload_file(fid, filename);
+            retrycount = 0;
+            do
+            {
+                App.logit($"upload_file()  {filename}...");
+                icedrive.upload_file(fid, filename);
+            } while (icedrive.status != success && retrycount++ < 3);
+            App.logit(icedrive.status);
         }
 
         public void downloadbrinfo(string foldername)

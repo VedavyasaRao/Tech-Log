@@ -158,7 +158,6 @@ namespace BackupRestoreTool
 
         private void Cloud_Click(object sender, RoutedEventArgs e)
         {
-
             App.arm.SelectCloudArchive();
 
         }
