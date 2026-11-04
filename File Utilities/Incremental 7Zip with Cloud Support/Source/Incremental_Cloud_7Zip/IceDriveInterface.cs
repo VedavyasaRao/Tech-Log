@@ -4,10 +4,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Text;
+using System.Globalization;
+
 using System.Security.Cryptography;
-using System.Threading.Tasks;
+
 using System.Web.Script.Serialization;
 
 namespace BackupRestoreTool
@@ -77,1187 +78,342 @@ namespace BackupRestoreTool
 
     public class IcedriveClient : IDisposable
     {
-        private readonly HttpClient client;
-        private string bearerToken;
-
-        private const string BaseUrl =
-            "https://apis.icedrive.net/v3/webapp/collection&type=cloud&folderId=";
+        private readonly string bearerToken;
+        private const string ApiRoot = "https://apis.icedrive.net/v3/webapp/";
+        private const int TimeoutMs = 1800000;
+        private const string BrowserUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36";
 
         public IcedriveClient()
         {
             bearerToken = App.bearertoken;
-
             if (string.IsNullOrWhiteSpace(bearerToken))
                 throw new ArgumentException("Bearer token is required.");
-
-            HttpClientHandler handler = new HttpClientHandler();
-
-            handler.AutomaticDecompression =
-                DecompressionMethods.GZip |
-                DecompressionMethods.Deflate;
-
-            handler.AllowAutoRedirect = false;
-
-            client = new HttpClient(handler);
-            client.Timeout = TimeSpan.FromSeconds(60);
         }
 
-        public long CreateFolder(
-            long parentFolderId,
-            string folderName)
+        private static bool IsIcedriveStorage(Uri uri)
         {
-            if (parentFolderId < 0)
-                throw new ArgumentException("Invalid folder ID.");
+            return uri != null && uri.Scheme == Uri.UriSchemeHttps &&
+                (uri.Host.Equals("icedrive.io", StringComparison.OrdinalIgnoreCase) ||
+                 uri.Host.EndsWith(".icedrive.io", StringComparison.OrdinalIgnoreCase));
+        }
 
-            if (string.IsNullOrWhiteSpace(folderName))
-                throw new ArgumentException("Folder name cannot be empty.");
+        private HttpWebRequest CreateRequest(string url, string method, bool authorized)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = method;
+            request.ProtocolVersion = HttpVersion.Version11;
+            request.Timeout = TimeoutMs;
+            request.ReadWriteTimeout = TimeoutMs;
+            request.AllowAutoRedirect = false;
+            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            request.UserAgent = BrowserUserAgent;
+            request.Accept = "*/*";
+            request.Referer = "https://icedrive.net/";
+            request.KeepAlive = true;
+            request.Headers[HttpRequestHeader.AcceptLanguage] = "en-US,en;q=0.9,kn;q=0.8";
+            request.Headers["Origin"] = "https://icedrive.net";
+            if (authorized)
+                request.Headers[HttpRequestHeader.Authorization] = "Bearer " + bearerToken;
+            return request;
+        }
 
-            string url =
-                "https://apis.icedrive.net/v3/webapp/folder-create";
+        private static string ReadResponse(HttpWebResponse response)
+        {
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                return reader.ReadToEnd();
+        }
 
-            using (HttpRequestMessage request =
-                new HttpRequestMessage(HttpMethod.Post, url))
+        private static HttpWebResponse GetResponse(HttpWebRequest request)
+        {
+            try { return (HttpWebResponse)request.GetResponse(); }
+            catch (WebException ex)
             {
-                request.Version = new Version(1, 1);
-
-                // Authorization
-                request.Headers.Authorization =
-                    new AuthenticationHeaderValue(
-                        "Bearer", bearerToken);
-
-                // Browser headers
-                request.Headers.TryAddWithoutValidation(
-                    "User-Agent",
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-                    "AppleWebKit/537.36 (KHTML, like Gecko) " +
-                    "Chrome/156.0.0.0 Safari/537.36");
-
-                request.Headers.TryAddWithoutValidation(
-                    "sec-ch-ua-platform", "\"Windows\"");
-
-                request.Headers.TryAddWithoutValidation(
-                    "sec-ch-ua",
-                    "\"Not:A-Brand\";v=\"8\", " +
-                    "\"Chromium\";v=\"156\", " +
-                    "\"Google Chrome\";v=\"156\"");
-
-                request.Headers.TryAddWithoutValidation(
-                    "sec-ch-ua-mobile", "?0");
-
-                request.Headers.TryAddWithoutValidation(
-                    "DNT", "1");
-
-                request.Headers.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("*/*"));
-
-                request.Headers.TryAddWithoutValidation(
-                    "Origin", "https://icedrive.net");
-
-                request.Headers.Referrer =
-                    new Uri("https://icedrive.net/");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Sec-Fetch-Site", "same-site");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Sec-Fetch-Mode", "cors");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Sec-Fetch-Dest", "empty");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Accept-Language",
-                    "en-US,en;q=0.9,kn;q=0.8");
-
-                // Multipart form data
-                using (MultipartFormDataContent form =
-                    new MultipartFormDataContent())
+                HttpWebResponse errorResponse = ex.Response as HttpWebResponse;
+                if (errorResponse == null) throw;
+                using (errorResponse)
                 {
-                    form.Add(
-                        new StringContent("folder-create"),
-                        "request");
-
-                    form.Add(
-                        new StringContent("folder-create"),
-                        "type");
-
-                    form.Add(
-                        new StringContent("folder-" + parentFolderId),
-                        "parentId");
-
-                    form.Add(
-                        new StringContent(folderName),
-                        "filename");
-
-                    request.Content = form;
-
-
-                    using (HttpResponseMessage response =
-                        client.SendAsync(request).GetAwaiter().GetResult())
-                    {
-                        string json =
-                            response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-                        if (!response.IsSuccessStatusCode)
-                        {
-                            throw new Exception(
-                                "CreateFolder HTTP Error: " +
-                                (int)response.StatusCode +
-                                Environment.NewLine +
-                                json);
-                        }
-
-                        JavaScriptSerializer serializer =
-                            new JavaScriptSerializer();
-
-                        IcedriveCreateFolderResponse result =
-                            serializer.Deserialize<IcedriveCreateFolderResponse>(json);
-
-                        if (result == null)
-                            throw new Exception("Empty CreateFolder response.");
-
-                        if (result.error)
-                            throw new Exception(
-                                "Icedrive API Error: " + result.message);
-
-                        if (result.folderId <= 0)
-                            throw new Exception(
-                                "CreateFolder succeeded but returned an invalid folder ID.");
-
-                        return result.folderId;
-                    }
+                    string details = ReadResponse(errorResponse);
+                    throw new IOException("HTTP " + (int)errorResponse.StatusCode +
+                        " " + errorResponse.StatusDescription + ": " + details, ex);
                 }
             }
+        }
+
+        private static string RequestText(HttpWebRequest request)
+        {
+            using (HttpWebResponse response = GetResponse(request))
+            {
+                if (response.StatusCode != HttpStatusCode.OK &&
+                    response.StatusCode != HttpStatusCode.Created &&
+                    response.StatusCode != HttpStatusCode.NoContent)
+                    throw new IOException("Unexpected HTTP status " + (int)response.StatusCode);
+                return ReadResponse(response);
+            }
+        }
+
+        private static string EscapeHeader(string value)
+        {
+            return value.Replace("\\", "_").Replace("\"", "_").Replace("\r", "_").Replace("\n", "_");
+        }
+
+        private static void WriteUtf8(Stream stream, string text)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(text);
+            stream.Write(bytes, 0, bytes.Length);
+        }
+
+        // Stream multipart bodies without buffering the entire file in memory.
+        private string PostMultipart(string url, Dictionary<string, string> fields,
+            string filePath = null, bool storageEndpoint = false)
+        {
+            HttpWebRequest request = CreateRequest(url, "POST", true);
+            if (storageEndpoint) request.Headers["X-Icedrive-Api-Version"] = "2";
+            string boundary = "----IcedriveBoundary" + Guid.NewGuid().ToString("N");
+            request.ContentType = "multipart/form-data; boundary=" + boundary;
+            request.AllowWriteStreamBuffering = false;
+            // Chunked transfer is supported by HTTP/1.1; some storage endpoints may
+            // require Content-Length, so calculate it instead.
+            byte[] prefix;
+            using (MemoryStream buffer = new MemoryStream())
+            {
+                foreach (KeyValuePair<string, string> field in fields)
+                {
+                    WriteUtf8(buffer, "--" + boundary + "\r\nContent-Disposition: form-data; name=\"" +
+                        EscapeHeader(field.Key) + "\"\r\n\r\n" + field.Value + "\r\n");
+                }
+                if (filePath != null)
+                {
+                    string filename = EscapeHeader(Path.GetFileName(filePath));
+                    string ext = Path.GetExtension(filename).ToLowerInvariant();
+                    string mime = ext == ".txt" ? "text/plain" :
+                        (ext == ".htm" || ext == ".html") ? "text/html" :
+                        ext == ".json" ? "application/json" :
+                        ext == ".pdf" ? "application/pdf" : "application/octet-stream";
+                    WriteUtf8(buffer, "--" + boundary + "\r\nContent-Disposition: form-data; name=\"files[]\"; filename=\"" +
+                        filename + "\"\r\nContent-Type: " + mime + "\r\n\r\n");
+                }
+                prefix = buffer.ToArray();
+            }
+            byte[] suffix = Encoding.UTF8.GetBytes((filePath != null ? "\r\n" : "") + "--" + boundary + "--\r\n");
+            long fileLength = filePath == null ? 0 : new FileInfo(filePath).Length;
+            request.ContentLength = prefix.LongLength + fileLength + suffix.LongLength;
+            using (Stream destination = request.GetRequestStream())
+            {
+                destination.Write(prefix, 0, prefix.Length);
+                if (filePath != null)
+                    using (FileStream source = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                        source.CopyTo(destination);
+                destination.Write(suffix, 0, suffix.Length);
+            }
+            return RequestText(request);
+        }
+
+        private static Dictionary<string, object> ParseSuccess(string json, string operation)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            serializer.MaxJsonLength = int.MaxValue;
+            Dictionary<string, object> data = serializer.Deserialize<Dictionary<string, object>>(json);
+            if (data == null) throw new IOException(operation + ": empty JSON response");
+            object error;
+            if (data.TryGetValue("error", out error) && Convert.ToBoolean(error))
+                throw new IOException(operation + ": " +
+                    (data.ContainsKey("message") ? Convert.ToString(data["message"]) : json));
+            return data;
+        }
+
+        public long CreateFolder(long parentFolderId, string folderName)
+        {
+            if (parentFolderId < 0) throw new ArgumentException("Invalid folder ID.");
+            if (string.IsNullOrWhiteSpace(folderName)) throw new ArgumentException("Folder name cannot be empty.");
+            string json = PostMultipart(ApiRoot + "folder-create", new Dictionary<string, string>
+            {
+                {"request", "folder-create"}, {"type", "folder-create"},
+                {"parentId", "folder-" + parentFolderId}, {"filename", folderName}
+            });
+            ParseSuccess(json, "CreateFolder");
+            IcedriveCreateFolderResponse result = new JavaScriptSerializer().Deserialize<IcedriveCreateFolderResponse>(json);
+            if (result == null || result.folderId <= 0) throw new IOException("CreateFolder returned an invalid folder ID.");
+            return result.folderId;
         }
 
         public bool DeleteItem(long itemId, bool bFile)
         {
-            if (itemId <= 0)
-                throw new ArgumentException("Invalid Item ID.");
-
-            string url =
-                "https://apis.icedrive.net/v3/webapp/trash-add";
-
-            using (HttpRequestMessage request =
-                new HttpRequestMessage(HttpMethod.Post, url))
+            if (itemId <= 0) throw new ArgumentException("Invalid item ID.");
+            string json = PostMultipart(ApiRoot + "trash-add", new Dictionary<string, string>
             {
-                request.Version = new Version(1, 1);
-
-                // Authorization
-                request.Headers.Authorization =
-                    new AuthenticationHeaderValue(
-                        "Bearer", bearerToken);
-
-                // Browser-compatible headers
-                request.Headers.Connection.Add("keep-alive");
-
-                request.Headers.TryAddWithoutValidation(
-                    "User-Agent",
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-                    "AppleWebKit/537.36 (KHTML, like Gecko) " +
-                    "Chrome/156.0.0.0 Safari/537.36");
-
-                request.Headers.TryAddWithoutValidation(
-                    "sec-ch-ua-platform", "\"Windows\"");
-
-                request.Headers.TryAddWithoutValidation(
-                    "sec-ch-ua",
-                    "\"Not:A-Brand\";v=\"8\", " +
-                    "\"Chromium\";v=\"156\", " +
-                    "\"Google Chrome\";v=\"156\"");
-
-                request.Headers.TryAddWithoutValidation(
-                    "sec-ch-ua-mobile", "?0");
-
-                request.Headers.TryAddWithoutValidation(
-                    "DNT", "1");
-
-                request.Headers.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("*/*"));
-
-                request.Headers.TryAddWithoutValidation(
-                    "Origin", "https://icedrive.net");
-
-                request.Headers.Referrer =
-                    new Uri("https://icedrive.net/");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Sec-Fetch-Site", "same-site");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Sec-Fetch-Mode", "cors");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Sec-Fetch-Dest", "empty");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Accept-Language",
-                    "en-US,en;q=0.9,kn;q=0.8");
-
-                // Multipart form data
-                using (MultipartFormDataContent form =
-                    new MultipartFormDataContent())
-                {
-                    form.Add(
-                        new StringContent("trash-add"),
-                        "request");
-
-                    form.Add(
-                        new StringContent(((bFile)?"file-":"folder-") + itemId),
-                        "items");
-
-                    request.Content = form;
-
-                    using (HttpResponseMessage response =
-                         client.SendAsync(request).GetAwaiter().GetResult())
-                    {
-                        string json =
-                             response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-                        if (!response.IsSuccessStatusCode)
-                        {
-                            throw new Exception(
-                                "DeleteItem HTTP Error: " +
-                                (int)response.StatusCode +
-                                Environment.NewLine +
-                                json);
-                        }
-
-                        JavaScriptSerializer serializer =
-                            new JavaScriptSerializer();
-
-                        var result =
-                            serializer.Deserialize<Dictionary<string, object>>(json);
-
-                        if (result == null)
-                            throw new Exception(
-                                "Empty DeleteItem response.");
-
-                        if (result.ContainsKey("error") &&
-                            Convert.ToBoolean(result["error"]))
-                        {
-                            string message =
-                                result.ContainsKey("message")
-                                ? Convert.ToString(result["message"])
-                                : "Unknown Icedrive error";
-
-                            throw new Exception(
-                                "DeleteItem API Error: " + message);
-                        }
-
-                        return true;
-                    }
-                }
-            }
+                {"request", "trash-add"}, {"items", (bFile ? "file-" : "folder-") + itemId}
+            });
+            ParseSuccess(json, "DeleteItem");
+            return true;
         }
 
-        public bool RenameItem(
-            long itemID,
-            string newItemName, bool bFile)
+        public bool RenameItem(long itemID, string newItemName, bool bFile)
         {
-            if (itemID <= 0)
-                throw new ArgumentException("Invalid Item ID.");
-
-            if (string.IsNullOrWhiteSpace(newItemName))
-                throw new ArgumentException("Item name cannot be empty.");
-
-            string url =
-                $"https://apis.icedrive.net/v3/webapp/{(bFile?"file":"folder")}-rename";
-
-            using (HttpRequestMessage request =
-                new HttpRequestMessage(HttpMethod.Post, url))
+            if (itemID <= 0) throw new ArgumentException("Invalid item ID.");
+            if (string.IsNullOrWhiteSpace(newItemName)) throw new ArgumentException("Item name cannot be empty.");
+            string kind = bFile ? "file" : "folder";
+            string json = PostMultipart(ApiRoot + kind + "-rename", new Dictionary<string, string>
             {
-                request.Version = new Version(1, 1);
-
-                // Authorization
-                request.Headers.Authorization =
-                    new AuthenticationHeaderValue(
-                        "Bearer", bearerToken);
-
-                // Browser headers
-                request.Headers.TryAddWithoutValidation(
-                    "User-Agent",
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-                    "AppleWebKit/537.36 (KHTML, like Gecko) " +
-                    "Chrome/156.0.0.0 Safari/537.36");
-
-                request.Headers.TryAddWithoutValidation(
-                    "sec-ch-ua-platform", "\"Windows\"");
-
-                request.Headers.TryAddWithoutValidation(
-                    "sec-ch-ua",
-                    "\"Not:A-Brand\";v=\"8\", " +
-                    "\"Chromium\";v=\"156\", " +
-                    "\"Google Chrome\";v=\"156\"");
-
-                request.Headers.TryAddWithoutValidation(
-                    "sec-ch-ua-mobile", "?0");
-
-                request.Headers.TryAddWithoutValidation(
-                    "DNT", "1");
-
-                request.Headers.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("*/*"));
-
-                request.Headers.TryAddWithoutValidation(
-                    "Origin", "https://icedrive.net");
-
-                request.Headers.Referrer =
-                    new Uri("https://icedrive.net/");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Sec-Fetch-Site", "same-site");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Sec-Fetch-Mode", "cors");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Sec-Fetch-Dest", "empty");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Accept-Language",
-                    "en-US,en;q=0.9,kn;q=0.8");
-
-                // Multipart form data
-                using (MultipartFormDataContent form =
-                    new MultipartFormDataContent())
-                {
-                    form.Add(
-                        new StringContent($"{(bFile ? "file" : "folder")}-rename"),
-                        "request");
-
-                    form.Add(
-                        new StringContent(newItemName),
-                        "filename");
-
-                    form.Add(
-                        new StringContent($"{(bFile ? "file" : "folder")}-{itemID}"),
-                        "id");
-
-                    request.Content = form;
-
-                    using (HttpResponseMessage response =
-                         client.SendAsync(request).GetAwaiter().GetResult())
-                    {
-                        string json =
-                             response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-                        if (!response.IsSuccessStatusCode)
-                        {
-                            throw new Exception(
-                                "RenameItem HTTP Error: " +
-                                (int)response.StatusCode +
-                                Environment.NewLine +
-                                json);
-                        }
-
-                        JavaScriptSerializer serializer =
-                            new JavaScriptSerializer();
-
-                        var result =
-                            serializer.Deserialize<Dictionary<string, object>>(json);
-
-                        if (result == null)
-                            throw new Exception("Empty RenameItem response.");
-
-                        if (result.ContainsKey("error") &&
-                            Convert.ToBoolean(result["error"]))
-                        {
-                            string message = result.ContainsKey("message")
-                                ? Convert.ToString(result["message"])
-                                : "Unknown Icedrive error";
-
-                            throw new Exception(
-                                "RenameItem API Error: " + message);
-                        }
-
-                        return true;
-                    }
-                }
-            }
+                {"request", kind + "-rename"}, {"filename", newItemName}, {"id", kind + "-" + itemID}
+            });
+            ParseSuccess(json, "RenameItem");
+            return true;
         }
 
         private IcedriveResponse GetCollection(long folderId)
         {
-            string url = BaseUrl + folderId;
-
-            using (HttpRequestMessage request =
-                new HttpRequestMessage(HttpMethod.Get, url))
-            {
-                request.Version = new Version(1, 1);
-
-                // Authorization
-                request.Headers.Authorization =
-                    new AuthenticationHeaderValue(
-                        "Bearer", bearerToken);
-
-                // Connection
-                request.Headers.Connection.Add("keep-alive");
-
-                // Browser headers
-                request.Headers.TryAddWithoutValidation(
-                    "sec-ch-ua-platform", "\"Windows\"");
-
-                request.Headers.TryAddWithoutValidation(
-                    "sec-ch-ua",
-                    "\"Not:A-Brand\";v=\"8\", " +
-                    "\"Chromium\";v=\"156\", " +
-                    "\"Google Chrome\";v=\"156\"");
-
-                request.Headers.TryAddWithoutValidation(
-                    "sec-ch-ua-mobile", "?0");
-
-                request.Headers.TryAddWithoutValidation(
-                    "User-Agent",
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-                    "AppleWebKit/537.36 (KHTML, like Gecko) " +
-                    "Chrome/156.0.0.0 Safari/537.36");
-
-                // Accept
-                request.Headers.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue(
-                        "application/json"));
-
-                // Cache
-                request.Headers.TryAddWithoutValidation(
-                    "Cache", "no-cache");
-
-                // DNT
-                request.Headers.TryAddWithoutValidation(
-                    "DNT", "1");
-
-                // Content-Type header only.
-                // IMPORTANT: Do not assign request.Content for GET.
-                request.Headers.TryAddWithoutValidation(
-                    "Content-Type", "application/json");
-
-                // Origin
-                request.Headers.TryAddWithoutValidation(
-                    "Origin", "https://icedrive.net");
-
-                // Fetch headers
-                request.Headers.TryAddWithoutValidation(
-                    "Sec-Fetch-Site", "same-site");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Sec-Fetch-Mode", "cors");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Sec-Fetch-Dest", "empty");
-
-                // Referer
-                request.Headers.Referrer =
-                    new Uri("https://icedrive.net/");
-
-                // Accept-Encoding
-                request.Headers.TryAddWithoutValidation(
-                    "Accept-Encoding", "gzip, deflate");
-
-                // Accept-Language
-                request.Headers.TryAddWithoutValidation(
-                    "Accept-Language",
-                    "en-US,en;q=0.9,kn;q=0.8");
-
-                // IMPORTANT:
-                // No request.Content for GET.
-
-                using (HttpResponseMessage response =
-                     client.SendAsync(request).GetAwaiter().GetResult())
-                {
-                    string json =
-                         response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        throw new Exception(
-                            "Icedrive HTTP Error: " +
-                            (int)response.StatusCode +
-                            " " + response.ReasonPhrase +
-                            Environment.NewLine +
-                            json);
-                    }
-
-                    JavaScriptSerializer serializer =
-                        new JavaScriptSerializer();
-
-                    serializer.MaxJsonLength = int.MaxValue;
-
-                    IcedriveResponse result =
-                        serializer.Deserialize<IcedriveResponse>(json);
-
-                    if (result == null)
-                        throw new Exception("Empty Icedrive response.");
-
-                    if (result.error)
-                    {
-                        throw new Exception(
-                            "Icedrive API Error: " + result.message);
-                    }
-
-                    if (result.data == null)
-                        result.data = new List<IcedriveItem>();
-
-                    return result;
-                }
-            }
+            HttpWebRequest request = CreateRequest(ApiRoot + "collection&type=cloud&folderId=" + folderId, "GET", true);
+            request.Accept = "application/json";
+            string json = RequestText(request);
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            serializer.MaxJsonLength = int.MaxValue;
+            IcedriveResponse result = serializer.Deserialize<IcedriveResponse>(json);
+            if (result == null || result.error)
+                throw new IOException("GetCollection: " + (result == null ? "empty response" : result.message));
+            if (result.data == null) result.data = new List<IcedriveItem>();
+            return result;
         }
 
-        public List<IcedriveItem> ListItems(
-            long folderId)
+        public List<IcedriveItem> ListItems(long folderId)
         {
-            IcedriveResponse result =
-                GetCollection(folderId);
-
-            return result.data           
-                .ToList();
+            return GetCollection(folderId).data.ToList();
         }
 
-
-        public string UploadFile(
-            string localFilePath,
-            long parentFolderId,
-            string uploadUrl)
+        public string UploadFile(string localFilePath, long parentFolderId, string uploadUrl)
         {
-            if (!File.Exists(localFilePath))
-                throw new FileNotFoundException(
-                    "File not found.", localFilePath);
-
-            if (string.IsNullOrWhiteSpace(uploadUrl))
-                throw new ArgumentException("Upload URL is required.");
-
+            if (!File.Exists(localFilePath)) throw new FileNotFoundException("File not found.", localFilePath);
             Uri uri;
-            if (!Uri.TryCreate(uploadUrl, UriKind.Absolute, out uri) ||
-                uri.Scheme != Uri.UriSchemeHttps)
+            if (!Uri.TryCreate(uploadUrl, UriKind.Absolute, out uri) || !IsIcedriveStorage(uri) ||
+                uri.AbsolutePath != "/deposit")
+                throw new ArgumentException("Invalid Icedrive upload URL.");
+            DateTime modified = File.GetLastWriteTimeUtc(localFilePath);
+            double seconds = (modified - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
+            string json = PostMultipart(uploadUrl, new Dictionary<string, string>
             {
-                throw new ArgumentException("Invalid HTTPS upload URL.");
-            }
-
-            // Upload only to the Icedrive storage domain.
-            if (!uri.Host.Equals("icedrive.io",
-                    StringComparison.OrdinalIgnoreCase) &&
-                !uri.Host.EndsWith(".icedrive.io",
-                    StringComparison.OrdinalIgnoreCase))
-            {
-                throw new ArgumentException(
-                    "Upload URL is not an Icedrive storage endpoint.");
-            }
-
-            string filename = Path.GetFileName(localFilePath);
-
-            // Unix timestamp in seconds, including milliseconds.
-            DateTime modified =
-                File.GetLastWriteTimeUtc(localFilePath);
-
-            double timestamp =
-                (modified -
-                 new DateTime(1970, 1, 1, 0, 0, 0,
-                     DateTimeKind.Utc)).TotalSeconds;
-
-            string moddate = timestamp.ToString(
-                "0.###",
-                System.Globalization.CultureInfo.InvariantCulture);
-
-            using (HttpRequestMessage request =
-                new HttpRequestMessage(HttpMethod.Post, uri))
-            {
-                request.Version = new Version(1, 1);
-
-                request.Headers.Authorization =
-                    new AuthenticationHeaderValue(
-                        "Bearer", bearerToken);
-
-                request.Headers.TryAddWithoutValidation(
-                    "X-Icedrive-Api-Version", "2");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Origin", "https://icedrive.net");
-
-                request.Headers.Referrer =
-                    new Uri("https://icedrive.net/");
-
-                request.Headers.TryAddWithoutValidation(
-                    "User-Agent",
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-                    "AppleWebKit/537.36 (KHTML, like Gecko) " +
-                    "Chrome/156.0.0.0 Safari/537.36");
-
-                request.Headers.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("*/*"));
-
-                using (MultipartFormDataContent form =
-                    new MultipartFormDataContent())
-                {
-                    form.Add(
-                        new StringContent(
-                            parentFolderId.ToString()),
-                        "folderId");
-
-                    form.Add(
-                        new StringContent(moddate),
-                        "moddate");
-
-                    using (FileStream stream =
-                        new FileStream(
-                            localFilePath,
-                            FileMode.Open,
-                            FileAccess.Read,
-                            FileShare.Read))
-                    {
-                        StreamContent fileContent =
-                            new StreamContent(stream);
-
-                        string extension =
-                            Path.GetExtension(filename).ToLowerInvariant();
-
-                        string contentType = "application/octet-stream";
-
-                        if (extension == ".txt")
-                            contentType = "text/plain";
-                        else if (extension == ".html" ||
-                                 extension == ".htm")
-                            contentType = "text/html";
-                        else if (extension == ".json")
-                            contentType = "application/json";
-                        else if (extension == ".pdf")
-                            contentType = "application/pdf";
-
-                        fileContent.Headers.ContentType =
-                            new MediaTypeHeaderValue(contentType);
-
-                        form.Add(
-                            fileContent,
-                            "files[]",
-                            filename);
-
-                        request.Content = form;
-
-                        using (HttpResponseMessage response =
-                             client.SendAsync(request).GetAwaiter().GetResult())
-                        {
-                            string result =
-                                 response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-                            if (!response.IsSuccessStatusCode)
-                            {
-                                throw new Exception(
-                                    "Upload failed. HTTP " +
-                                    (int)response.StatusCode +
-                                    Environment.NewLine +
-                                    result);
-                            }
-
-                            return result;
-                        }
-                    }
-                }
-            }
+                {"folderId", parentFolderId.ToString(CultureInfo.InvariantCulture)},
+                {"moddate", seconds.ToString("0.###", CultureInfo.InvariantCulture)}
+            }, localFilePath, true);
+            ParseSuccess(json, "UploadFile");
+            return json;
         }
 
-
-        public bool DownloadFile(
-            long fileId,
-            string localFilePath)
+        public bool DownloadFile(long fileId, string localFilePath)
         {
-            if (fileId <= 0)
-                throw new ArgumentException("Invalid file ID.");
-
-            if (string.IsNullOrWhiteSpace(localFilePath))
-                throw new ArgumentException("Invalid destination path.");
-
-            // STEP 1: Get download information
+            if (fileId <= 0) throw new ArgumentException("Invalid file ID.");
+            if (string.IsNullOrWhiteSpace(localFilePath)) throw new ArgumentException("Invalid destination path.");
             string json = GetDownloadUrl(fileId);
-
-            JavaScriptSerializer serializer =
-                new JavaScriptSerializer();
-
-            DownloadMultiResponse result =
-                serializer.Deserialize<DownloadMultiResponse>(json);
-
-            if (result == null)
-                throw new Exception("Invalid download response.");
-
-            if (result.error)
-                throw new Exception(
-                    "Icedrive API error: " + result.message);
-
-            if (result.urls == null || result.urls.Count == 0)
-                throw new Exception("No download URL returned.");
-
-            DownloadUrlEntry fileInfo = result.urls[0];
-
-            string downloadUrl = fileInfo.url;
-
+            DownloadMultiResponse result = new JavaScriptSerializer().Deserialize<DownloadMultiResponse>(json);
+            if (result == null || result.error || result.urls == null || result.urls.Count == 0)
+                throw new IOException("Invalid Icedrive download response.");
+            DownloadUrlEntry info = result.urls[0];
+            if (info.id != 0 && info.id != fileId)
+                throw new IOException("Download response file ID mismatch.");
             Uri uri;
-
-            if (!Uri.TryCreate(
-                    downloadUrl,
-                    UriKind.Absolute,
-                    out uri) ||
-                uri.Scheme != Uri.UriSchemeHttps)
-            {
-                throw new Exception("Invalid download URL.");
-            }
-
-            if (!uri.Host.Equals("icedrive.io",
-                    StringComparison.OrdinalIgnoreCase) &&
-                !uri.Host.EndsWith(".icedrive.io",
-                    StringComparison.OrdinalIgnoreCase))
-            {
-                throw new Exception(
-                    "Unexpected download server: " + uri.Host);
-            }
-
-            // STEP 2: Prepare destination
-            string directory =
-                Path.GetDirectoryName(Path.GetFullPath(localFilePath));
-
+            if (!Uri.TryCreate(info.url, UriKind.Absolute, out uri) || !IsIcedriveStorage(uri))
+                throw new IOException("Invalid Icedrive download URL.");
+            string directory = Path.GetDirectoryName(Path.GetFullPath(localFilePath));
             Directory.CreateDirectory(directory);
-
             string temporaryPath = localFilePath + ".part";
-
-            // STEP 3: Download actual file
             try
             {
-                using (HttpRequestMessage request =
-                    new HttpRequestMessage(HttpMethod.Get, uri))
+                HttpWebRequest request = CreateRequest(info.url, "GET", false);
+                // Avoid automatic decompression for binary storage files; compare raw byte counts.
+                request.AutomaticDecompression = DecompressionMethods.None;
+                using (HttpWebResponse response = GetResponse(request))
                 {
-                    request.Version = new Version(1, 1);
-
-                    request.Headers.TryAddWithoutValidation(
-                        "User-Agent",
-                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-                        "AppleWebKit/537.36 (KHTML, like Gecko) " +
-                        "Chrome/156.0.0.0 Safari/537.36");
-
-                    request.Headers.Accept.Add(
-                        new MediaTypeWithQualityHeaderValue("*/*"));
-
-                    request.Headers.Referrer =
-                        new Uri("https://icedrive.net/");
-
-                    // Do not send Authorization, Origin, or
-                    // X-Icedrive-Api-Version for this test.
-
-                    using (HttpResponseMessage response =
-                         client.SendAsync(
-                            request,
-                            HttpCompletionOption.ResponseHeadersRead).GetAwaiter().GetResult())
-                    {
-                        if (!response.IsSuccessStatusCode)
-                        {
-                            string error =
-                                 response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                            /*
-                            Console.WriteLine(
-                                "Download HTTP Status: " +
-                                (int)response.StatusCode);
-
-                            Console.WriteLine(
-                                "Reason: " + response.ReasonPhrase);
-
-                            Console.WriteLine(
-                                "Content-Type: " +
-                                response.Content.Headers.ContentType);
-
-                            Console.WriteLine(
-                                "Response Body: " + error);
-                            */
-
-                            throw new Exception(
-                                "File download failed. HTTP " +
-                                (int)response.StatusCode);
-                        }
-
-                        using (Stream source =
-                             response.Content.ReadAsStreamAsync().GetAwaiter().GetResult())
-                        using (FileStream destination =
-                            new FileStream(
-                                temporaryPath,
-                                FileMode.Create,
-                                FileAccess.Write,
-                                FileShare.None))
-                        {
-                             source.CopyToAsync(destination);
-                        }
-                    }
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        throw new IOException("Unexpected download HTTP status: " + (int)response.StatusCode);
+                    if (response.ContentType.StartsWith("text/html", StringComparison.OrdinalIgnoreCase) ||
+                        response.ContentType.StartsWith("application/json", StringComparison.OrdinalIgnoreCase))
+                        throw new IOException("Download returned " + response.ContentType + " instead of file data.");
+                    using (Stream source = response.GetResponseStream())
+                    using (FileStream destination = new FileStream(temporaryPath, FileMode.Create, FileAccess.Write, FileShare.None))
+                        source.CopyTo(destination);
+                    long actual = new FileInfo(temporaryPath).Length;
+                    if (response.ContentLength >= 0 && actual != response.ContentLength)
+                        throw new IOException("HTTP download size mismatch: " + actual + " vs " + response.ContentLength);
+                    if (actual != info.filesize)
+                        throw new IOException("Icedrive download size mismatch: " + actual + " vs " + info.filesize);
                 }
-
-                // STEP 4: Verify downloaded size
-                long downloadedSize =
-                    new FileInfo(temporaryPath).Length;
-
-                if (downloadedSize != fileInfo.filesize)
-                {
-                    throw new Exception(
-                        "Download size mismatch. Expected " +
-                        fileInfo.filesize +
-                        " bytes, received " +
-                        downloadedSize + " bytes.");
-                }
-
-                // STEP 5: Move completed download into place
-                if (File.Exists(localFilePath))
-                    File.Delete(localFilePath);
-
+                if (File.Exists(localFilePath)) File.Delete(localFilePath);
                 File.Move(temporaryPath, localFilePath);
-                /*
-                Console.WriteLine(
-                    "Download completed: " + localFilePath);
-
-                Console.WriteLine(
-                    "File size: " + downloadedSize + " bytes");
-                */
-
                 return true;
             }
             catch
             {
-                if (File.Exists(temporaryPath))
-                    File.Delete(temporaryPath);
-
+                // Preserve the partial file to aid diagnosis; delete manually after inspection.
                 throw;
             }
         }
 
-        private HttpResponseMessage SendWithRetryAsync(
-            Func<HttpRequestMessage> createRequest)
+        // Retry transient HTTP errors. Never retry uploads automatically (duplicate risk).
+        private string GetTextWithRetry(string url)
         {
             const int maxAttempts = 3;
-
             for (int attempt = 1; attempt <= maxAttempts; attempt++)
             {
-                using (HttpRequestMessage request = createRequest())
+                HttpWebRequest request = CreateRequest(url, "GET", true);
+                request.Accept = "application/json";
+                try { return RequestText(request); }
+                catch (IOException ex)
                 {
-                    HttpResponseMessage response =
-                        client.SendAsync(request).GetAwaiter().GetResult();
-
-                    int status = (int)response.StatusCode;
-
-                    if (status != 522 && status != 502 &&
-                        status != 503 && status != 504)
-                    {
-                        return response;
-                    }
-
-                    if (attempt == maxAttempts)
-                        return response;
-
-                    response.Dispose();
-                    /*
-                    Console.WriteLine(
-                        "Icedrive temporarily unavailable. HTTP " +
-                        status + ". Retrying in 120 seconds...");
-                    */
+                    string msg = ex.Message;
+                    bool transient = msg.StartsWith("HTTP 522 ") || msg.StartsWith("HTTP 502 ") ||
+                        msg.StartsWith("HTTP 503 ") || msg.StartsWith("HTTP 504 ");
+                    if (!transient || attempt == maxAttempts) throw;
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(120));
                 }
             }
-
-            throw new Exception("Retry attempts exhausted.");
+            throw new IOException("Retry attempts exhausted.");
         }
 
         public string GetDownloadUrl(long fileId)
         {
-            if (fileId <= 0)
-                throw new ArgumentException("Invalid file ID.");
-
-            string url =
-                "https://apis.icedrive.net/v3/webapp/download-multi" +
-                "&items=file-" + fileId +
-                "&crypto=false";
-
-            using (HttpRequestMessage request =
-                new HttpRequestMessage(HttpMethod.Get, url))
-            {
-                request.Version = new Version(1, 1);
-
-                request.Headers.Authorization =
-                    new AuthenticationHeaderValue(
-                        "Bearer", bearerToken);
-
-                request.Headers.TryAddWithoutValidation(
-                    "User-Agent",
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-                    "AppleWebKit/537.36 (KHTML, like Gecko) " +
-                    "Chrome/156.0.0.0 Safari/537.36");
-
-                request.Headers.TryAddWithoutValidation(
-                    "sec-ch-ua-platform", "\"Windows\"");
-
-                request.Headers.TryAddWithoutValidation(
-                    "sec-ch-ua",
-                    "\"Not:A-Brand\";v=\"8\", " +
-                    "\"Chromium\";v=\"156\", " +
-                    "\"Google Chrome\";v=\"156\"");
-
-                request.Headers.TryAddWithoutValidation(
-                    "sec-ch-ua-mobile", "?0");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Cache-Control", "no-cache");
-
-                request.Headers.TryAddWithoutValidation(
-                    "DNT", "1");
-
-                request.Headers.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue(
-                        "application/json"));
-
-                request.Headers.TryAddWithoutValidation(
-                    "Origin", "https://icedrive.net");
-
-                request.Headers.Referrer =
-                    new Uri("https://icedrive.net/");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Sec-Fetch-Site", "same-site");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Sec-Fetch-Mode", "cors");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Sec-Fetch-Dest", "empty");
-
-                request.Headers.TryAddWithoutValidation(
-                    "Accept-Language",
-                    "en-US,en;q=0.9,kn;q=0.8");
-
-                // Do not set request.Content for GET.
-
-                using (HttpResponseMessage response =
-                     SendWithRetryAsync(() =>
-                    {
-                        HttpRequestMessage retryRequest =
-                            new HttpRequestMessage(HttpMethod.Get, url);
-
-                        retryRequest.Version = new Version(1, 1);
-
-                        retryRequest.Headers.Authorization =
-                            new AuthenticationHeaderValue(
-                                "Bearer", bearerToken);
-
-                        retryRequest.Headers.Accept.Add(
-                            new MediaTypeWithQualityHeaderValue(
-                                "application/json"));
-
-                        retryRequest.Headers.TryAddWithoutValidation(
-                            "User-Agent",
-                            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-                            "AppleWebKit/537.36 (KHTML, like Gecko) " +
-                            "Chrome/156.0.0.0 Safari/537.36");
-
-                        retryRequest.Headers.TryAddWithoutValidation(
-                            "Cache-Control", "no-cache");
-
-                        retryRequest.Headers.TryAddWithoutValidation(
-                            "Origin", "https://icedrive.net");
-
-                        retryRequest.Headers.Referrer =
-                            new Uri("https://icedrive.net/");
-
-                        retryRequest.Headers.TryAddWithoutValidation(
-                            "sec-ch-ua-platform", "\"Windows\"");
-
-                        retryRequest.Headers.TryAddWithoutValidation(
-                            "sec-ch-ua",
-                            "\"Not:A-Brand\";v=\"8\", " +
-                            "\"Chromium\";v=\"156\", " +
-                            "\"Google Chrome\";v=\"156\"");
-
-                        retryRequest.Headers.TryAddWithoutValidation(
-                            "sec-ch-ua-mobile", "?0");
-
-                        retryRequest.Headers.TryAddWithoutValidation(
-                            "DNT", "1");
-
-                        retryRequest.Headers.TryAddWithoutValidation(
-                            "Sec-Fetch-Site", "same-site");
-
-                        retryRequest.Headers.TryAddWithoutValidation(
-                            "Sec-Fetch-Mode", "cors");
-
-                        retryRequest.Headers.TryAddWithoutValidation(
-                            "Sec-Fetch-Dest", "empty");
-
-                        return retryRequest;
-                    }))
-                {
-                    string json =
-                         response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                    /*
-                    Console.WriteLine("HTTP Status: " +
-                        (int)response.StatusCode);
-
-                    Console.WriteLine("Download API Response:");
-                    Console.WriteLine(json);
-                    */
-
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        throw new Exception(
-                            "GetDownloadUrl failed. HTTP " +
-                            (int)response.StatusCode +
-                            Environment.NewLine +
-                            json);
-                    }
-
-                    return json;
-                }
-            }
+            if (fileId <= 0) throw new ArgumentException("Invalid file ID.");
+            string url = ApiRoot + "download-multi&items=file-" + fileId + "&crypto=false";
+            string json = GetTextWithRetry(url);
+            ParseSuccess(json, "GetDownloadUrl");
+            return json;
         }
 
-        public bool UploadFile(
-            string localFilePath,
-            long parentFolderId)
+        public bool UploadFile(string localFilePath, long parentFolderId)
         {
-            if (!File.Exists(localFilePath))
-                throw new FileNotFoundException(
-                    "File not found.", localFilePath);
-
-            string[] endpoints =  GetUploadEndpoints();
-
-            if (endpoints == null || endpoints.Length == 0)
-                throw new Exception("No upload endpoints available.");
-
-            // Use the first endpoint initially.
-            // Avoid automatic retries that might create duplicate files.
-            string uploadUrl = endpoints[0];
-
-            Uri uri;
-
-            if (!Uri.TryCreate(
-                    uploadUrl,
-                    UriKind.Absolute,
-                    out uri) ||
-                uri.Scheme != Uri.UriSchemeHttps ||
-                !uri.Host.EndsWith(
-                    ".icedrive.io",
-                    StringComparison.OrdinalIgnoreCase) ||
-                uri.AbsolutePath != "/deposit")
-            {
-                throw new Exception("Invalid upload endpoint.");
-            }
-
-            /*
-            Console.WriteLine(
-                "Uploading to server: " + uri.Host);
-            */
-
-            // Call your existing three-argument method.
-            string json =  UploadFile(
-                localFilePath,
-                parentFolderId,
-                uploadUrl);
-
+            if (!File.Exists(localFilePath)) throw new FileNotFoundException("File not found.", localFilePath);
+            string[] endpoints = GetUploadEndpoints();
+            if (endpoints == null || endpoints.Length == 0) throw new IOException("No upload endpoints available.");
+            UploadFile(localFilePath, parentFolderId, endpoints[0]);
             return true;
         }
 
-        public String[] GetUploadEndpoints()
+        public string[] GetUploadEndpoints()
         {
-            string url =
-                "https://apis.icedrive.net/v3/webapp/geo-fileserver-list";
-
-            using (HttpResponseMessage response =
-                 SendWithRetryAsync(() =>
-                {
-                    HttpRequestMessage retryRequest =
-                        new HttpRequestMessage(HttpMethod.Get, url);
-
-                    retryRequest.Version = new Version(1, 1);
-
-                    retryRequest.Headers.Authorization =
-                        new AuthenticationHeaderValue(
-                            "Bearer", bearerToken);
-
-                    retryRequest.Headers.Accept.Add(
-                        new MediaTypeWithQualityHeaderValue(
-                            "application/json"));
-
-                    retryRequest.Headers.TryAddWithoutValidation(
-                        "User-Agent",
-                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-                        "AppleWebKit/537.36 (KHTML, like Gecko) " +
-                        "Chrome/156.0.0.0 Safari/537.36");
-
-                    retryRequest.Headers.Referrer =
-                        new Uri("https://icedrive.net/");
-
-                    retryRequest.Headers.TryAddWithoutValidation(
-                        "Origin", "https://icedrive.net");
-
-                    return retryRequest;
-                }))
-            {
-                string json =
-                     response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                /*
-                Console.WriteLine(
-                    "HTTP Status: " + (int)response.StatusCode);
-                */
-                if (!response.IsSuccessStatusCode)
-                {
-                    throw new Exception(
-                        "GetUploadEndpoints failed. HTTP " +
-                        (int)response.StatusCode +
-                        Environment.NewLine +
-                        json);
-                }
-
-                JavaScriptSerializer serializer =
-                    new JavaScriptSerializer();
-
-                UploadEndpointsResponse result =
-                    serializer.Deserialize<UploadEndpointsResponse>(json);
-
-                if (result == null || result.error)
-                {
-                    throw new Exception(
-                        "Upload endpoint request failed: " + json);
-                }
-
-                if (result.upload_endpoints == null ||
-                    result.upload_endpoints.Length == 0)
-                {
-                    throw new Exception(
-                        "No upload endpoints returned.");
-                }
-
-                return result.upload_endpoints;
-            }
+            string json = GetTextWithRetry(ApiRoot + "geo-fileserver-list");
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            serializer.MaxJsonLength = int.MaxValue;
+            UploadEndpointsResponse result = serializer.Deserialize<UploadEndpointsResponse>(json);
+            if (result == null || result.error || result.upload_endpoints == null || result.upload_endpoints.Length == 0)
+                throw new IOException("GetUploadEndpoints failed: " + json);
+            return result.upload_endpoints;
         }
 
-        public List<IcedriveItem> GetItem(
-                 long parentFolderId, long itemId, bool brecursive=false)
+        public List<IcedriveItem> GetItem(long parentFolderId, long itemId, bool brecursive = false)
         {
-            var retlst = new List<IcedriveItem>();
-            IcedriveResponse result =
-                 GetCollection(parentFolderId);
-
-            if (itemId == -1)
-                retlst = result.data.ToList();
-            else 
+            IcedriveResponse result = GetCollection(parentFolderId);
+            if (itemId == -1) return result.data.ToList();
+            List<IcedriveItem> matches = result.data.Where(item => item.id == itemId).ToList();
+            if (matches.Count == 0 && brecursive)
             {
-                retlst = result.data.Where(item => item.id == itemId).ToList();
-                if (retlst.Count == 0 && brecursive)
+                foreach (IcedriveItem item in result.data)
                 {
-                    foreach (var item in result.data)
-                    {
-                        if (item.isFolder == 1)
-                        {
-                            retlst =  GetItem(item.id, itemId, brecursive);
-                            if (retlst.Count == 1)
-                                break;
-                        }
-                    }
+                    if (item.isFolder != 1) continue;
+                    matches = GetItem(item.id, itemId, true);
+                    if (matches.Count > 0) break;
                 }
             }
-            return retlst;
+            return matches;
         }
 
-        public void Dispose()
-        {
-            client.Dispose();
-        }
+        public void Dispose() { }
     }
-
-    
 }
