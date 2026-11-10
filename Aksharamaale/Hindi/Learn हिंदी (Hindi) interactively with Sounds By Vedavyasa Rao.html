@@ -1,6 +1,869 @@
-<html><head><title>Learn हिंदी (Hindi) interactively with Sounds By Vedavyasa Rao</title></head>
+<html>
+   <head>
+      <title>
+         Learn हिंदी (Hindi) interactively with Sounds By Vedavyasa Rao
+      </title>
 
-<!--
+      <!--
+🔴  #e81224
+🟠 #f7630c
+🟡 #fff100
+🟢 #16c60c
+🔵 #0078d7
+🟣 #886ce4
+
+🟤 #8e562e
+⚫ #383838
+-->
+
+      <script type="text/javascript">
+         var CONSONANTS = [
+            "क",
+            "ख",
+            "ग",
+            "घ",
+            "ङ",
+            "च",
+            "छ",
+            "ज",
+            "झ",
+            "ञ",
+            "ट",
+            "ठ",
+            "ड",
+            "ढ",
+            "ण",
+            "त",
+            "थ",
+            "द",
+            "ध",
+            "न",
+            "प",
+            "फ",
+            "ब",
+            "भ",
+            "म",
+            "य",
+            "र",
+            "ल",
+            "व",
+            "श",
+            "ष",
+            "स",
+            "ह",
+            "क्ष",
+            "त्र",
+            "ज्ञ",
+         ];
+
+         var vowel_chars = [
+            "अ",
+            "आ",
+            "इ",
+            "ई",
+            "उ",
+            "ऊ",
+            "ऋ",
+            "ए",
+            "ऐ",
+            "ओ",
+            "औ",
+            "अं",
+            "अः",
+         ];
+
+         var VOWEL_SIGNS = [
+            "",
+            "ा",
+            "ि",
+            "ी",
+            "ु",
+            "ू",
+            "ृ",
+            "े",
+            "ै",
+            "ो",
+            "ौ",
+            "ं",
+            "ः",
+            "ँ",
+            "्",
+         ];
+
+         const recordbuffer = [];
+
+         var kount = 0;
+         var startTime = 0;
+         var endTime = 0;
+         var playknt = 1;
+
+         var localvowelsUrl = "Hindi_Vowels_Merged.mp3";
+         var localkgUrl = "Hindi_Barahkhadi_Full_3sec.mp3";
+
+         var githubvowelsUrl =
+            "https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Hindi_Vowels_Merged.mp3?raw=true";
+         var githubkgUrl =
+            "https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Hindi_Barahkhadi_Full_3sec.mp3?raw=true";
+
+         var vowelsUrl = githubvowelsUrl;
+         var kgUrl = githubkgUrl;
+
+         var gswara = -1;
+         var gvyanjana = -1;
+         var gottakshara = [];
+         var gyogavaha = -1;
+         var gkagunita = -1;
+         var ghalant = -1;
+
+         var yogavahas = [13, 14];
+
+         var audiodevicetrack = -1;
+         var audiodevices = [];
+
+         function checkboxClicked(cb) {
+            if (cb.checked) {
+               var otknt = gottakshara.length;
+               if (otknt == 3) return;
+               else {
+                  gottakshara[otknt] = CONSONANTS[cb.value]+"्";
+                  selkg.innerText += decodeHtmlEntity(gottakshara[otknt]);
+                  selkg.innerText += ",";
+               }
+            }
+         }
+
+         function reloadAndWait(idx, btnname) {
+            const button = document.getElementById(btnname);
+
+            button.style.backgroundColor = "red";
+            if (audiodevices[idx].readyState >= 2) {
+               button.style.backgroundColor = "green";
+            } else {
+               // 1. Set up the event listener BEFORE reloading
+               audiodevices[idx].addEventListener(
+                  "canplay",
+                  () => {
+                     // At this point, readyState is >= 2 (HAVE_CURRENT_DATA)
+
+                     // Put the code you want to run after it loads here (e.g., audio.play())
+                     button.style.backgroundColor = "rgb(240, 240, 240)";
+                  },
+                  {
+                     once: true,
+                  },
+               ); // { once: true } prevents the event from firing repeatedly during playback
+
+               // 2. Trigger the reload
+               audiodevices[idx].load();
+            }
+
+            return audiodevices[idx].readyState;
+         }
+
+         // 2. Execute the preloader
+         function initurls() {
+            var vw = document.getElementById("Hindi_Vowels_Merged");
+            vw.src = vowelsUrl;
+			vw.load();
+            audiodevices.push(vw);
+            reloadAndWait(0, "playvowel");
+
+            var kg = document.getElementById("Hindi_Barahkhadi_Full_3sec");
+            kg.src = kgUrl;
+			kg.load();
+            audiodevices.push(kg);
+            reloadAndWait(1, "playkagunita");
+         }
+
+         function clearallradiobtnselections() {
+            var radioGroup = document.querySelectorAll(
+               'input[name="kagunita"]',
+            );
+            radioGroup.forEach((radio) => (radio.checked = false));
+            radioGroup = document.querySelectorAll('input[name="ottakshara"]');
+            radioGroup.forEach((radio) => (radio.checked = false));
+            radioGroup = document.querySelectorAll('input[name="vyanjana"]');
+            radioGroup.forEach((radio) => (radio.checked = false));
+            radioGroup = document.querySelectorAll('input[name="swara"]');
+            radioGroup.forEach((radio) => (radio.checked = false));
+            radioGroup = document.querySelectorAll('input[name="halant"]');
+            radioGroup.forEach((radio) => (radio.checked = false));
+            radioGroup = document.querySelectorAll('input[name="yogavaha"]');
+            radioGroup.forEach((radio) => (radio.checked = false));
+
+            selkg.innerText = "";
+            gottakshara.length = 0;
+            
+            populateSwaraKagunitaOttakshara(-1, ["&nbsp;"]);
+         }
+
+         /**************GENERATE START********************/
+         function gatherselections() {
+            var selectedRadioswara = document.querySelector(
+               'input[name="swara"]:checked',
+            );
+            var selectedRadiovyanjana = document.querySelector(
+               'input[name="vyanjana"]:checked',
+            );
+            var selectedRadiokagunita = document.querySelector(
+               'input[name="kagunita"]:checked',
+            );
+            var selectedRadiohalant = document.querySelector(
+               'input[name="halant"]:checked',
+            );
+            var selectedRadioyogavaha = document.querySelector(
+               'input[name="yogavaha"]:checked',
+            );
+
+            gswara = -1;
+            gvyanjana = -1;
+            gkagunita = -1;
+            ghalant = -1;
+            gyogavaha = -1;
+
+            if (selectedRadioswara) gswara = parseInt(selectedRadioswara.value);
+            if (selectedRadiovyanjana)
+               gvyanjana = parseInt(selectedRadiovyanjana.value);
+            if (selectedRadiokagunita)
+               gkagunita = parseInt(selectedRadiokagunita.value);
+            if (selectedRadiohalant)
+               ghalant = parseInt(selectedRadiohalant.value);
+            if (selectedRadioyogavaha)
+               gyogavaha = parseInt(selectedRadioyogavaha.value);
+
+            populateSwaraKagunitaOttakshara(-1, ["&nbsp;"]);
+         }
+
+         /**************Vowels********************/
+         function generateVowels() {
+            return vowel_chars.map((vowel) => {
+               if (gyogavaha == -1) return vowel;
+
+               if (vowel === "अं") return vowel;
+               if (vowel === "अः") return vowel;
+
+               // Combine the consonant with the vowel sign
+               return vowel + VOWEL_SIGNS[gyogavaha];
+            });
+         }
+
+         /**************Barakhadi********************/
+         function generateBarakhadi() {
+            const baseConsonant = CONSONANTS[gvyanjana];
+            var allmatras = VOWEL_SIGNS.map((matra) => {
+               // Exception handling for 'र' (ra)
+               if (baseConsonant === "र") {
+                  if (matra === "ु") return "रु"; // Special glyph for ru
+                  if (matra === "ू") return "रू"; // Special glyph for roo
+                  if (matra === "ृ") return "ऋ"; // 'र' combined with 'ृ' naturally defaults back to 'ऋ' or is skipped
+               }
+
+               // Combine the consonant with the vowel sign
+               return baseConsonant + matra;
+            });
+
+            if (gyogavaha != -1) {
+               return allmatras.map((bk) => {
+                  return bk + VOWEL_SIGNS[gyogavaha];
+               });
+            } else return allmatras;
+         }
+
+         /**************Samyuktakshar********************/
+         function generateSamyuktaksharBarakhadi() {
+            const baseConsonant = CONSONANTS[gvyanjana];
+
+            var allmatras = VOWEL_SIGNS.map((matra) => {
+               var ret = '';
+               for (let i = 0; i < gottakshara.length; ++i)
+			   {
+                  ret += (gottakshara[i]);
+			   }
+               ret += baseConsonant;
+			   ret += matra;
+			   return ret;
+            });
+
+            if (gyogavaha != -1) {
+               return allmatras.map((bk) => {
+                  return bk + VOWEL_SIGNS[gyogavaha];
+               });
+            } else return allmatras;
+         }
+
+         function generateSwaraKagunitaOttakshara(action) {
+            var swarakagunitachars = [];
+            if (action == 0) {
+               swarakagunitachars = generateVowels();
+               if (gyogavaha != -1) {
+                  swarakagunitachars.pop();
+                  swarakagunitachars.pop();
+               }
+            } else if (action == 1) swarakagunitachars = generateBarakhadi();
+            else if (action == 2)
+               swarakagunitachars = generateSamyuktaksharBarakhadi();
+            if (action == 1 || action == 2) {
+               if (gkagunita == 0 && ghalant != -1) {
+                  swarakagunitachars[0] = swarakagunitachars[14];
+               }
+               swarakagunitachars.pop();
+               swarakagunitachars.pop();
+
+               if (gyogavaha != -1) {
+                  swarakagunitachars.pop();
+                  swarakagunitachars.pop();
+               }
+            }
+            return swarakagunitachars;
+         }
+         /**************GENERATE END********************/
+
+         /**************POPULATE********************/
+         function populateSwaraKagunitaOttakshara(idx, kagunitachars) {
+            const table = document.getElementById("vowels");
+
+            for (let i = 0; i < 13; i++) {
+               const specificCell = table.rows[1].cells[i];
+               specificCell.innerHTML = " ";
+            }
+
+            if (idx == -1) {
+               for (let i = 0; i < kagunitachars.length; i++) {
+                  const specificCell = table.rows[1].cells[i];
+                  specificCell.innerHTML = kagunitachars[i];
+               }
+            } else {
+               const specificCell = table.rows[1].cells[idx];
+               specificCell.innerHTML = kagunitachars[idx];
+            }
+         }
+         /**************POPULATE END********************/
+
+         /**************PLAY VOWELS START********************/
+         function playavowel() {
+            var offset = 0;
+            var knt = 13;
+
+            gatherselections();
+
+            if (gkagunita != -1 || ghalant != -1) return;
+
+            if (
+               (gswara == 11 || gswara == 12 || gswara == 13) &&
+               gyogavaha != -1
+            )
+               return;
+
+            populateSwaraKagunitaOttakshara(
+               gswara,
+               generateSwaraKagunitaOttakshara(0),
+            );
+
+            if (audiodevices[0].readyState < 2) {
+               reloadAndWait(0, "playvowel");
+               return;
+            }
+
+            if (gyogavaha == 11 || gyogavaha == 13) offset = 13 * 3;
+
+            if (gyogavaha == 12) offset = 13 * 3 + 11 * 3;
+
+            if (gyogavaha != -1) knt = 11;
+
+            if (gswara != -1) playselectedvowel(gswara, offset);
+            else playallvowels(offset, knt);
+         }
+
+         function playselectedvowel(idx, offset) {
+            var et = 2;
+            startTime = offset + parseFloat(idx * 3.0);
+            endTime = startTime + parseFloat(et);
+            setaudiotrack(0);
+            playsound();
+         }
+
+         function playallvowels(offset, knt) {
+            var et = knt * 3;
+            startTime = parseFloat(offset);
+            endTime = startTime + parseFloat(et);
+            setaudiotrack(0);
+            playsound();
+         }
+         /**************PLAY VOWELS END********************/
+
+         /**************PLAY KAGUNITA START********************/
+         function playkagunita() {
+            gatherselections();
+
+            if (gvyanjana == -1) return;
+            if (ghalant != -1 && gkagunita != 0) return;
+            if (ghalant != -1 && gkagunita == 0 && gyogavaha != -1) return;
+
+            var swarakagunitachars = generateSwaraKagunitaOttakshara(1);
+            populateSwaraKagunitaOttakshara(gkagunita, swarakagunitachars);
+
+            if (audiodevices[1].readyState < 2) {
+               reloadAndWait(1, "playkagunita");
+               return;
+            }
+
+            if (gkagunita == -1 && gyogavaha == -1) playallkagunita(gvyanjana);
+            else if (gkagunita == 0) {
+               if (ghalant != 0 && gyogavaha == -1)
+                  playselectedkagunita(gvyanjana, 0);
+               else if (gyogavaha != -1) {
+                  var temp = gyogavaha;
+                  if (gyogavaha == 13) temp = 11;
+                  playselectedkagunita(gvyanjana, temp);
+               }
+            } else if (gyogavaha == -1 && ghalant == -1)
+               playselectedkagunita(gvyanjana, gkagunita);
+         }
+
+         function playselectedkagunita(akshara, idx) {
+            kount = 0;
+            var st = parseFloat(akshara * 13 * 3 + 3 * idx);
+            startTime = parseFloat(st);
+            endTime = startTime + 2;
+            setaudiotrack(1);
+            playsound();
+         }
+
+         function playallkagunita(akshara) {
+            kount = 0;
+            var et = 13 * 3;
+            startTime = parseFloat(akshara * 13 * 3);
+            endTime = startTime + parseFloat(et);
+            setaudiotrack(1);
+            playsound();
+         }
+         /**************PLAY KAGUNITA STOP********************/
+
+         /**************PLAY OTTAKSHARA START********************/
+         function playottakshara() {
+            gatherselections();
+            if (gottakshara.length == 0 || gvyanjana == -1) return;
+            if (ghalant != -1 && gkagunita != 0) return;
+            if (ghalant != -1 && gkagunita == 0 && gyogavaha != -1) return;
+
+            var swarakagunitachars = generateSwaraKagunitaOttakshara(2);
+            populateSwaraKagunitaOttakshara(gkagunita, swarakagunitachars);
+         }
+         /**************PLAY OTTAKSHARA STOP********************/
+
+         /**************PLAY NUMBER START********************/
+         function decodeHtmlEntity(html) {
+            const txt = document.createElement("textarea");
+            txt.innerHTML = html;
+            return txt.value;
+         }
+
+         function playnumberinput() {
+            const numberInput = document.getElementById("quantity");
+            clearbuffer();
+            // Get the value directly as a number
+            const numValue = numberInput.valueAsNumber;
+            if (numValue >= 0 && numValue <= 10000000) {
+               document.getElementById("playbuffertext").value =
+                  decodeHtmlEntity(numberToHindiWords(numValue));
+               document.getElementById("number").innerText =
+                  formatHindiNumber(numValue);
+            }
+         }
+         /**************PLAY NUMBER STOP********************/
+
+         /**************PLAY AUDIO START********************/
+         function setaudiotrack(track) {
+            audiodevicetrack = track;
+         }
+
+         function playsound() {
+            audiodevices[audiodevicetrack].currentTime = startTime;
+            audiodevices[audiodevicetrack].addEventListener(
+               "timeupdate",
+               checkTime,
+            );
+            audiodevices[audiodevicetrack].play();
+         }
+
+         function checkTime() {
+            if (audiodevices[audiodevicetrack].currentTime >= endTime) {
+               audiodevices[audiodevicetrack].pause();
+               audiodevices[audiodevicetrack].removeEventListener(
+                  "timeupdate",
+                  checkTime,
+               );
+               kount++;
+               if (kount < playknt) playsound();
+            }
+         }
+
+         /**************PLAY AUDIO STOP********************/
+
+         /**************PLAY BUFFER MANAGEMENT START********************/
+         function addtobuffer(action) {
+            var tempbuffer = [
+               action,
+               gswara,
+               gvyanjana,
+               structuredClone(gottakshara),
+               gkagunita,
+               gyogavaha,
+               ghalant,
+            ];
+            recordbuffer.push(JSON.stringify(tempbuffer));
+         }
+
+         function eraselastletter() {
+            recordbuffer.pop();
+            printbuffer();
+         }
+
+         function clearbuffer() {
+            recordbuffer.length = 0;
+            printbuffer();
+         }
+
+         function insertspace() {
+            addtobuffer(3);
+            printbuffer();
+         }
+
+         function addvwtobuffer() {
+            gatherselections();
+            if (gswara == -1 || gkagunita != -1 || ghalant != -1) return;
+            if (
+               (gswara == 11 || gswara == 12 || gswara == 13) &&
+               gyogavaha != -1
+            )
+               return;
+
+            addtobuffer(0);
+            printbuffer();
+         }
+
+         function addkgtobuffer() {
+            gatherselections();
+            if (gvyanjana == -1) return;
+            if (ghalant != -1 && gkagunita != 0) return;
+            if (ghalant != -1 && gkagunita == 0 && gyogavaha != -1) return;
+
+            addtobuffer(1);
+            printbuffer();
+         }
+
+         function addottobuffer() {
+            gatherselections();
+            if (gottakshara.length == 0 || gvyanjana == -1 || gkagunita == -1) return;
+            if (ghalant != -1 && gkagunita != 0) return;
+            if (ghalant != -1 && gkagunita == 0 && gyogavaha != -1) return;
+            addtobuffer(2);
+            printbuffer();
+         }
+
+         function printbuffer() {
+            var ctl = document.getElementById("playbuffertext");
+            ctl.value = "";
+            for (let i = 0; i < recordbuffer.length; i++) {
+               [
+                  action,
+                  gswara,
+                  gvyanjana,
+                  gottakshara,
+                  gkagunita,
+                  gyogavaha,
+                  ghalant,
+               ] = JSON.parse(recordbuffer[i]);
+
+               if (action == 0) {
+                  var swarakagunitachars = generateSwaraKagunitaOttakshara(0);
+                  ctl.value += decodeHtmlEntity(swarakagunitachars[gswara]);
+               } else if (action == 1) {
+                  var kagunitachars = generateSwaraKagunitaOttakshara(1);
+                  ctl.value += decodeHtmlEntity(kagunitachars[gkagunita]);
+               } else if (action == 2) {
+                  var kagunitachars = generateSwaraKagunitaOttakshara(2);
+                  ctl.value += decodeHtmlEntity(kagunitachars[gkagunita]);
+               } else if (action == 3) {
+                  ctl.value += decodeHtmlEntity(' '); 
+               }
+            }
+         }
+         /**************PLAY BUFFER MANAGEMENT STOP********************/
+      </script>
+
+      <script type="text/javascript">
+         /**************PLAY BUFFER AUDIO START********COMMA DELAY************/
+         async function playSarvamKannadaAudio() {
+            const playBtn = document.getElementById("playBtn");
+            const textInput = document
+               .getElementById("playbuffertext")
+               .value.trim();
+            const apiKey = document.getElementById("apiKey").value.trim();
+
+            if (!textInput) return;
+            if (!apiKey) return;
+
+            playBtn.disabled = true;
+            playBtn.innerText = "Generating...";
+
+            // Replace with your actual Sarvam API Key
+
+            try {
+               const response = await fetch(
+                  "https://api.sarvam.ai/text-to-speech",
+                  {
+                     method: "POST",
+                     headers: {
+                        "Content-Type": "application/json",
+                        "api-subscription-key": apiKey,
+                     },
+                     body: JSON.stringify({
+                        text: textInput,
+                        target_language_code: "hi-IN",
+                        speaker: "aditi_en_stories",
+                        model: "bulbul:v4-flash",
+                        pace: 1.0,
+                        speech_sample_rate: 24000,
+                     }),
+                  },
+               );
+
+               if (!response.ok) {
+                  throw new Error(`API error: ${response.statusText}`);
+               }
+
+               const data = await response.json();
+
+               // Sarvam API returns base64 encoded audio strings in an array
+               if (data.audios && data.audios.length > 0) {
+                  const base64Audio = data.audios[0];
+
+                  // Convert base64 string to a playable Blob/Audio URL
+                  const binaryString = atob(base64Audio);
+                  const len = binaryString.length;
+                  const bytes = new Uint8Array(len);
+                  for (let i = 0; i < len; i++) {
+                     bytes[i] = binaryString.charCodeAt(i);
+                  }
+
+                  const blob = new Blob([bytes], { type: "audio/mp3" });
+                  const audioUrl = URL.createObjectURL(blob);
+
+                  const audio = new Audio(audioUrl);
+                  audio.onended = () => {
+                     playBtn.disabled = false;
+                     playBtn.innerText = "Play Audio";
+                  };
+                  audio.onerror = (err) => {
+                     console.error("Audio playback error:", err);
+                     playBtn.disabled = false;
+                     playBtn.innerText = "Play Audio";
+                  };
+
+                  playBtn.innerText = "Playing...";
+                  await audio.play();
+               } else {
+                  throw new Error("No audio returned from API.");
+               }
+            } catch (err) {
+               console.error("Failed to generate or play audio:", err);
+               alert("Error generating speech. Check console for details.");
+               playBtn.disabled = false;
+               playBtn.innerText = "Play Audio";
+            }
+         }
+
+         /**************PLAY BUFFER AUDIO END**********************/
+      </script>
+
+      <script type="text/javascript">
+         /**************HINDI NUMBER START********************/
+         const HINDI_NUMERALS = {
+            0: "०",
+            1: "१",
+            2: "२",
+            3: "३",
+            4: "४",
+            5: "५",
+            6: "६",
+            7: "७",
+            8: "८",
+            9: "९",
+         };
+
+         function formatHindiNumber(num) {
+            let numStr = num.toString();
+            let formattedStr = "";
+
+            if (numStr.length <= 3) {
+               formattedStr = numStr;
+            } else {
+               let lastThree = numStr.substring(numStr.length - 3);
+               let remaining = numStr.substring(0, numStr.length - 3);
+
+               // Groups the remaining higher values into pairs of two using regex
+               remaining = remaining.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+               formattedStr = remaining + "," + lastThree;
+            }
+
+            // Convert each Western digit character directly to its Devanagari character match
+            return formattedStr
+               .split("")
+               .map((char) => HINDI_NUMERALS[char] || char)
+               .join("");
+         }
+
+         function numberToHindiWords(num) {
+            if (num === 0) return "शून्य";
+
+            // Hindi word arrays for lookups
+            const ones = [
+               "",
+               "एक",
+               "दो",
+               "तीन",
+               "चार",
+               "पाँच",
+               "छह",
+               "सात",
+               "आठ",
+               "नौ",
+               "दस",
+               "ग्यारह",
+               "बारह",
+               "तेरह",
+               "चौदह",
+               "पन्द्रह",
+               "सोलह",
+               "सत्रह",
+               "अठारह",
+               "उन्नीस",
+               "बीस",
+               "इक्कीस",
+               "बाईस",
+               "तेईस",
+               "चौबीस",
+               "पच्चीस",
+               "छब्बीस",
+               "सत्ताईस",
+               "अठारह",
+               "उनतीस",
+               "तीस",
+               "इकत्तीस",
+               "बत्तीस",
+               "तैंतीस",
+               "चौंतीस",
+               "पैंतीस",
+               "छत्तीस",
+               "सैंतीस",
+               "अड़तीस",
+               "उनतालीस",
+               "चालीस",
+               "इकतालीस",
+               "बयालीस",
+               "तैंतालिस",
+               "चद्वालिस",
+               "पैंतालिस",
+               "छियालीस",
+               "सैंतालिस",
+               "अड़तालीस",
+               "उनचास",
+               "पचास",
+               "इक्कावन",
+               "बावन",
+               "तिरेपन",
+               "चौवन",
+               "पचपन",
+               "छप्पन",
+               "सतावन",
+               "अठावन",
+               "उनसठ",
+               "साठ",
+               "इकसठ",
+               "बासठ",
+               "तिरसठ",
+               "चौंसठ",
+               "पैंसठ",
+               "छियासठ",
+               "सरसठ",
+               "अड़सठ",
+               "उनहत्तर",
+               "सत्तर",
+               "इकहत्तर",
+               "बहत्तर",
+               "तिहत्तर",
+               "चौहत्तर",
+               "पचहत्तर",
+               "छहत्तर",
+               "सतहत्तर",
+               "अठहत्तर",
+               "उनासी",
+               "अस्सी",
+               "इक्यासी",
+               "ब्यासी",
+               "तिरासी",
+               "चौरासी",
+               "पचासी",
+               "छियासी",
+               "सतासी",
+               "अठासी",
+               "नवासी",
+               "नब्बे",
+               "इक्यानवे",
+               "बानवे",
+               "तिरानवे",
+               "चौरानवे",
+               "पचानवे",
+               "छियानवे",
+               "सत्तानवे",
+               "अट्ठानवे",
+               "निन्यानवे",
+            ];
+
+            let words = "";
+
+            // 1 Crore boundary check
+            if (num >= 10000000) {
+               const croreCount = Math.floor(num / 10000000);
+               words += numberToHindiWords(croreCount) + " करोड़ ";
+               num %= 10000000;
+            }
+
+            // Lakhs
+            if (num >= 100000) {
+               const lakhCount = Math.floor(num / 100000);
+               words += ones[lakhCount] + " लाख ";
+               num %= 100000;
+            }
+
+            // Thousands
+            if (num >= 1000) {
+               const thousandCount = Math.floor(num / 1000);
+               words += ones[thousandCount] + " हजार ";
+               num %= 1000;
+            }
+
+            // Hundreds
+            if (num >= 100) {
+               const hundredCount = Math.floor(num / 100);
+               words += ones[hundredCount] + " सौ ";
+               num %= 100;
+            }
+
+            // Remaining tens and ones
+            if (num > 0) {
+               words += ones[num];
+            }
+
+            return words.trim();
+         }
+
+         /**************HINDI NUMBER STOP********************/
+      </script>
+   </head>
+
+   <!--
 🔴  #e81224
 🟠 #f7630c
 🟡 #fff100
@@ -11,1094 +874,1329 @@
 🟤 #8e562e
 ⚫ #383838
 
---> 
+-->
 
+   <style>
+      .vertical-btn-rotated {
+         /* Key property to rotate the text direction */
+         writing-mode: vertical-rl;
+         text-orientation: mixed;
+         font-size: 18px;
+      }
 
+      .vertical-btn-rotated:hover {
+         /* background-color: #0056b3;*/
+      }
 
+      .radio-kg {
+         accent-color: #e81224;
+      }
 
- <style>
-.vertical-btn-rotated {
-  /* Key property to rotate the text direction */
-  writing-mode: vertical-rl; 
-  text-orientation: mixed;
-    font-size: 18px;
+      .radio-vw {
+         accent-color: #0078d7;
+         transform: scale(1.4);
+      }
 
-}
+      .radio-co {
+         accent-color: #886ce4;
+         transform: scale(1.4);
+      }
 
-.vertical-btn-rotated:hover {
- /* background-color: #0056b3;*/
-}
+      .radio-ot {
+         accent-color: #16c60c;
+      }
 
+      .radio-yogavaha {
+         accent-color: #8e562e;
+      }
 
-.radio-kg {
-    accent-color: #e81224;
-  }
+      .radio-halant {
+         accent-color: #383838;
+      }
 
-.radio-vw {
-    accent-color: #0078d7;
-    transform: scale(1.4);	
-  }
+      td {
+         font-size: 32px;
+         font-weight: bold;
+      }
 
+      div.vw {
+         line-height: 100%;
+         margin-top: 10px;
+         font-size: 24px;
+         font-weight: bold;
+         color: #0078d7;
+      }
 
-  .radio-co {
-    accent-color: #886ce4;
-    transform: scale(1.4);	
-  }
+      div.co {
+         line-height: 60%;
+         margin-top: 10px;
+         font-size: 32px;
+         font-weight: bold;
+         color: #886ce4;
+      }
 
-   
-  .radio-ot {
-    accent-color: #16c60c;
-  }
+      .sup-num {
+         font-size: 50%;
+         line-height: 0;
+         position: relative;
+         vertical-align: super;
+         top: -0.5em;
+         color: blue;
+         font-weight: normal;
+         margin-right: 5px;
+      }
 
-  .radio-ayogavaha {
-    accent-color: #8e562e;
-  }
+      .sub-num {
+         vertical-align: sub;
+         font-size: 65%;
+         margin-left: -15px;
+         color: red;
+         font-weight: normal;
+      }
 
-  .radio-halant {
-    accent-color: #383838;
-  }
-   
-   td {
-  font-size: 32px;
-  font-weight: bold;
-}
+      sup {
+         font-size: 75%;
+         line-height: 0;
+         position: relative;
+         vertical-align: baseline;
+         top: -0.5em;
+         color: Magenta;
+         font-weight: normal;
+         margin-right: 5px;
+      }
 
+      .sub-kg {
+         vertical-align: sub;
+         font-size: 85%;
+         margin-left: 5px;
+         color: #e81224;
+         font-weight: normal;
+      }
 
+      .sub-ot {
+         vertical-align: sub;
+         font-size: 85%;
+         margin-left: 5px;
+         color: #16c60c;
+         font-weight: normal;
+      }
 
-div.vw {
-  line-height: 100%;
-  margin-top: 10px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #0078d7;
-}
+      .sub-yogavaha {
+         vertical-align: sub;
+         font-size: 85%;
+         margin-left: 5px;
+         color: #8e562e;
+         font-weight: normal;
+      }
 
-div.co {
-  line-height: 60%;
-  margin-top: 10px;
-  font-size: 32px;
-  font-weight: bold;
-  color: #886ce4;
-}
+      .sub-halant {
+         vertical-align: sub;
+         font-size: 85%;
+         margin-left: 5px;
+         color: #383838;
+         font-weight: normal;
+      }
 
+      button {
+         font-size: 20px;
+         color: green;
+      }
 
-.sup-num {
-  font-size: 50%;
-  line-height: 0;
-  position: relative;
-  vertical-align: super;
-  top: -0.5em;
-  color: blue;
-  font-weight: normal;
-  margin-right: 5px;
-}
-   
-.sub-num {
-  vertical-align: sub;
-  font-size: 65%;
-  margin-left: -15px;
-  color: red;
-  font-weight: normal;
-}   
+      B {
+         font-size: 24px;
+         color: green;
+      }
+   </style>
 
-sup {
-  font-size: 75%;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
-  top: -0.5em;
-  color: Magenta;
-  font-weight: normal;
-  margin-right: 5px;
-}
-   
-.sub-kg {
-  vertical-align: sub;
-  font-size: 85%;
-  margin-left: 5px;
-  color: #e81224;
-  font-weight: normal;
-}  
-   
-.sub-ot {
-  vertical-align: sub;
-  font-size: 85%;
-  margin-left: 5px;
-  color: #16c60c;
-  font-weight: normal;
-}
+   <body>
+      <img
+         style="margin-left: 500px"
+         width="50"
+         height="50"
+         src="https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/hindi.jfif?raw=true"
+         alt="Hindi Logo"
+      />
+      <button onclick="clearallradiobtnselections()" style="margin-left: 450px">
+         Clear All
+      </button>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <a
+         href="https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Learn हिंदी (Hindi) interactively with Sounds By Vedavyasa Rao.pdf?raw=true"
+         target="_blank"
+         rel="noopener noreferrer"
+         style="
+            font-size: 20px;
+            font-weight: bold;
+            color: Red;
+            border: 2px solid pink;
+            background-color: #fff100;
+         "
+         >Help! 🗎↗</a
+      >
+	  <br/>
 
-.sub-ayogavaha {
-  vertical-align: sub;
-  font-size: 85%;
-  margin-left: 5px;
-  color: #8e562e;
-  font-weight: normal;
-  }
+      <span
+         style="
+            margin-left: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: Blue;
+         "
+      >
+         Vowels/स्वर (🔵), Matras /मात्रा (🔴), yogavaha/अयोगवाह(🟤),
+         Halant/हलंत(⚫)</span
+      >
 
-.sub-halant {
-  vertical-align: sub;
-  font-size: 85%;
-  margin-left: 5px;
-  color: #383838;
-  font-weight: normal;
-  }
+      <table border="1" cellpadding="5" style="margin-left: 10px" id="vowels">
+         <tr>
+            <td>
+               <div class="vw">
+                  <sup>a</sup>अ<sub class="sub-kg">◌</sub
+                  ><sub class="sub-halant">्</sub><br />
+                  <input name="swara" type="radio" class="radio-vw" value="0" />
+                  <input
+                     name="kagunita"
+                     type="radio"
+                     class="radio-kg"
+                     value="0"
+                  />
+                  <input
+                     name="halant"
+                     type="radio"
+                     class="radio-halant"
+                     value="14"
+                  />
+               </div>
+            </td>
+            <td>
+               <div class="vw">
+                  <sup>aa</sup>आ<sub class="sub-kg">ा</sub><br />
+                  <input name="swara" type="radio" class="radio-vw" value="1" />
+                  <input
+                     name="kagunita"
+                     type="radio"
+                     class="radio-kg"
+                     value="1"
+                  />
+               </div>
+            </td>
+            <td>
+               <div class="vw">
+                  <sup>i</sup>इ<sub class="sub-kg">ि</sub><br />
+                  <input name="swara" type="radio" class="radio-vw" value="2" />
+                  <input
+                     name="kagunita"
+                     type="radio"
+                     class="radio-kg"
+                     value="2"
+                  />
+               </div>
+            </td>
+            <td>
+               <div class="vw">
+                  <sup>ii</sup>ई<sub class="sub-kg">ी</sub><br />
+                  <input name="swara" type="radio" class="radio-vw" value="3" />
+                  <input
+                     name="kagunita"
+                     type="radio"
+                     class="radio-kg"
+                     value="3"
+                  />
+               </div>
+            </td>
+            <td>
+               <div class="vw">
+                  <sup>u</sup>उ<sub class="sub-kg">ु</sub><br />
+                  <input name="swara" type="radio" class="radio-vw" value="4" />
+                  <input
+                     name="kagunita"
+                     type="radio"
+                     class="radio-kg"
+                     value="4"
+                  />
+               </div>
+            </td>
+            <td>
+               <div class="vw">
+                  <sup>uu</sup>ऊ<sub class="sub-kg">ू</sub><br />
+                  <input name="swara" type="radio" class="radio-vw" value="5" />
+                  <input
+                     name="kagunita"
+                     type="radio"
+                     class="radio-kg"
+                     value="5"
+                  />
+               </div>
+            </td>
+            <td>
+               <div class="vw">
+                  <sup>ri</sup>ऋ<sub class="sub-kg">ृ</sub><br />
+                  <input name="swara" type="radio" class="radio-vw" value="6" />
+                  <input
+                     name="kagunita"
+                     type="radio"
+                     class="radio-kg"
+                     value="6"
+                  />
+               </div>
+            </td>
+            <td>
+               <div class="vw">
+                  <sup>e</sup>ए<sub class="sub-kg">े</sub><br />
+                  <input name="swara" type="radio" class="radio-vw" value="7" />
+                  <input
+                     name="kagunita"
+                     type="radio"
+                     class="radio-kg"
+                     value="7"
+                  />
+               </div>
+            </td>
+            <td>
+               <div class="vw">
+                  <sup>ai</sup>ऐ<sub class="sub-kg">ै</sub><br />
+                  <input name="swara" type="radio" class="radio-vw" value="8" />
+                  <input
+                     name="kagunita"
+                     type="radio"
+                     class="radio-kg"
+                     value="8"
+                  />
+               </div>
+            </td>
+            <td>
+               <div class="vw">
+                  <sup>o</sup>ओ<sub class="sub-kg">ो</sub><br />
+                  <input name="swara" type="radio" class="radio-vw" value="9" />
+                  <input
+                     name="kagunita"
+                     type="radio"
+                     class="radio-kg"
+                     value="9"
+                  />
+               </div>
+            </td>
+            <td>
+               <div class="vw">
+                  <sup>au</sup>औ<sub class="sub-kg">ौ</sub><br />
+                  <input
+                     name="swara"
+                     type="radio"
+                     class="radio-vw"
+                     value="10"
+                  />
+                  <input
+                     name="kagunita"
+                     type="radio"
+                     class="radio-kg"
+                     value="10"
+                  />
+               </div>
+            </td>
+            <td>
+               <div class="vw">
+                  <sup>am</sup>अं<sub class="sub-yogavaha">ं</sub
+                  ><sub class="sub-yogavaha">ँ</sub><br />
+                  <input
+                     name="yogavaha"
+                     type="radio"
+                     class="radio-yogavaha"
+                     value="11"
+                  />
+                  <input
+                     name="yogavaha"
+                     type="radio"
+                     class="radio-yogavaha"
+                     value="13"
+                  />
+               </div>
+            </td>
+            <td>
+               <div class="vw">
+                  <sup>aha</sup>अः<sub class="sub-yogavaha">ः</sub><br />
+                  <input
+                     name="yogavaha"
+                     type="radio"
+                     class="radio-yogavaha"
+                     value="12"
+                  />
+               </div>
+            </td>
+         </tr>
 
-   
-button {
-    font-size: 20px;
-	color: green;
-}
-   
-B {
-    font-size: 24px;
-	color: green;
-}
+         <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+         </tr>
+      </table>
+      <button id="playvowel" onclick="playavowel()" style="margin: 5px 12px">
+         🔊▶ <b>V</b>o<b>w</b>el
+      </button>
 
- </style>
- 
-<body>
-
-
-  
-<p>
-<img style="margin-left:500px;" width="50" height="50" src="https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/hindi.jfif?raw=true" alt="Hindi Logo">   
-    <button onclick="clearallradiobtnselections()" style="margin-left:450px;">Clear All</button> 
-  &nbsp;&nbsp;&nbsp;&nbsp;
- <a href="https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Learn हिंदी (Hindi) interactively with Sounds By Vedavyasa Rao.pdf?raw=true" 
-	 target="_blank" rel="noopener noreferrer" style="font-size: 20px; font-weight: bold; color: Red;border: 2px solid pink;background-color: #fff100" >Help! 🗎↗</a></div>
-
-    
-
-  <span style="margin-left:10px;font-size: 20px; font-weight: bold; color: Blue;"> 
-  Vowels/स्वर (🔵), Matras /मात्रा (🔴), Ayogavaha/अयोगवाह(🟤), Halant/हलंत(⚫)</span>     
-  
-<table border="1" cellpadding="5" style="margin-left:10px;" id="vowels">
-<tr>
-  <td    bgcolor="#FFFFFF"><div class="vw"> <sup>a</sup>अ<sub class="sub-kg">◌</sub><sub class="sub-halant">्</sub><br/>
- <input name="swara" type="radio" class="radio-vw"  value="0" />
-    <input name="kagunita" type="radio"  class="radio-kg" value="0" />
-    <input name="halant" type="radio"  class="radio-halant" value="14" />
-  </div></td>
-  <td    bgcolor="#FFFFFF"><div class="vw"> <sup>aa</sup>आ<sub class="sub-kg">ा</sub><br/>
- <input name="swara" type="radio" class="radio-vw"  value="1" />
-    <input name="kagunita" type="radio"  class="radio-kg" value="1" />
-  </div></td>
-  <td    bgcolor="#FFFFFF"><div class="vw"> <sup>i</sup>इ<sub class="sub-kg">ि</sub><br/>
- <input name="swara" type="radio" class="radio-vw"  value="2" />
-    <input name="kagunita" type="radio"  class="radio-kg" value="2" />
-  </div></td>
-  <td    bgcolor="#FFFFFF"><div class="vw"> <sup>ii</sup>ई<sub class="sub-kg">ी</sub><br/>
- <input name="swara" type="radio" class="radio-vw"  value="3" />
-    <input name="kagunita" type="radio"  class="radio-kg" value="3" />
-  </div></td>
-  <td    bgcolor="#FFFFFF"><div class="vw"> <sup>u</sup>उ<sub class="sub-kg">ु</sub><br/>
- <input name="swara" type="radio" class="radio-vw"  value="4" />
-    <input name="kagunita" type="radio"  class="radio-kg" value="4" />
-  </div></td>
-  <td    bgcolor="#FFFFFF"><div class="vw"> <sup>uu</sup>ऊ<sub class="sub-kg">ू</sub><br/>
- <input name="swara" type="radio" class="radio-vw"  value="5" />
-    <input name="kagunita" type="radio"  class="radio-kg" value="5" />
-  </div></td>
-  <td    bgcolor="#FFFFFF"><div class="vw"> <sup>ri</sup>ऋ<sub class="sub-kg">ृ</sub><br/>
- <input name="swara" type="radio" class="radio-vw"  value="6" />
-    <input name="kagunita" type="radio"  class="radio-kg" value="6" />
-  </div></td>
-  <td    bgcolor="#FFFFFF"><div class="vw"> <sup>e</sup>ए<sub class="sub-kg">े</sub><br/>
- <input name="swara" type="radio" class="radio-vw"  value="7" />
-    <input name="kagunita" type="radio"  class="radio-kg" value="7" />
-  </div></td>
-  <td    bgcolor="#FFFFFF"><div class="vw"> <sup>ai</sup>ऐ<sub class="sub-kg">ै</sub><br/>
- <input name="swara" type="radio" class="radio-vw"  value="8" />
-    <input name="kagunita" type="radio"  class="radio-kg" value="8" />
-  </div></td>
-  <td    bgcolor="#FFFFFF"><div class="vw"> <sup>o</sup>ओ<sub class="sub-kg">ो</sub><br/>
- <input name="swara" type="radio" class="radio-vw"  value="9" />
-    <input name="kagunita" type="radio"  class="radio-kg" value="9" />
-  </div></td>
-  <td    bgcolor="#FFFFFF"><div class="vw"> <sup>au</sup>औ<sub class="sub-kg">ौ</sub><br/>
- <input name="swara" type="radio" class="radio-vw"  value="10" />
-    <input name="kagunita" type="radio"  class="radio-kg" value="10" />
-  </div></td>
-  <td    bgcolor="#FFFFFF"><div class="vw"> <sup>am</sup>अं<sub class="sub-ayogavaha">ं</sub><sub class="sub-ayogavaha">ँ</sub><br/>
- <input name="swara" type="radio" class="radio-vw"  value="11" />
-    <input name="ayogavaha" type="radio"  class="radio-ayogavaha" value="11" />
-    <input name="ayogavaha" type="radio"  class="radio-ayogavaha" value="13" />
-  </div></td>
-  <td    bgcolor="#FFFFFF"><div class="vw"> <sup>aha</sup>अः<sub class="sub-ayogavaha">ः</sub><br/>
- <input name="swara" type="radio" class="radio-vw"  value="12" />
-    <input name="ayogavaha" type="radio"  class="radio-ayogavaha" value="12" />
-  </div></td>
-</tr>
-
-<tr>
-  <td bgcolor="#FFFFFF">&nbsp;</td>
-  <td bgcolor="#FFFFFF">&nbsp;</td>
-  <td bgcolor="#FFFFFF">&nbsp;</td>
-  <td bgcolor="#FFFFFF">&nbsp;</td>
-  <td bgcolor="#FFFFFF">&nbsp;</td>
-  <td bgcolor="#FFFFFF">&nbsp;</td>
-  <td bgcolor="#FFFFFF">&nbsp;</td>
-  <td bgcolor="#FFFFFF">&nbsp;</td>
-  <td bgcolor="#FFFFFF">&nbsp;</td>
-  <td bgcolor="#FFFFFF">&nbsp;</td>
-  <td bgcolor="#FFFFFF">&nbsp;</td>
-  <td bgcolor="#FFFFFF">&nbsp;</td>
-  <td bgcolor="#FFFFFF">&nbsp;</td>
-</tr>   
-  </table> 
-  <button id="playvowel" onclick="playavowel()" style="margin: 5px 12px;">🔊▶ <B>V</B>o<B>w</B>el</button>
-  
-<!-- <p>status: <span id="status"></span></p>   
+      <!-- <p>status: <span id="status"></span></p>   
 document.getElementById('status').innerText = startTime;
--->  
-<br/>
-  <span style="margin-left:10px;font-size: 20px; font-weight: bold; color: Blue;"> Consonants/व्यंजन(🟣), Ardha vyanjan/अर्ध व्यंजन (🟢) </span>     
-  <table>
-    <tr><td>
-  <table border="1" style="margin-left:10px;" cellpadding="1">
-<tr>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>ka</sup>क<sub class="sub-ot">क्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="0" />
-  <input name="ottakshara" type="radio" class="radio-ot" value="0" />  
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>kha</sup>ख<sub class="sub-ot">ख्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="1" /><input name="ottakshara" type="radio" class="radio-ot" value="1" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>ga</sup>ग<sub class="sub-ot">ग्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="2" /><input name="ottakshara" type="radio" class="radio-ot" value="2" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>gha</sup>घ<sub class="sub-ot">घ्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="3" /><input name="ottakshara" type="radio" class="radio-ot" value="3" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>gna</sup>ङ<sub class="sub-ot">ङ्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="4" /><input name="ottakshara" type="radio" class="radio-ot" value="4" />
-</div></td></tr>
-    
-<tr>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>cha</sup>च<sub class="sub-ot">च्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="5" /><input name="ottakshara" type="radio" class="radio-ot" value="5" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>chha</sup>छ<sub class="sub-ot">छ्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="6" /><input name="ottakshara" type="radio" class="radio-ot" value="6" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>ja</sup>ज<sub class="sub-ot">ज्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="7" /><input name="ottakshara" type="radio" class="radio-ot" value="7" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>jha</sup>झ<sub class="sub-ot">झ्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="8" /><input name="ottakshara" type="radio" class="radio-ot" value="8" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>jna</sup>ञ<sub class="sub-ot">ञ्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="9" /><input name="ottakshara" type="radio" class="radio-ot" value="9" />
-</div></td>
-    </tr>
-    
-<tr>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>tuh</sup>ट<sub class="sub-ot">ट्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="10" /><input name="ottakshara" type="radio" class="radio-ot" value="10" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>tuuh</sup>ठ<sub class="sub-ot">ठ्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="11" /><input name="ottakshara" type="radio" class="radio-ot" value="11" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>duh</sup>ड<sub class="sub-ot">ड्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="12" /><input name="ottakshara" type="radio" class="radio-ot" value="12" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>duuh</sup>ढ<sub class="sub-ot">ढ्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="13" /><input name="ottakshara" type="radio" class="radio-ot" value="13" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>N̈a</sup>ण<sub class="sub-ot">ण्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="14" /><input name="ottakshara" type="radio" class="radio-ot" value="14" />
-</div></td>
- </tr>
-  
-<tr>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>ta</sup>त<sub class="sub-ot">त्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="15" /><input name="ottakshara" type="radio" class="radio-ot" value="15" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>tha</sup>थ<sub class="sub-ot">थ्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="16" /><input name="ottakshara" type="radio" class="radio-ot" value="16" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>da</sup>द<sub class="sub-ot">द्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="17" /><input name="ottakshara" type="radio" class="radio-ot" value="17" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>dha</sup>ध<sub class="sub-ot">ध्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="18" /><input name="ottakshara" type="radio" class="radio-ot" value="18" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>na</sup>न<sub class="sub-ot">न्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="19" /><input name="ottakshara" type="radio" class="radio-ot" value="19" />
-</div></td></tr>
-    
-<tr><td bgcolor="#FFFFFF"><div class="co"> <sup>pa</sup>प<sub class="sub-ot">प्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="20" /><input name="ottakshara" type="radio" class="radio-ot" value="20" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>pha</sup>फ<sub class="sub-ot">फ्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="21" /><input name="ottakshara" type="radio" class="radio-ot" value="21" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>ba</sup>ब<sub class="sub-ot">ब्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="22" /><input name="ottakshara" type="radio" class="radio-ot" value="22" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>bha</sup>भ<sub class="sub-ot">भ्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="23" /><input name="ottakshara" type="radio" class="radio-ot" value="23" />
-</div></td>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>ma</sup>म<sub class="sub-ot">म्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="24" /><input name="ottakshara" type="radio" class="radio-ot" value="24" />
-</div></td>  </tr>
-  </table>
-  </td>
-<td >    
-<table border="1"  style="margin: 0px 10px;" cellpadding="1">
-<tr>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>ya</sup>य<sub class="sub-ot">य्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="25" /><input name="ottakshara" type="radio" class="radio-ot" value="25" />
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>ra</sup>र<sub class="sub-ot">र्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="26" /><input name="ottakshara" type="radio" class="radio-ot" value="26" />
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>la</sup>ल<sub class="sub-ot">ल्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="27" /><input name="ottakshara" type="radio" class="radio-ot" value="27" />
-</tr><tr>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>va</sup>व<sub class="sub-ot">व्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="28" /><input name="ottakshara" type="radio" class="radio-ot" value="28" />
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>sha</sup>श<sub class="sub-ot">श्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="29" /><input name="ottakshara" type="radio" class="radio-ot" value="29" />
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>shha</sup>ष<sub class="sub-ot">ष्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="30" /><input name="ottakshara" type="radio" class="radio-ot" value="30" />
-</tr><tr>
-</tr><tr>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>sa</sup>स<sub class="sub-ot">स्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="31" /><input name="ottakshara" type="radio" class="radio-ot" value="31" />
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>ha</sup>ह<sub class="sub-ot">ह्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="32" /><input name="ottakshara" type="radio" class="radio-ot" value="32" />
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>ksha</sup>क्ष<sub class="sub-ot">क्ष्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="33" /><input name="ottakshara" type="radio" class="radio-ot" value="33" />
-</tr><tr>
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>tra</sup>त्र<sub class="sub-ot">त्र्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="34" /><input name="ottakshara" type="radio" class="radio-ot" value="34" />
-  <td bgcolor="#FFFFFF"><div class="co"> <sup>jna</sup>ज्ञ<sub class="sub-ot">ज्ञ्</sub><br/>
-<input name="vyanjana" type="radio" class="radio-co" value="35" /><input name="ottakshara" type="radio" class="radio-ot" value="35" />
-  </td>
-
-  </td>
-</tr>  
-  </table>
-</td>
-
-<td>
-
-<table  border="1" style="margin: 0px 10px;" >
-<tr rowspan="5"><td>
-<table>
-<tr><td style="text-align: center;font-size: 18px; font-weight: bold; color: Blue;" colspan=2>Player</td></tr>
-<tr>
-<td><table>
-<tr><td><button onclick="clearbuffer()"  >⎚ Clear</button></td></tr>
-<tr><td>  <button onclick="eraselastletter()" style="color: red">⌫</button></td></tr>
-<tr><td>  <button id="playBtn" onclick="playSarvamKannadaAudio()" >🔊▶ Play</button></td></tr>
-<tr><td>
-<label style="font-size: 12px; font-weight: Medium;" for="apiKey">Api Key:</label>
-<input type="text" id="apiKey"  placeholder="Enter your apiKey" required>
-</td></tr>   
-</table></td>
-<td><table >
-<tr><td><button onclick="addvwtobuffer()" class="vertical-btn-rotated" style="margin: 2px 2px;">➕ Vw 🔵🟤</button></td>
-<td><button onclick="addkgtobuffer()" class="vertical-btn-rotated" style="margin: 2px 2px;">➕ Co 🟣🔴🟤⚫</button></td>
-<td><button onclick="addottobuffer()" class="vertical-btn-rotated" style="margin: 2px 2px;">➕ Sm 🟢🟣🔴🟤</button></td></tr>
-</table></td></tr>
-
-<tr><td colspan=2>
-<textarea  style="display: inline-block;border: 2px solid pink;font-size: 24px; margin: 5px; color: Crimson;width:320px;overflow-wrap: break-word;" id="playbuffertext"></textarea>
-</td></tr> 
-</table>
-</td></tr>  </table>
-</td></tr>  
-</table>
-  <button id="playkagunita"  onclick="playkagunita()" style="margin-top: 5px;margin-left:12px;">🔊▶ <B>Co</B>nsonants</button>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <button onclick="playottakshara()" style="margin: 5px 9px;"><B>S</B>a<B>m</B>yuktakshars</button>
-  <br />
-  <span style="margin-left:10px;font-size: 20px; font-weight: bold; color: Blue;"> Numerals/संख्याएँ </span>     
-  
-  <table border="1" style="margin-left:10px;" cellpadding="1">
-<tr>
-  <td bgcolor="#FFFFFF">०<sup class="sup-num">0&nbsp;Shunya</sup><sub class="sub-num">शून्य</sub></td>
-  <td bgcolor="#FFFFFF">१<sup class="sup-num">1&nbsp;Ek</sup><sub class="sub-num">एक</sub></td>
-  <td bgcolor="#FFFFFF">२<sup class="sup-num">2&nbsp;Do</sup><sub class="sub-num">दो</sub></td>
-  <td bgcolor="#FFFFFF">३<sup class="sup-num">3&nbsp;Teen</sup><sub class="sub-num">तीन</sub></td>
-  <td bgcolor="#FFFFFF">४<sup class="sup-num">4&nbsp;Chaar</sup><sub class="sub-num">चार</sub></td>
-  <td bgcolor="#FFFFFF">५<sup class="sup-num">5&nbsp;Paanch</sup><sub class="sub-num">पाँच</sub></td>
-  <td bgcolor="#FFFFFF">६<sup class="sup-num">6&nbsp;Chhah</sup><sub class="sub-num">छह</sub></td>
-  <td bgcolor="#FFFFFF">७<sup class="sup-num">7&nbsp;Saat</sup><sub class="sub-num">सात</sub></td>
-  <td bgcolor="#FFFFFF">८<sup class="sup-num">8&nbsp;Aath</sup><sub class="sub-num">आठ</sub></td>
-  <td bgcolor="#FFFFFF">९<sup class="sup-num">9&nbsp;Nau</sup><sub class="sub-num">नौ</sub></td>
-</table>
-
-<label for="quantity" style="margin-left:10px;margin-bottom:20px;font-size: 24px;color:cyan">Enter a Number(0 - 1,00,00,000):</label>
-<input type="number" id="quantity" name="quantity" min="0" max="10000000" step="1">
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <button style="margin-bottom:10px;margin-top:10px;" onclick="playnumberinput()" >Display Number</button>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-<span style="display: inline-block;border: 2px solid pink;font-size: 24px; margin: 5px; color: Green;width:200px;" id="number">&nbsp;</span>
-
-  
-<audio controls id="Hindi_Vowels_Merged" style="width: 1px;height: 1px;visibility: visible">
-  <source src="https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Hindi_Vowels_Merged.mp3?raw=true" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
-
-<audio controls id="Hindi_Barahkhadi_Full_3sec" style="width: 1px;height: 1px;visibility: hidden">
-  <source src="https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Hindi_Barahkhadi_Full_3sec.mp3?raw=true" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
-    
-</p>
-  
-<script type = 'text/javascript'>
-
-
-    // 1. Define Kannada Unicode ranges
-    var CONSONANTS = [
-        'क', 'ख', 'ग', 'घ', 'ङ',
-        'च', 'छ', 'ज', 'झ', 'ञ',
-        'ट', 'ठ', 'ड', 'ढ', 'ण',
-        'त', 'थ', 'द', 'ध', 'न',
-        'प', 'फ', 'ब', 'भ', 'म',
-        'य', 'र', 'ल', 'व', 'श', 'ष', 'स', 'ह', 'क्ष', 'त्र', 'ज्ञ'
-    ];
-
-var vowel_chars = [
-    'अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ऋ', 'ए', 'ऐ', 'ओ', 'औ', 'अं', 'अः'
-];
-
-var VOWEL_SIGNS = [
-    '', 'ा', 'ि', 'ी', 'ु', 'ू', 'ृ', 'े', 'ै', 'ो', 'ौ', 'ं', 'ः', 'ँ', '्'
-];
-
-const kgstart = [];
-const kgend = new Map([]);
-const kgofst = new Map([]);
-const recordbuffer = [];
-
-
-var kount = 0;
-var startTime = 0;
-var endTime = 0;
-var playknt = 1;
-
-
-var localvowelsUrl = 'Hindi_Vowels_Merged.mp3';
-var localkgUrl = 'Hindi_Barahkhadi_Full_3sec.mp3';
-
-var githubvowelsUrl = 'https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Hindi_Vowels_Merged.mp3?raw=true';
-var githubkgUrl = 'https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/Hindi_Barahkhadi_Full_3sec.mp3?raw=true';
-
-var superbasevowelsUrl = 'https://hxzpzacxsuqtpvlkktjs.supabase.co/storage/v1/object/public/Hindi/Hindi_Vowels_Merged.mp3';
-var superbasekgUrl = 'https://hxzpzacxsuqtpvlkktjs.supabase.co/storage/v1/object/public/Hindi/Hindi_Barahkhadi_Full_3sec.mp3';
-
-
-
-
-var vowelsUrl = githubvowelsUrl;
-var kgUrl = githubkgUrl;
-
-
-
-var gswara = -1;
-var gvyanjana = -1;
-var gottakshara = -1;
-var gkagunita = -1;
-var gayogavaha = -1;
-var ghalant = -1;
-
-var audiodevicetrack = -1;
-var audiodevices = [];
-
-
-function reloadAndWait(idx, btnname) {
-    const button = document.getElementById(btnname);
-
-    button.style.backgroundColor = 'red';
-    if (audiodevices[idx].readyState >= 2) {
-        button.style.backgroundColor = 'green';
-    } else {
-        // 1. Set up the event listener BEFORE reloading
-        audiodevices[idx].addEventListener('canplay', () => {
-            // At this point, readyState is >= 2 (HAVE_CURRENT_DATA)
-
-            // Put the code you want to run after it loads here (e.g., audio.play())
-            button.style.backgroundColor = 'rgb(240, 240, 240)';
-        }, {
-            once: true
-        }); // { once: true } prevents the event from firing repeatedly during playback
-
-        // 2. Trigger the reload
-        audiodevices[idx].load();
-    }
-
-    return audiodevices[idx].readyState;
-
-}
-
-
-
-// 2. Execute the preloader
-function initurls() {
-    audiodevices.push(document.getElementById('Hindi_Vowels_Merged'));
-    reloadAndWait(0, 'playvowel');
-    audiodevices.push(document.getElementById('Hindi_Barahkhadi_Full_3sec'));
-    reloadAndWait(1, 'playkagunita');
-}
-
-initurls();
-
-function clearallradiobtnselections() {
-    var radioGroup = document.querySelectorAll('input[name="kagunita"]');
-    radioGroup.forEach(radio => radio.checked = false);
-    radioGroup = document.querySelectorAll('input[name="ottakshara"]');
-    radioGroup.forEach(radio => radio.checked = false);
-    radioGroup = document.querySelectorAll('input[name="vyanjana"]');
-    radioGroup.forEach(radio => radio.checked = false);
-    radioGroup = document.querySelectorAll('input[name="swara"]');
-    radioGroup.forEach(radio => radio.checked = false);
-    radioGroup = document.querySelectorAll('input[name="halant"]');
-    radioGroup.forEach(radio => radio.checked = false);
-    radioGroup = document.querySelectorAll('input[name="ayogavaha"]');
-    radioGroup.forEach(radio => radio.checked = false);
-    populateSwaraKagunitaOttakshara(-1, ['&nbsp;']);
-}
-
-/**************GENERATE START********************/
-function gatherselections() {
-    var selectedRadioswara = document.querySelector('input[name="swara"]:checked');
-    var selectedRadiovyanjana = document.querySelector('input[name="vyanjana"]:checked');
-    var selectedRadioottakshara = document.querySelector('input[name="ottakshara"]:checked');
-    var selectedRadiokagunita = document.querySelector('input[name="kagunita"]:checked');
-    var selectedRadioayogavaha = document.querySelector('input[name="ayogavaha"]:checked');
-    var selectedRadiohalant = document.querySelector('input[name="halant"]:checked');
-
-    gswara = -1;
-    gvyanjana = -1;
-    gottakshara = -1;
-    gkagunita = -1;
-    gayogavaha = -1;
-    ghalant = -1;
-
-    if (selectedRadioswara) gswara = parseInt(selectedRadioswara.value);
-    if (selectedRadiovyanjana) gvyanjana = parseInt(selectedRadiovyanjana.value);
-    if (selectedRadioottakshara) gottakshara = parseInt(selectedRadioottakshara.value);
-    if (selectedRadiokagunita) gkagunita = parseInt(selectedRadiokagunita.value);
-    if (selectedRadioayogavaha) gayogavaha = parseInt(selectedRadioayogavaha.value);
-    if (selectedRadiohalant) ghalant = parseInt(selectedRadiohalant.value);
-
-    populateSwaraKagunitaOttakshara(-1, ['&nbsp;']);
-}
-
-/**************Vowels********************/
-function generateVowels() {
-    return vowel_chars.map(vowel => {
-        if (gayogavaha == -1) return vowel;
-
-        if (vowel === 'अं') return vowel;
-        if (vowel === 'अः') return vowel;
-
-        // Combine the consonant with the vowel sign
-        return vowel + VOWEL_SIGNS[gayogavaha];
-    });
-}
-
-/**************Barakhadi********************/
-function generateBarakhadi() {
-    const baseConsonant = CONSONANTS[gvyanjana];
-    var allmatras = VOWEL_SIGNS.map(matra => {
-        // Exception handling for 'र' (ra)
-        if (baseConsonant === 'र') {
-            if (matra === 'ु') return 'रु'; // Special glyph for ru
-            if (matra === 'ू') return 'रू'; // Special glyph for roo
-            if (matra === 'ृ') return 'ऋ'; // 'र' combined with 'ृ' naturally defaults back to 'ऋ' or is skipped
-        }
-
-        // Combine the consonant with the vowel sign
-        return baseConsonant + matra;
-    });
-
-    if (gayogavaha != -1) {
-        return allmatras.map(bk => {
-            return bk + VOWEL_SIGNS[gayogavaha];
-        });
-    } else
-        return allmatras;
-}
-
-/**************Samyuktakshar********************/
-function generateSamyuktaksharBarakhadi() {
-    const baseConsonant = CONSONANTS[gvyanjana];
-    const baseConsonant2 = CONSONANTS[gottakshara];
-
-    var allmatras = VOWEL_SIGNS.map(matra => {
-
-        // Combine the consonant with the vowel sign
-        return baseConsonant2 + '्' + baseConsonant + matra;
-    });
-
-    if (gayogavaha != -1) {
-        return allmatras.map(bk => {
-            return bk + VOWEL_SIGNS[gayogavaha];
-        });
-    } else
-        return allmatras;
-
-}
-
-function generateSwaraKagunitaOttakshara(action) {
-
-    var swarakagunitachars = [];
-    if (action == 0) {
-        swarakagunitachars = generateVowels();
-        if (gayogavaha != -1) {
-            swarakagunitachars.pop();
-            swarakagunitachars.pop();
-        }
-
-    } else if (action == 1)
-        swarakagunitachars = generateBarakhadi();
-    else if (action == 2)
-        swarakagunitachars = generateSamyuktaksharBarakhadi();
-    if (action == 1 || action == 2) {
-        if (gkagunita == 0 && ghalant != -1) {
-            swarakagunitachars[0] = swarakagunitachars[14];
-        }
-        swarakagunitachars.pop();
-        swarakagunitachars.pop();
-
-        if (gayogavaha != -1) {
-            swarakagunitachars.pop();
-            swarakagunitachars.pop();
-        }
-    }
-    return swarakagunitachars;
-}
-/**************GENERATE END********************/
-
-/**************POPULATE********************/
-function populateSwaraKagunitaOttakshara(idx, kagunitachars) {
-    const table = document.getElementById("vowels");
-
-    for (let i = 0; i < 13; i++) {
-        const specificCell = table.rows[1].cells[i];
-        specificCell.innerHTML = ' ';
-    }
-
-    if (idx == -1) {
-        for (let i = 0; i < kagunitachars.length; i++) {
-            const specificCell = table.rows[1].cells[i];
-            specificCell.innerHTML = kagunitachars[i];
-        }
-    } else {
-        const specificCell = table.rows[1].cells[idx];
-        specificCell.innerHTML = kagunitachars[idx];
-    }
-}
-/**************POPULATE END********************/
-
-
-/**************PLAY VOWELS START********************/
-function playavowel() {
-    var offset = 0;
-    var knt = 13;
-
-    gatherselections();
-
-    if (gkagunita != -1 || ghalant != -1) return;
-
-    if ((gswara == 11 || gswara == 12 || gswara == 13) && gayogavaha != -1) return;
-
-    populateSwaraKagunitaOttakshara(gswara, generateSwaraKagunitaOttakshara(0));
-
-    if (audiodevices[0].readyState < 2) {
-        reloadAndWait(0, 'playvowel');
-        return;
-    }
-
-    if (gayogavaha == 11 || gayogavaha == 13)
-        offset = 13 * 3;
-
-    if (gayogavaha == 12)
-        offset = 13 * 3 + 11 * 3;
-
-    if (gayogavaha != -1)
-        knt = 11;
-
-    if (gswara != -1)
-        playselectedvowel(gswara, offset);
-    else
-        playallvowels(offset, knt);
-}
-
-function playselectedvowel(idx, offset) {
-    var et = 2;
-    startTime = offset + parseFloat(idx * 3.0);
-    endTime = (startTime + parseFloat(et));
-    setaudiotrack(0);
-    playsound();
-}
-
-function playallvowels(offset, knt) {
-    var et = knt * 3;
-    startTime = parseFloat(offset);
-    endTime = (startTime + parseFloat(et));
-    setaudiotrack(0);
-    playsound();
-}
-/**************PLAY VOWELS END********************/
-
-/**************PLAY KAGUNITA START********************/
-function playkagunita() {
-    gatherselections();
-
-    if (gvyanjana == -1) return;
-    if (ghalant != -1 && gkagunita != 0) return;
-    if (ghalant != -1 && gkagunita == 0 && gayogavaha != -1) return;
-
-    var swarakagunitachars = generateSwaraKagunitaOttakshara(1);
-    populateSwaraKagunitaOttakshara(gkagunita, swarakagunitachars);
-
-
-    if (audiodevices[1].readyState < 2) {
-        reloadAndWait(1, 'playkagunita');
-        return;
-    }
-
-    if (gkagunita == -1 && gayogavaha == -1)
-        playallkagunita(gvyanjana);
-    else if (gkagunita == 0) {
-        if (ghalant != 0 && gayogavaha == -1)
-            playselectedkagunita(gvyanjana, 0);
-        else if (gayogavaha != -1) {
-            var temp = gayogavaha;
-            if (gayogavaha == 13)
-                temp = 11;
-            playselectedkagunita(gvyanjana, temp);
-        }
-    } else if (gayogavaha == -1 && ghalant == -1)
-        playselectedkagunita(gvyanjana, gkagunita);
-}
-
-function playselectedkagunita(akshara, idx) {
-    kount = 0;
-    var st = parseFloat((akshara * 13 * 3 + 3 * idx));
-    startTime = parseFloat(st);
-    endTime = (startTime + 2);
-    setaudiotrack(1);
-    playsound();
-}
-
-function playallkagunita(akshara) {
-    kount = 0;
-    var et = 13 * 3;
-    startTime = parseFloat(akshara * 13 * 3);
-    endTime = (startTime + parseFloat(et));
-    setaudiotrack(1);
-    playsound();
-}
-/**************PLAY KAGUNITA STOP********************/
-
-/**************PLAY OTTAKSHARA START********************/
-function playottakshara() {
-    gatherselections();
-    if (gottakshara == -1 || gvyanjana == -1) return;
-    if (ghalant != -1 && gkagunita != 0) return;
-    if (ghalant != -1 && gkagunita == 0 && gayogavaha != -1) return;
-
-    var swarakagunitachars = generateSwaraKagunitaOttakshara(2);
-    populateSwaraKagunitaOttakshara(gkagunita, swarakagunitachars);
-}
-/**************PLAY OTTAKSHARA STOP********************/
-
-/**************PLAY NUMBER START********************/
-function decodeHtmlEntity(html) {
-    const txt = document.createElement('textarea');
-    txt.innerHTML = html;
-    return txt.value;
-}
-
-function playnumberinput() {
-    const numberInput = document.getElementById("quantity");
-    clearbuffer();
-    // Get the value directly as a number
-    const numValue = numberInput.valueAsNumber;
-    if (numValue >= 0 && numValue <= 10000000) {
-        document.getElementById('playbuffertext').value = decodeHtmlEntity(numberToHindiWords(numValue));
-        document.getElementById('number').innerText = formatHindiNumber(numValue);
-    }
-}
-/**************PLAY NUMBER STOP********************/
-
-
-/**************PLAY AUDIO START********************/
-function setaudiotrack(track) {
-    audiodevicetrack = track;
-}
-
-function playsound() {
-
-    audiodevices[audiodevicetrack].currentTime = startTime;
-    audiodevices[audiodevicetrack].addEventListener('timeupdate', checkTime);
-    audiodevices[audiodevicetrack].play();
-}
-
-
-function checkTime() {
-    if (audiodevices[audiodevicetrack].currentTime >= endTime) {
-        audiodevices[audiodevicetrack].pause();
-        audiodevices[audiodevicetrack].removeEventListener('timeupdate', checkTime);
-        kount++;
-        if (kount < playknt)
-            playsound();
-    }
-}
-
-/**************PLAY AUDIO STOP********************/
-
-/**************PLAY BUFFER MANAGEMENT START********************/
-function addtobuffer(action) {
-  var tempbuffer = [action,gswara,gvyanjana,gottakshara,gkagunita,gayogavaha,ghalant];
-  recordbuffer.push(JSON.stringify(tempbuffer));
-}
-
-function eraselastletter() {
-    recordbuffer.pop();
-    printbuffer();
-}
-
-function clearbuffer() {
-    recordbuffer.length = 0;
-    printbuffer();
-}
-
-function addvwtobuffer() {
-    gatherselections();
-    if (gswara == -1 || gkagunita != -1 || ghalant != -1) return;
-    if ((gswara == 11 || gswara == 12 || gswara == 13) && gayogavaha != -1) return;
-
-    addtobuffer(0);
-    printbuffer();
-}
-
-function addkgtobuffer() {
-    gatherselections();  
-    if (gvyanjana == -1) return;
-    if (ghalant != -1 && gkagunita != 0) return;
-    if (ghalant != -1 && gkagunita == 0 && gayogavaha != -1) return;  
-
-    addtobuffer(1);
-    printbuffer();
-}
-
-function addottobuffer() {
-    gatherselections();
-    if (gottakshara == -1 || gvyanjana == -1 || gkagunita == -1) return;
-    if (ghalant != -1 && gkagunita != 0) return;
-    if (ghalant != -1 && gkagunita == 0 && gayogavaha != -1) return;
-    addtobuffer(2);
-    printbuffer();
-}
-
-function printbuffer() {
-
-    var ctl = document.getElementById('playbuffertext');
-    ctl.value = '';
-    for (let i = 0; i < recordbuffer.length; i++) {
-		[action,gswara,gvyanjana,gottakshara,gkagunita,gayogavaha,ghalant] = JSON.parse(recordbuffer[i]);      
-
-      	if (action == 0) {
-            var swarakagunitachars = generateSwaraKagunitaOttakshara(0);
-            ctl.value += decodeHtmlEntity(swarakagunitachars[gswara]);
-        } else if (action == 1) {
-            var kagunitachars = generateSwaraKagunitaOttakshara(1);
-            ctl.value += decodeHtmlEntity(kagunitachars[gkagunita]);
-        } else if (action == 2) {
-            var kagunitachars = generateSwaraKagunitaOttakshara(2);
-            ctl.value += decodeHtmlEntity(kagunitachars[gkagunita]);
-        }
-    }
-}
-/**************PLAY BUFFER MANAGEMENT STOP********************/
-</script>
-
-<script type = 'text/javascript' >
-    /**************PLAY BUFFER AUDIO START********COMMA DELAY************/
-async function playSarvamKannadaAudio() {
-    const playBtn = document.getElementById('playBtn');
-    const textInput = document.getElementById('playbuffertext').value.trim();
-    const apiKey = document.getElementById('apiKey').value.trim();
-    
-    if (!textInput) return;
-    if (!apiKey) return;
-
-    playBtn.disabled = true;
-    playBtn.innerText = "Generating...";
-
-    // Replace with your actual Sarvam API Key
-
-    try {
-        const response = await fetch("https://api.sarvam.ai/text-to-speech", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "api-subscription-key": apiKey
-            },
-            body: JSON.stringify({
-                text: textInput,
-                target_language_code: "hi-IN",
-                speaker: "aditi_en_stories",
-                model: "bulbul:v4-flash",
-                pace: 1.0,
-                speech_sample_rate: 24000
-            })
-        });
-      
-      
-
-        if (!response.ok) {
-            throw new Error(`API error: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        
-        // Sarvam API returns base64 encoded audio strings in an array
-        if (data.audios && data.audios.length > 0) {
-            const base64Audio = data.audios[0];
-            
-            // Convert base64 string to a playable Blob/Audio URL
-            const binaryString = atob(base64Audio);
-            const len = binaryString.length;
-            const bytes = new Uint8Array(len);
-            for (let i = 0; i < len; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-            
-            const blob = new Blob([bytes], { type: 'audio/mp3' });
-            const audioUrl = URL.createObjectURL(blob);
-            
-            const audio = new Audio(audioUrl);
-            audio.onended = () => {
-                playBtn.disabled = false;
-                playBtn.innerText = "Play Audio";
-            };
-            audio.onerror = (err) => {
-                console.error("Audio playback error:", err);
-                playBtn.disabled = false;
-                playBtn.innerText = "Play Audio";
-            };
-            
-            playBtn.innerText = "Playing...";
-            await audio.play();
-        } else {
-            throw new Error("No audio returned from API.");
-        }
-
-    } catch (err) {
-        console.error("Failed to generate or play audio:", err);
-        alert("Error generating speech. Check console for details.");
-        playBtn.disabled = false;
-        playBtn.innerText = "Play Audio";
-    }
-}
-
-  /**************PLAY BUFFER AUDIO END**********************/
-</script>
-
-<script type = 'text/javascript' >
-
-    /**************HINDI NUMBER START********************/
-    const HINDI_NUMERALS = {
-        '0': '०',
-        '1': '१',
-        '2': '२',
-        '3': '३',
-        '4': '४',
-        '5': '५',
-        '6': '६',
-        '7': '७',
-        '8': '८',
-        '9': '९'
-    };
-
-
-function formatHindiNumber(num) {
-    let numStr = num.toString();
-    let formattedStr = '';
-
-    if (numStr.length <= 3) {
-        formattedStr = numStr;
-    } else {
-        let lastThree = numStr.substring(numStr.length - 3);
-        let remaining = numStr.substring(0, numStr.length - 3);
-
-        // Groups the remaining higher values into pairs of two using regex
-        remaining = remaining.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
-        formattedStr = remaining + "," + lastThree;
-    }
-
-    // Convert each Western digit character directly to its Devanagari character match
-    return formattedStr.split('').map(char => HINDI_NUMERALS[char] || char).join('');
-}
-
-
-function numberToHindiWords(num) {
-    if (num === 0) return "शून्य";
-
-    // Hindi word arrays for lookups
-    const ones = [
-        "", "एक", "दो", "तीन", "चार", "पाँच", "छह", "सात", "आठ", "नौ", "दस",
-        "ग्यारह", "बारह", "तेरह", "चौदह", "पन्द्रह", "सोलह", "सत्रह", "अठारह", "उन्नीस", "बीस",
-        "इक्कीस", "बाईस", "तेईस", "चौबीस", "पच्चीस", "छब्बीस", "सत्ताईस", "अठारह", "उनतीस", "तीस",
-        "इकत्तीस", "बत्तीस", "तैंतीस", "चौंतीस", "पैंतीस", "छत्तीस", "सैंतीस", "अड़तीस", "उनतालीस", "चालीस",
-        "इकतालीस", "बयालीस", "तैंतालिस", "चद्वालिस", "पैंतालिस", "छियालीस", "सैंतालिस", "अड़तालीस", "उनचास", "पचास",
-        "इक्कावन", "बावन", "तिरेपन", "चौवन", "पचपन", "छप्पन", "सतावन", "अठावन", "उनसठ", "साठ",
-        "इकसठ", "बासठ", "तिरसठ", "चौंसठ", "पैंसठ", "छियासठ", "सरसठ", "अड़सठ", "उनहत्तर", "सत्तर",
-        "इकहत्तर", "बहत्तर", "तिहत्तर", "चौहत्तर", "पचहत्तर", "छहत्तर", "सतहत्तर", "अठहत्तर", "उनासी", "अस्सी",
-        "इक्यासी", "ब्यासी", "तिरासी", "चौरासी", "पचासी", "छियासी", "सतासी", "अठासी", "नवासी", "नब्बे",
-        "इक्यानवे", "बानवे", "तिरानवे", "चौरानवे", "पचानवे", "छियानवे", "सत्तानवे", "अट्ठानवे", "निन्यानवे"
-    ];
-
-    let words = "";
-
-    // 1 Crore boundary check
-    if (num >= 10000000) {
-        const croreCount = Math.floor(num / 10000000);
-        words += numberToHindiWords(croreCount) + " करोड़ ";
-        num %= 10000000;
-    }
-
-    // Lakhs
-    if (num >= 100000) {
-        const lakhCount = Math.floor(num / 100000);
-        words += ones[lakhCount] + " लाख ";
-        num %= 100000;
-    }
-
-    // Thousands
-    if (num >= 1000) {
-        const thousandCount = Math.floor(num / 1000);
-        words += ones[thousandCount] + " हजार ";
-        num %= 1000;
-    }
-
-    // Hundreds
-    if (num >= 100) {
-        const hundredCount = Math.floor(num / 100);
-        words += ones[hundredCount] + " सौ ";
-        num %= 100;
-    }
-
-    // Remaining tens and ones
-    if (num > 0) {
-        words += ones[num];
-    }
-
-    return words.trim();
-}
-
-/**************HINDI NUMBER STOP********************/
-
-</script>
-      
-  </body></html>
+-->
+      <br />
+      <span
+         style="
+            margin-left: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: Blue;
+         "
+      >
+         Consonants/व्यंजन(🟣), Ardha vyanjan/अर्ध व्यंजन (🟢)
+      </span>
+      <table>
+         <tr>
+            <td>
+               <table border="1" style="margin-left: 10px" cellpadding="1">
+                  <tr>
+                     <td>
+                        <div class="co">
+                           <sup>ka</sup>क<sub class="sub-ot">क्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="0"
+                           />
+                           <input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="0"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>kha</sup>ख<sub class="sub-ot">ख्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="1"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="1"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>ga</sup>ग<sub class="sub-ot">ग्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="2"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="2"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>gha</sup>घ<sub class="sub-ot">घ्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="3"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="3"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>gna</sup>ङ<sub class="sub-ot">ङ्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="4"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="4"
+                           />
+                        </div>
+                     </td>
+                  </tr>
+
+                  <tr>
+                     <td>
+                        <div class="co">
+                           <sup>cha</sup>च<sub class="sub-ot">च्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="5"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="5"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>chha</sup>छ<sub class="sub-ot">छ्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="6"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="6"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>ja</sup>ज<sub class="sub-ot">ज्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="7"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="7"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>jha</sup>झ<sub class="sub-ot">झ्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="8"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="8"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>jna</sup>ञ<sub class="sub-ot">ञ्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="9"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="9"
+                           />
+                        </div>
+                     </td>
+                  </tr>
+
+                  <tr>
+                     <td>
+                        <div class="co">
+                           <sup>tuh</sup>ट<sub class="sub-ot">ट्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="10"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="10"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>tuuh</sup>ठ<sub class="sub-ot">ठ्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="11"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="11"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>duh</sup>ड<sub class="sub-ot">ड्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="12"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="12"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>duuh</sup>ढ<sub class="sub-ot">ढ्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="13"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="13"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>N̈a</sup>ण<sub class="sub-ot">ण्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="14"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="14"
+                           />
+                        </div>
+                     </td>
+                  </tr>
+
+                  <tr>
+                     <td>
+                        <div class="co">
+                           <sup>ta</sup>त<sub class="sub-ot">त्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="15"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="15"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>tha</sup>थ<sub class="sub-ot">थ्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="16"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="16"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>da</sup>द<sub class="sub-ot">द्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="17"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="17"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>dha</sup>ध<sub class="sub-ot">ध्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="18"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="18"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>na</sup>न<sub class="sub-ot">न्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="19"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="19"
+                           />
+                        </div>
+                     </td>
+                  </tr>
+
+                  <tr>
+                     <td>
+                        <div class="co">
+                           <sup>pa</sup>प<sub class="sub-ot">प्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="20"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="20"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>pha</sup>फ<sub class="sub-ot">फ्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="21"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="21"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>ba</sup>ब<sub class="sub-ot">ब्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="22"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="22"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>bha</sup>भ<sub class="sub-ot">भ्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="23"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="23"
+                           />
+                        </div>
+                     </td>
+                     <td>
+                        <div class="co">
+                           <sup>ma</sup>म<sub class="sub-ot">म्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="24"
+                           /><input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="24"
+                           />
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </td>
+            <td>
+               <table border="1" style="margin: 0px 10px" cellpadding="1">
+                  <tr>
+                     <td>
+                        <div class="co">
+                           <sup>ya</sup>य<sub class="sub-ot">य्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="25"
+                           />
+                           <input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="25"
+                           />
+                        </div>
+                     </td>
+
+                     <td>
+                        <div class="co">
+                           <sup>ra</sup>र<sub class="sub-ot">र्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="26"
+                           />
+                           <input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="26"
+                           />
+                        </div>
+                     </td>
+
+                     <td>
+                        <div class="co">
+                           <sup>la</sup>ल<sub class="sub-ot">ल्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="27"
+                           />
+                           <input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="27"
+                           />
+                        </div>
+                     </td>
+                  </tr>
+
+                  <tr>
+                     <td>
+                        <div class="co">
+                           <sup>va</sup>व<sub class="sub-ot">व्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="28"
+                           />
+                           <input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="28"
+                           />
+                        </div>
+                     </td>
+
+                     <td>
+                        <div class="co">
+                           <sup>sha</sup>श<sub class="sub-ot">श्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="29"
+                           />
+                           <input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="29"
+                           />
+                        </div>
+                     </td>
+
+                     <td>
+                        <div class="co">
+                           <sup>shha</sup>ष<sub class="sub-ot">ष्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="30"
+                           />
+                           <input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="30"
+                           />
+                        </div>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <div class="co">
+                           <sup>sa</sup>स<sub class="sub-ot">स्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="31"
+                           />
+                           <input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="31"
+                           />
+                        </div>
+                     </td>
+
+                     <td>
+                        <div class="co">
+                           <sup>ha</sup>ह<sub class="sub-ot">ह्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="32"
+                           />
+                           <input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="32"
+                           />
+                        </div>
+                     </td>
+
+                     <td>
+                        <div class="co">
+                           <sup>ksha</sup>क्ष<sub class="sub-ot">क्ष्</sub
+                           ><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="33"
+                           />
+                           <input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="33"
+                           />
+                        </div>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <div class="co">
+                           <sup>tra</sup>त्र<sub class="sub-ot">त्र्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="radio"
+                              class="radio-co"
+                              value="34"
+                           />
+                           <input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="34"
+                           />
+                        </div>
+                     </td>
+
+                     <td>
+                        <div class="co">
+                           <sup>jna</sup>ज्ञ<sub class="sub-ot">ज्ञ्</sub><br />
+                           <input
+                              name="vyanjana"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-co"
+                              value="35"
+                           />
+                           <input
+                              name="ottakshara"
+                              type="checkbox"
+                              onclick="checkboxClicked(this)"
+                              class="radio-ot"
+                              value="35"
+                           />
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </td>
+
+            <td>
+               <table border="1" style="margin: 0px 10px">
+                  <tr rowspan="5">
+                     <td>
+                        <table>
+                           <tr>
+                              <td
+                                 style="
+                                    text-align: center;
+                                    font-size: 18px;
+                                    font-weight: bold;
+                                    color: Blue;
+                                 "
+                                 colspan="2"
+                              >
+                                 Player
+                              </td>
+                           </tr>
+                           <tr>
+                              <td>
+                                 <table>
+                                    <tr>
+                                       <td>
+                                          <button onclick="clearbuffer()">
+                                             ⎚ Clear
+                                          </button>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td colspan=2>
+                                          <button
+                                             onclick="eraselastletter()"
+                                             style="color: red"
+                                          >
+                                             ⌫
+                                          </button>
+										  &nbsp;
+										  &nbsp;
+                                          <button
+                                             onclick="insertspace()"
+                                             style="color: black"
+                                          >
+                                             ⎵
+                                          </button>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                          <button
+                                             id="playBtn"
+                                             onclick="playSarvamKannadaAudio()"
+                                          >
+                                             🔊▶ Play
+                                          </button>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                          <label
+                                             style="
+                                                font-size: 12px;
+                                                font-weight: Medium;
+                                             "
+                                             for="apiKey"
+                                             >Api Key:</label
+                                          >
+                                          <input
+                                             type="text"
+                                             id="apiKey"
+                                             placeholder="Enter your apiKey"
+                                             required
+                                          />
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                              <td>
+                                 <table>
+                                    <tr>
+                                       <td>
+                                          <button
+                                             onclick="addvwtobuffer()"
+                                             class="vertical-btn-rotated"
+                                             style="margin: 2px 2px"
+                                          >
+                                             ➕ Vw 🔵🟤
+                                          </button>
+                                       </td>
+                                       <td>
+                                          <button
+                                             onclick="addkgtobuffer()"
+                                             class="vertical-btn-rotated"
+                                             style="margin: 2px 2px"
+                                          >
+                                             ➕ Co 🟣🔴🟤⚫
+                                          </button>
+                                       </td>
+                                       <td>
+                                          <button
+                                             onclick="addottobuffer()"
+                                             class="vertical-btn-rotated"
+                                             style="margin: 2px 2px"
+                                          >
+                                             ➕ Sm 🟢🟣🔴🟤
+                                          </button>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+
+                           <tr>
+                              <td colspan="2">
+                                 <textarea
+                                    style="
+                                       display: inline-block;
+                                       border: 2px solid pink;
+                                       font-size: 24px;
+                                       margin: 5px;
+                                       color: Crimson;
+                                       width: 320px;
+                                       overflow-wrap: break-word;
+                                    "
+                                    id="playbuffertext"
+                                 ></textarea>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+      </table>
+      <button
+         id="playkagunita"
+         onclick="playkagunita()"
+         style="margin-top: 5px; margin-left: 12px"
+      >
+         🔊▶ <b>Co</b>nsonants
+      </button>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <button onclick="playottakshara()" style="margin: 5px 9px">
+         <b>S</b>a<b>m</b>yuktakshars
+      </button>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <span
+         id="selkg"
+         style="
+            margin-left: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: 16c60c;
+         "
+      ></span>
+
+      <br />
+      <span
+         style="
+            margin-left: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: Blue;
+         "
+      >
+         Numerals/संख्याएँ
+      </span>
+
+      <table border="1" style="margin-left: 10px" cellpadding="1">
+         <tr>
+            <td>
+               ०<sup class="sup-num">0&nbsp;Shunya</sup
+               ><sub class="sub-num">शून्य</sub>
+            </td>
+            <td>
+               १<sup class="sup-num">1&nbsp;Ek</sup
+               ><sub class="sub-num">एक</sub>
+            </td>
+            <td>
+               २<sup class="sup-num">2&nbsp;Do</sup
+               ><sub class="sub-num">दो</sub>
+            </td>
+            <td>
+               ३<sup class="sup-num">3&nbsp;Teen</sup
+               ><sub class="sub-num">तीन</sub>
+            </td>
+            <td>
+               ४<sup class="sup-num">4&nbsp;Chaar</sup
+               ><sub class="sub-num">चार</sub>
+            </td>
+            <td>
+               ५<sup class="sup-num">5&nbsp;Paanch</sup
+               ><sub class="sub-num">पाँच</sub>
+            </td>
+            <td>
+               ६<sup class="sup-num">6&nbsp;Chhah</sup
+               ><sub class="sub-num">छह</sub>
+            </td>
+            <td>
+               ७<sup class="sup-num">7&nbsp;Saat</sup
+               ><sub class="sub-num">सात</sub>
+            </td>
+            <td>
+               ८<sup class="sup-num">8&nbsp;Aath</sup
+               ><sub class="sub-num">आठ</sub>
+            </td>
+            <td>
+               ९<sup class="sup-num">9&nbsp;Nau</sup
+               ><sub class="sub-num">नौ</sub>
+            </td>
+         </tr>
+      </table>
+
+      <label
+         for="quantity"
+         style="
+            margin-left: 10px;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: cyan;
+         "
+         >Enter a Number(0 - 1,00,00,000):</label
+      >
+      <input
+         type="number"
+         id="quantity"
+         name="quantity"
+         min="0"
+         max="10000000"
+         step="1"
+      />
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <button
+         style="margin-bottom: 10px; margin-top: 10px"
+         onclick="playnumberinput()"
+      >
+         Display Number
+      </button>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <span
+         style="
+            display: inline-block;
+            border: 2px solid pink;
+            font-size: 24px;
+            margin: 5px;
+            color: Green;
+            width: 200px;
+         "
+         id="number"
+         >&nbsp;</span
+      >
+
+      <audio
+         controls
+         id="Hindi_Vowels_Merged"
+         style="width: 1px; height: 1px; visibility: visible"
+      >
+         <source type="audio/mpeg" />
+         Your browser does not support the audio element.
+      </audio>
+
+      <audio
+         controls
+         id="Hindi_Barahkhadi_Full_3sec"
+         style="width: 1px; height: 1px; visibility: hidden"
+      >
+         <source type="audio/mpeg" />
+         Your browser does not support the audio element.
+      </audio>
+
+      <script>
+         initurls();
+      </script>
+   </body>
+</html>

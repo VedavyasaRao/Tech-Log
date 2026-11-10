@@ -515,6 +515,11 @@
             printbuffer();
          }
 
+         function insertspace() {
+            addtobuffer(3);
+            printbuffer();
+         }
+
          function addvwtobuffer() {
             gatherselections();
             if (gswara == -1 || gkagunita != -1 || ghalant != -1) return;
@@ -535,7 +540,7 @@
          function addottobuffer() {
             gatherselections();
             if (
-               (gottakshara.length != 0 || garkaottu == -1) &&
+               (gottakshara.length == 0 || garkaottu == -1) &&
                (gvyanjana == -1 || gkagunita == -1)
             )
                return;
@@ -574,6 +579,8 @@
                } else if (action == 2) {
                   var swarakagunitachars = generateSwaraKagunitaOttakshara(2);
                   ctl.value += decodeHtmlEntity(swarakagunitachars[gkagunita]);
+               } else if (action == 3) {
+                  ctl.value += decodeHtmlEntity(' ');
                }
             }
          }
@@ -1990,14 +1997,23 @@ document.getElementById('status').innerText = startTime;
                                        </td>
                                     </tr>
                                     <tr>
-                                       <td>
+                                       <td colspan=2>
                                           <button
                                              onclick="eraselastletter()"
                                              style="color: red"
                                           >
                                              ⌫
                                           </button>
+										  &nbsp;
+										  &nbsp;
+                                          <button
+                                             onclick="insertspace()"
+                                             style="color: black"
+                                          >
+                                             ⎵
+                                          </button>
                                        </td>
+
                                     </tr>
                                     <tr>
                                        <td>
