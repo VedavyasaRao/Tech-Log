@@ -120,7 +120,7 @@
          var audiodevicetrack = -1;
          var audiodevices = [];
 
-         function checkboxClicked(cb) {
+         function ottcheckboxClicked(cb) {
             if (cb.checked) {
                var otknt = gottakshara.length;
                if (otknt == 3) return;
@@ -176,16 +176,19 @@
          }
 
          function clearallradiobtnselections() {
-            var radioGroup = document.querySelectorAll(
-               'input[name="kagunita"]',
-            );
+            var radioGroup = document.querySelectorAll('input[name="kagunita"]');
             radioGroup.forEach((radio) => (radio.checked = false));
+			radioGroup[0].checked = 1;
+			
             radioGroup = document.querySelectorAll('input[name="ottakshara"]');
             radioGroup.forEach((radio) => (radio.checked = false));
+			
             radioGroup = document.querySelectorAll('input[name="vyanjana"]');
             radioGroup.forEach((radio) => (radio.checked = false));
+			
             radioGroup = document.querySelectorAll('input[name="swara"]');
             radioGroup.forEach((radio) => (radio.checked = false));
+			
             radioGroup = document.querySelectorAll('input[name="halant"]');
             radioGroup.forEach((radio) => (radio.checked = false));
             radioGroup = document.querySelectorAll('input[name="yogavaha"]');
@@ -276,9 +279,7 @@
             var allmatras = VOWEL_SIGNS.map((matra) => {
                var ret = '';
                for (let i = 0; i < gottakshara.length; ++i)
-			   {
-                  ret += (gottakshara[i]);
-			   }
+                  ret += gottakshara[i];
                ret += baseConsonant;
 			   ret += matra;
 			   return ret;
@@ -326,8 +327,7 @@
                const specificCell = table.rows[1].cells[i];
                specificCell.innerHTML = " ";
             }
-
-            if (idx == -1) {
+  			if (document.getElementById("allkg").checked || idx == -1) {
                for (let i = 0; i < kagunitachars.length; i++) {
                   const specificCell = table.rows[1].cells[i];
                   specificCell.innerHTML = kagunitachars[i];
@@ -346,7 +346,6 @@
 
             gatherselections();
 
-            if (gkagunita != -1 || ghalant != -1) return;
 
             if (
                (gswara == 11 || gswara == 12 || gswara == 13) &&
@@ -531,7 +530,7 @@
 
          function addvwtobuffer() {
             gatherselections();
-            if (gswara == -1 || gkagunita != -1 || ghalant != -1) return;
+            if (gswara == -1 ) return;
             if (
                (gswara == 11 || gswara == 12 || gswara == 13) &&
                gyogavaha != -1
@@ -540,16 +539,18 @@
 
             addtobuffer(0);
             printbuffer();
+			clearallradiobtnselections();
          }
 
          function addkgtobuffer() {
             gatherselections();
-            if (gvyanjana == -1) return;
+            if (gvyanjana == -1 || gkagunita == -1) return;
             if (ghalant != -1 && gkagunita != 0) return;
             if (ghalant != -1 && gkagunita == 0 && gyogavaha != -1) return;
 
             addtobuffer(1);
             printbuffer();
+			clearallradiobtnselections();
          }
 
          function addottobuffer() {
@@ -559,6 +560,7 @@
             if (ghalant != -1 && gkagunita == 0 && gyogavaha != -1) return;
             addtobuffer(2);
             printbuffer();
+			clearallradiobtnselections();
          }
 
          function printbuffer() {
@@ -1016,8 +1018,8 @@
          src="https://github.com/VedavyasaRao/Tech-Log/blob/main/Aksharamaale/Hindi/hindi.jfif?raw=true"
          alt="Hindi Logo"
       />
-      <button onclick="clearallradiobtnselections()" style="margin-left: 450px">
-         Clear All
+      <button id="resetbtn" onclick="clearallradiobtnselections()" style="margin-left: 450px">
+         Reset
       </button>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <a
@@ -1043,8 +1045,8 @@
             color: Blue;
          "
       >
-         Vowels/स्वर (🔵), Matras /मात्रा (🔴), yogavaha/अयोगवाह(🟤),
-         Halant/हलंत(⚫)</span
+         Vowels/स्वर (🔵), Matras /मात्रा (🔴), Halant/हलंत(⚫), yogavaha/अयोगवाह(🟤)
+         </span
       >
 
       <table border="1" cellpadding="5" style="margin-left: 10px" id="vowels">
@@ -1256,7 +1258,7 @@ document.getElementById('status').innerText = startTime;
             color: Blue;
          "
       >
-         Consonants/व्यंजन(🟣), Ardha vyanjan/अर्ध व्यंजन (🟢)
+         Consonants/व्यंजन(🟣), Conjuncts/संयुक्ताक्षर(🟢)
       </span>
       <table>
          <tr>
@@ -1275,7 +1277,7 @@ document.getElementById('status').innerText = startTime;
                            <input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="0"
                            />
@@ -1292,7 +1294,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="1"
                            />
@@ -1309,7 +1311,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="2"
                            />
@@ -1326,7 +1328,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="3"
                            />
@@ -1343,7 +1345,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="4"
                            />
@@ -1363,7 +1365,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="5"
                            />
@@ -1380,7 +1382,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="6"
                            />
@@ -1397,7 +1399,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="7"
                            />
@@ -1414,7 +1416,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="8"
                            />
@@ -1431,7 +1433,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="9"
                            />
@@ -1451,7 +1453,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="10"
                            />
@@ -1468,7 +1470,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="11"
                            />
@@ -1485,7 +1487,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="12"
                            />
@@ -1502,7 +1504,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="13"
                            />
@@ -1519,7 +1521,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="14"
                            />
@@ -1539,7 +1541,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="15"
                            />
@@ -1556,7 +1558,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="16"
                            />
@@ -1573,7 +1575,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="17"
                            />
@@ -1590,7 +1592,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="18"
                            />
@@ -1607,7 +1609,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="19"
                            />
@@ -1627,7 +1629,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="20"
                            />
@@ -1644,7 +1646,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="21"
                            />
@@ -1661,7 +1663,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="22"
                            />
@@ -1678,7 +1680,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="23"
                            />
@@ -1695,7 +1697,7 @@ document.getElementById('status').innerText = startTime;
                            /><input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="24"
                            />
@@ -1719,7 +1721,7 @@ document.getElementById('status').innerText = startTime;
                            <input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="25"
                            />
@@ -1738,7 +1740,7 @@ document.getElementById('status').innerText = startTime;
                            <input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="26"
                            />
@@ -1757,7 +1759,7 @@ document.getElementById('status').innerText = startTime;
                            <input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="27"
                            />
@@ -1778,7 +1780,7 @@ document.getElementById('status').innerText = startTime;
                            <input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="28"
                            />
@@ -1797,7 +1799,7 @@ document.getElementById('status').innerText = startTime;
                            <input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="29"
                            />
@@ -1816,7 +1818,7 @@ document.getElementById('status').innerText = startTime;
                            <input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="30"
                            />
@@ -1836,7 +1838,7 @@ document.getElementById('status').innerText = startTime;
                            <input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="31"
                            />
@@ -1855,7 +1857,7 @@ document.getElementById('status').innerText = startTime;
                            <input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="32"
                            />
@@ -1875,7 +1877,7 @@ document.getElementById('status').innerText = startTime;
                            <input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="33"
                            />
@@ -1895,7 +1897,7 @@ document.getElementById('status').innerText = startTime;
                            <input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="34"
                            />
@@ -1908,14 +1910,14 @@ document.getElementById('status').innerText = startTime;
                            <input
                               name="vyanjana"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-co"
                               value="35"
                            />
                            <input
                               name="ottakshara"
                               type="checkbox"
-                              onclick="checkboxClicked(this)"
+                              onclick="ottcheckboxClicked(this)"
                               class="radio-ot"
                               value="35"
                            />
@@ -2028,7 +2030,7 @@ document.getElementById('status').innerText = startTime;
                                              class="vertical-btn-rotated"
                                              style="margin: 2px 2px"
                                           >
-                                             ➕ Sm 🟢🟣🔴🟤
+                                             ➕ Cn 🟢🟣🔴🟤
                                           </button>
                                        </td>
                                     </tr>
@@ -2045,7 +2047,7 @@ document.getElementById('status').innerText = startTime;
                                        font-size: 24px;
                                        margin: 5px;
                                        color: Crimson;
-                                       width: 320px;
+                                       width: 350px;
                                        overflow-wrap: break-word;
                                     "
                                     id="playbuffertext"
@@ -2068,8 +2070,16 @@ document.getElementById('status').innerText = startTime;
       </button>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <button onclick="playottakshara()" style="margin: 5px 9px">
-         <b>S</b>a<b>m</b>yuktakshars
+         <b>C</b>o<b>n</b>juncts
       </button>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+                           <input
+                              id="allkg"
+                              type="checkbox"
+                           />
+						   <label for="allkg"
+						   style="font-size: 20px;color: #16c60c;"
+						   >Print All</label>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <span
          id="selkg"
@@ -2197,6 +2207,7 @@ document.getElementById('status').innerText = startTime;
 
       <script>
          initurls();
+		 clearallradiobtnselections();
       </script>
    </body>
 </html>
