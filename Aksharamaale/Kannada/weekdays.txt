@@ -1,7 +1,7 @@
-Sunday ಭಾನುವಾರ 
-Monday ಸೋಮವಾರ	
-Tuesday ಮಂಗಳವಾರ	
-Wednesday ಬುಧವಾರ
-Thursday ಗುರುವಾರ
-Friday	ಶುಕ್ರವಾರ
-Saturday ಶನಿವಾರ 
+ಭಾನುವಾರ Sunday 
+ಸೋಮವಾರ Monday  
+ಮಂಗಳವಾರ Tuesday  
+ಬುಧವಾರ Wednesday 
+ಗುರುವಾರ Thursday 
+ಶುಕ್ರವಾರ Friday	
+ಶನಿವಾರ Saturday 

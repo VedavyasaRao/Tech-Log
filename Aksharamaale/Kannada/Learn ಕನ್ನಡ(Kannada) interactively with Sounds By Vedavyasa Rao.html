@@ -474,12 +474,11 @@
             clearbuffer();
             // Get the value directly as a number
             const numValue = numberInput.valueAsNumber;
-            if (numValue >= 0 && numValue <= 10000000) {
-               document.getElementById("playbuffertext").value =
-                  decodeHtmlEntity(kannadaNumberToWords(numValue));
-               document.getElementById("number").innerText =
-                  kannadaNumberToDigits(numValue);
-            }
+            document.getElementById("playbuffertext").value = decodeHtmlEntity(
+               kannadaNumberToWords(numValue),
+            );
+            document.getElementById("number").innerText =
+               kannadaNumberToDigits(numValue);
          }
          /**************PLAY NUMBER STOP********************/
 
@@ -514,6 +513,7 @@
          /**************PLAY BUFFER MANAGEMENT START********************/
          function clearbuffer() {
             document.getElementById("playbuffertext").value = "";
+            document.getElementById("expandedtext").innerHTML = "";
          }
 
          function insertAtCursor(text) {
@@ -716,12 +716,12 @@
                   const audio = new Audio(audioUrl);
                   audio.onended = () => {
                      playBtn.disabled = false;
-                     playBtn.innerText = "Play Audio";
+                     playBtn.innerText = "🔊▶";
                   };
                   audio.onerror = (err) => {
                      console.error("Audio playback error:", err);
                      playBtn.disabled = false;
-                     playBtn.innerText = "Play Audio";
+                     playBtn.innerText = "🔊▶";
                   };
 
                   playBtn.innerText = "Playing...";
@@ -733,7 +733,7 @@
                console.error("Failed to generate or play audio:", err);
                alert("Error generating speech. Check console for details.");
                playBtn.disabled = false;
-               playBtn.innerText = "Play Audio";
+               playBtn.innerText = "🔊▶";
             }
          }
 
@@ -742,7 +742,7 @@
 
       <script type="text/javascript">
          /**************KANNADA NUMBER START********************/
-         // Kannada number conversion: 0 through 1,00,00,000.
+
          const kannadaWords0To99 = [
             "ಸೊನ್ನೆ",
             "ಒಂದು",
@@ -845,13 +845,34 @@
             "ತೊಂಬತ್ತೆಂಟು",
             "ತೊಂಬತ್ತೊಂಬತ್ತು",
          ];
+
          const kannadaDigits = "೦೧೨೩೪೫೬೭೮೯";
 
-         function kannadaNumberToWords(n) {
-            if (!Number.isSafeInteger(n) || n < 0 || n > 10000000)
-               throw new RangeError("Expected an integer from 0 to 1 crore");
-            if (n < 100) return kannadaWords0To99[n];
-            if (n < 1000) {
+         function kannadaParseInteger(value) {
+            if (typeof value === "bigint") {
+               if (value < 0n) throw new RangeError("Negative number");
+               return value;
+            }
+
+            if (typeof value === "number") {
+               if (!Number.isSafeInteger(value) || value < 0)
+                  throw new RangeError(
+                     "Use string or BigInt for large numbers",
+                  );
+               return BigInt(value);
+            }
+
+            if (typeof value === "string" && /^\+?[0-9]+$/.test(value.trim()))
+               return BigInt(value.trim());
+
+            throw new TypeError("Invalid nonnegative integer");
+         }
+
+         function kannadaWordsInternal(n) {
+            if (n < 100n) return kannadaWords0To99[Number(n)];
+
+            if (n < 1000n) {
+               const rem = n % 100n;
                const hundreds = [
                   "",
                   "ನೂರು",
@@ -864,50 +885,57 @@
                   "ಎಂಟುನೂರು",
                   "ಒಂಬೈನೂರು",
                ];
-               const count = Math.floor(n / 100);
-               const remainder = n % 100;
-               const prefix = remainder
-                  ? hundreds[count].replace(/ನೂರು$/, "ನೂರ")
-                  : hundreds[count];
-               return (
-                  prefix +
-                  (remainder ? " " + kannadaNumberToWords(remainder) : "")
-               );
+
+               const h = Number(n / 100n);
+               const prefix = rem
+                  ? hundreds[h].replace(/ನೂರು$/, "ನೂರ")
+                  : hundreds[h];
+
+               return prefix + (rem ? " " + kannadaWordsInternal(rem) : "");
             }
-            for (const [size, unit] of [
-               [10000000, "ಕೋಟಿ"],
-               [100000, "ಲಕ್ಷ"],
-               [1000, "ಸಾವಿರ"],
-            ]) {
+
+            const units = [
+               [1000000000000000000n, "ಮಹಾಶಂಖ"],
+               [10000000000000000n, "ಶಂಖ"],
+               [100000000000000n, "ಪದ್ಮ"],
+               [1000000000000n, "ನೀಲ"],
+               [10000000000n, "ಖರ್ವ"],
+               [1000000000n, "ಅರ್ಬುದ"],
+               [10000000n, "ಕೋಟಿ"],
+               [100000n, "ಲಕ್ಷ"],
+               [1000n, "ಸಾವಿರ"],
+            ];
+
+            for (const [size, unit] of units) {
                if (n >= size) {
-                  const count = Math.floor(n / size);
                   const remainder = n % size;
-                  const suffix = remainder && remainder < 1000 ? "ದ" : "";
+                  const suffix = remainder && remainder < 1000n ? "ದ" : "";
+
                   return (
-                     kannadaNumberToWords(count) +
+                     kannadaWordsInternal(n / size) +
                      " " +
                      unit +
                      suffix +
-                     (remainder ? " " + kannadaNumberToWords(remainder) : "")
+                     (remainder ? " " + kannadaWordsInternal(remainder) : "")
                   );
                }
             }
          }
 
-         function kannadaNumberToDigits(number) {
-            if (
-               !Number.isSafeInteger(number) ||
-               number < 0 ||
-               number > 10000000
-            )
-               throw new RangeError("Expected an integer from 0 to 1 crore");
-            return String(number).replace(
-               /[0-9]/g,
-               (digit) => kannadaDigits[Number(digit)],
-            );
+         function kannadaNumberToWords(value) {
+            return kannadaWordsInternal(kannadaParseInteger(value));
          }
+
+         function kannadaNumberToDigits(value) {
+            const n = kannadaParseInteger(value);
+            return n
+               .toString()
+               .replace(/[0-9]/g, (digit) => kannadaDigits[Number(digit)]);
+         }
+
          /**************KANNADA NUMBER STOP********************/
 
+         /**************KANNADA DECODE START********************/
          function splitKannada(text) {
             const chars = Array.from(text);
             const result = [];
@@ -977,6 +1005,7 @@
                      .join(""),
                );
          }
+         /**************KANNADA DECODE STOP********************/
       </script>
 
       <!--
@@ -1126,8 +1155,9 @@
          }
 
          button {
-            font-size: 16px;
+            font-size: 20px;
             color: green;
+            font-weight: thin;
          }
 
          button.playerleft {
@@ -1136,9 +1166,19 @@
             margin-bottom: 5px;
          }
 
-         B {
-            font-size: 24px;
-            color: green;
+         B.vw {
+            font-size: 20px;
+            color: #0078d7;
+         }
+
+         B.co {
+            font-size: 20px;
+            color: #886ce4;
+         }
+
+         B.cn {
+            font-size: 20px;
+            color: #16c60c;
          }
 
          .radio-arkaottu {
@@ -1168,7 +1208,11 @@
                <button
                   id="resetbtn"
                   onclick="clearallradiobtnselections()"
-                  style="margin-left: 100px; margin-right: 50px"
+                  style="
+					font-size: 20px;
+                    font-weight: bold;
+					color: red;
+					margin-left: 100px; margin-right: 50px"
                >
                   Reset
                </button>
@@ -2168,34 +2212,37 @@ document.getElementById('status').innerText = startTime;
                         <button
                            id="playvowel"
                            onclick="playavowel()"
-                           style="margin-right: 20px"
+                           style="margin-right: 20px;"
                         >
-                           🔊▶ <b>V</b>o<b>w</b>els
+                           🔊▶ <b class="vw">V</b>o<b class="vw">w</b>els
                         </button>
                         <button
                            id="playkagunita"
                            onclick="playkagunita()"
                            style="margin-right: 5px"
                         >
-                           🔊▶ <b>Co</b>nsonants
+                           🔊▶ <b class="co">Co</b>nsonants
                         </button>
-                        <button
-                           onclick="playottakshara()"
-                           style="margin-right: 5px"
-                        >
-                           <b>C</b>o<b>n</b>juncts
-                        </button>
-                        <input id="allkg" type="checkbox" />
+
+						<input id="allkg" type="checkbox" />
                         <label
                            for="allkg"
                            style="
                               font-weight: Thin;
                               font-size: 16px;
-                              color: #16c60c;
+                              color: cyan;
                               margin-right: 10px;
                            "
-                           >Print All (Co and Cn)</label
+                           >Print All (Co & Cn)</label
+                        >						
+						
+                        <button
+                           onclick="playottakshara()"
+                           style="margin-right: 5px"
                         >
+                           <b class="cn">C</b>o<b class="cn">n</b>juncts
+                        </button>
+                        
                         <span
                            id="selkg"
                            style="
@@ -2311,6 +2358,7 @@ document.getElementById('status').innerText = startTime;
                                                 style="
                                                    font-size: 12px;
                                                    font-weight: Medium;
+                                                   margin-left: 20px;
                                                 "
                                                 for="recall-list"
                                                 >Recall List:</label
@@ -2318,6 +2366,10 @@ document.getElementById('status').innerText = startTime;
                                              <select
                                                 name="recall-list"
                                                 id="recall-list"
+                                                style="
+                                                   font-size: 18px;
+                                                   font-weight: Thin;
+                                                "
                                              ></select>
                                           </div>
                                        </td>
@@ -2329,11 +2381,11 @@ document.getElementById('status').innerText = startTime;
                                                       onclick="addvwtobuffer()"
                                                       class="vertical-btn-rotated"
                                                       style="
-                                                         margin: 2px 2px;
-                                                         font-size: 18px;
+                                                         margin: 0px 2px;
+                                                         font-size: 12px;
                                                       "
                                                    >
-                                                      ➕ Vw 🔵🟤
+                                                      ➕ <B class="vw">Vw</B> 🔵🟤
                                                    </button>
                                                 </td>
                                                 <td>
@@ -2341,11 +2393,11 @@ document.getElementById('status').innerText = startTime;
                                                       onclick="addkgtobuffer()"
                                                       class="vertical-btn-rotated"
                                                       style="
-                                                         margin: 2px 2px;
-                                                         font-size: 18px;
+                                                         margin: 0px 2px;
+                                                         font-size: 12px;
                                                       "
                                                    >
-                                                      ➕ Co 🟣🔴🟤⚫
+                                                      ➕ <B class="co">Co</B> 🟣🔴🟤⚫
                                                    </button>
                                                 </td>
                                                 <td>
@@ -2353,11 +2405,11 @@ document.getElementById('status').innerText = startTime;
                                                       onclick="addottobuffer()"
                                                       class="vertical-btn-rotated"
                                                       style="
-                                                         margin: 2px 2px;
-                                                         font-size: 18px;
+                                                         margin: 0px 2px;
+                                                         font-size: 12px;
                                                       "
                                                    >
-                                                      ➕ Cn 🟠🟣🟢🔴🟤⚫
+                                                      ➕ <B class="cn">Cn</B> 🟠🟣🟢🔴🟤⚫
                                                    </button>
                                                 </td>
                                              </tr>
@@ -2477,8 +2529,8 @@ document.getElementById('status').innerText = startTime;
             font-size: 24px;
             color: cyan;
          "
-         >Enter a Number(0 - 1,00,00,000):</label
-      >
+         >Enter a Number:
+      </label>
       <input
          type="number"
          id="quantity"

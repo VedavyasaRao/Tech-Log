@@ -1,0 +1,8 @@
+आम       Mango
+अंगूर      Grapes
+अमरूद  Guava
+तरबूज    Watermelon
+केल       Banana
+सेब        Apple
+अनार     Pomogranate
+पपीता    Papaya
