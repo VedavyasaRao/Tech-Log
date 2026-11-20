@@ -936,20 +936,33 @@
          /**************KANNADA NUMBER STOP********************/
 
          /**************KANNADA DECODE START********************/
-         function splitKannada(text) {
-            const chars = Array.from(text);
+
+         function splitKannadaV2(text) {
+            // Decode HTML numeric entities
+            text = String(text).replace(
+               /&#(?:x([0-9a-f]+)|([0-9]+));/gi,
+               function (match, hex, dec) {
+                  const n = parseInt(hex || dec, hex ? 16 : 10);
+                  return n >= 0 &&
+                     n <= 0x10ffff &&
+                     !(n >= 0xd800 && n <= 0xdfff)
+                     ? String.fromCodePoint(n)
+                     : match;
+               },
+            );
+
+            const chars = Array.from(text.normalize("NFC"));
             const result = [];
             const HALANT = "\u0CCD";
-
-            const isConsonant = (ch) => /^[\u0C95-\u0CB9\u0CDE]$/u.test(ch);
-
-            const isVowel = (ch) => /^[\u0C85-\u0C94]$/u.test(ch);
-
-            const isMatra = (ch) => /^[\u0CBE-\u0CCC\u0CD5-\u0CD6]$/u.test(ch);
-
-            const isAyogavaha = (ch) => ch === "ಂ" || ch === "ಃ";
-
             let group = [];
+            let rephaPending = false;
+
+            const isConsonant = (ch) => /^[\u0C95-\u0CB9\u0CDE]$/.test(ch);
+
+            const isMatra = (ch) => /^[\u0CBE-\u0CCC\u0CD5-\u0CD6]$/.test(ch);
+
+            const isAyogavaha = (ch) =>
+               ch === "\u0C82" || ch === "\u0C83" || ch === "\u0C81";
 
             function flush() {
                if (group.length) {
@@ -963,31 +976,30 @@
                const next = chars[i + 1] || "";
                const after = chars[i + 2] || "";
 
-               // Repha: ರ್ + consonant
                if (ch === "ರ" && next === HALANT && isConsonant(after)) {
                   flush();
                   group.push("ರ್");
+                  rephaPending = true;
                   i++;
-               }
-               // Normal ottakshara
-               else if (ch === HALANT && isConsonant(next)) {
+               } else if (ch === HALANT && isConsonant(next)) {
                   group.push(ch + next);
                   i++;
-               }
-               // Matras, anusvara, visarga, final halant
-               else if (isMatra(ch) || isAyogavaha(ch) || ch === HALANT) {
+                  rephaPending = false;
+               } else if (isMatra(ch) || isAyogavaha(ch)) {
                   group.push(ch);
-               }
-               // Consonants and independent vowels
-               else if (isConsonant(ch) || isVowel(ch)) {
-                  if (group.length && group[0] !== "ರ್") {
-                     flush();
-                  }
+               } else if (ch === HALANT) {
                   group.push(ch);
-               }
-               // Spaces, emojis, punctuation
-               else {
+               } else if (isConsonant(ch)) {
+                  if (!rephaPending) flush();
+                  group.push(ch);
+                  rephaPending = false;
+               } else if (/^[\u0C85-\u0C94]$/.test(ch)) {
                   flush();
+                  group.push(ch);
+                  rephaPending = false;
+               } else {
+                  flush();
+                  rephaPending = false;
                   result.push([ch]);
                }
             }
@@ -995,15 +1007,14 @@
             flush();
             return result;
          }
+
          function printKannadaUnicode() {
             var kannadaStr = document.getElementById("playbuffertext").value;
-
+            var test = splitKannadaV2(kannadaStr)
+               .map((group) => `[${group.join(", ")}] `)
+               .join("");
             document.getElementById("expandedtext").innerHTML =
-               decodeHtmlEntity(
-                  splitKannada(kannadaStr)
-                     .map((group) => `[${group.join(", ")}] `)
-                     .join(""),
-               );
+               decodeHtmlEntity(test);
          }
          /**************KANNADA DECODE STOP********************/
       </script>
@@ -1209,10 +1220,12 @@
                   id="resetbtn"
                   onclick="clearallradiobtnselections()"
                   style="
-					font-size: 20px;
-                    font-weight: bold;
-					color: red;
-					margin-left: 100px; margin-right: 50px"
+                     font-size: 20px;
+                     font-weight: bold;
+                     color: red;
+                     margin-left: 100px;
+                     margin-right: 50px;
+                  "
                >
                   Reset
                </button>
@@ -2212,7 +2225,7 @@ document.getElementById('status').innerText = startTime;
                         <button
                            id="playvowel"
                            onclick="playavowel()"
-                           style="margin-right: 20px;"
+                           style="margin-right: 20px"
                         >
                            🔊▶ <b class="vw">V</b>o<b class="vw">w</b>els
                         </button>
@@ -2224,7 +2237,7 @@ document.getElementById('status').innerText = startTime;
                            🔊▶ <b class="co">Co</b>nsonants
                         </button>
 
-						<input id="allkg" type="checkbox" />
+                        <input id="allkg" type="checkbox" />
                         <label
                            for="allkg"
                            style="
@@ -2234,15 +2247,15 @@ document.getElementById('status').innerText = startTime;
                               margin-right: 10px;
                            "
                            >Print All (Co & Cn)</label
-                        >						
-						
+                        >
+
                         <button
                            onclick="playottakshara()"
                            style="margin-right: 5px"
                         >
                            <b class="cn">C</b>o<b class="cn">n</b>juncts
                         </button>
-                        
+
                         <span
                            id="selkg"
                            style="
@@ -2385,7 +2398,8 @@ document.getElementById('status').innerText = startTime;
                                                          font-size: 12px;
                                                       "
                                                    >
-                                                      ➕ <B class="vw">Vw</B> 🔵🟤
+                                                      ➕
+                                                      <b class="vw">Vw</b> 🔵🟤
                                                    </button>
                                                 </td>
                                                 <td>
@@ -2397,7 +2411,9 @@ document.getElementById('status').innerText = startTime;
                                                          font-size: 12px;
                                                       "
                                                    >
-                                                      ➕ <B class="co">Co</B> 🟣🔴🟤⚫
+                                                      ➕
+                                                      <b class="co">Co</b>
+                                                      🟣🔴🟤⚫
                                                    </button>
                                                 </td>
                                                 <td>
@@ -2409,7 +2425,9 @@ document.getElementById('status').innerText = startTime;
                                                          font-size: 12px;
                                                       "
                                                    >
-                                                      ➕ <B class="cn">Cn</B> 🟠🟣🟢🔴🟤⚫
+                                                      ➕
+                                                      <b class="cn">Cn</b>
+                                                      🟠🟣🟢🔴🟤⚫
                                                    </button>
                                                 </td>
                                              </tr>

@@ -920,10 +920,28 @@
          /**************HINDI NUMBER STOP********************/
 
          /**************HINDI DECODE START********************/
-         function splitHindi(text) {
+
+         function splitHindiV2(text) {
+            // Decode Blogger HTML numeric entities
+            text = String(text).replace(
+               /&#(?:x([0-9a-f]+)|([0-9]+));/gi,
+               function (match, hex, dec) {
+                  const n = parseInt(hex || dec, hex ? 16 : 10);
+
+                  return n >= 0 &&
+                     n <= 0x10ffff &&
+                     !(n >= 0xd800 && n <= 0xdfff)
+                     ? String.fromCodePoint(n)
+                     : match;
+               },
+            );
+
             const chars = Array.from(text.normalize("NFC"));
             const result = [];
             const HALANT = "\u094D";
+
+            let group = [];
+            let rephaPending = false;
 
             const isConsonant = (ch) =>
                /^[\u0915-\u0939\u0958-\u095F]$/u.test(ch);
@@ -933,10 +951,10 @@
                   ch,
                );
 
-            const isAyogavaha = (ch) => ch === "ं" || ch === "ः" || ch === "ँ";
+            const isAyogavaha = (ch) =>
+               ch === "\u0901" || ch === "\u0902" || ch === "\u0903";
 
-            let group = [];
-            let rephaPending = false;
+            const isVowel = (ch) => /^[\u0904-\u0914\u0960-\u0961]$/u.test(ch);
 
             function flush() {
                if (group.length) {
@@ -957,6 +975,7 @@
                   rephaPending = true;
                   i++;
                }
+
                // Normal conjunct: क् + त
                else if (ch === HALANT && isConsonant(next)) {
                   if (group.length) {
@@ -964,31 +983,39 @@
                   } else {
                      group.push(HALANT);
                   }
+
                   group.push(next);
                   i++;
                   rephaPending = false;
                }
+
                // Matras, anusvara, chandrabindu, visarga
                else if (isMatra(ch) || isAyogavaha(ch)) {
                   group.push(ch);
                }
+
                // Final halant
                else if (ch === HALANT) {
                   group.push(ch);
                }
+
                // New consonant
                else if (isConsonant(ch)) {
-                  if (!rephaPending) flush();
+                  if (!rephaPending) {
+                     flush();
+                  }
                   group.push(ch);
                   rephaPending = false;
                }
-               // Independent vowels: अ आ इ ई etc.
-               else if (/^[\u0904-\u0914\u0960-\u0961]$/u.test(ch)) {
+
+               // Independent Hindi vowels
+               else if (isVowel(ch)) {
                   flush();
                   group.push(ch);
                   rephaPending = false;
                }
-               // Spaces, emojis, punctuation
+
+               // Spaces, punctuation, emojis
                else {
                   flush();
                   rephaPending = false;
@@ -1005,7 +1032,7 @@
 
             document.getElementById("expandedtext").innerHTML =
                decodeHtmlEntity(
-                  splitHindi(hindiStr)
+                  splitHindiV2(hindiStr)
                      .map((group) => `[${group.join(", ")}] `)
                      .join(""),
                );
@@ -1214,10 +1241,12 @@
                   id="resetbtn"
                   onclick="clearallradiobtnselections()"
                   style="
-					font-size: 20px;
-                    font-weight: bold;
-					color: red;
-					margin-left: 100px; margin-right: 50px"
+                     font-size: 20px;
+                     font-weight: bold;
+                     color: red;
+                     margin-left: 100px;
+                     margin-right: 50px;
+                  "
                >
                   Reset
                </button>
@@ -2212,7 +2241,7 @@ document.getElementById('status').innerText = startTime;
                         <button
                            id="playvowel"
                            onclick="playavowel()"
-                           style="margin-right: 20px;"
+                           style="margin-right: 20px"
                         >
                            🔊▶ <b class="vw">V</b>o<b class="vw">w</b>els
                         </button>
@@ -2224,7 +2253,7 @@ document.getElementById('status').innerText = startTime;
                            🔊▶ <b class="co">Co</b>nsonants
                         </button>
 
-						<input id="allkg" type="checkbox" />
+                        <input id="allkg" type="checkbox" />
                         <label
                            for="allkg"
                            style="
@@ -2234,15 +2263,15 @@ document.getElementById('status').innerText = startTime;
                               margin-right: 10px;
                            "
                            >Print All (Co & Cn)</label
-                        >						
-						
+                        >
+
                         <button
                            onclick="playottakshara()"
                            style="margin-right: 5px"
                         >
                            <b class="cn">C</b>o<b class="cn">n</b>juncts
                         </button>
-                        
+
                         <span
                            id="selkg"
                            style="
@@ -2385,7 +2414,8 @@ document.getElementById('status').innerText = startTime;
                                                          font-size: 12px;
                                                       "
                                                    >
-                                                      ➕ <B class="vw">Vw</B> 🔵🟤
+                                                      ➕
+                                                      <b class="vw">Vw</b> 🔵🟤
                                                    </button>
                                                 </td>
                                                 <td>
@@ -2397,7 +2427,9 @@ document.getElementById('status').innerText = startTime;
                                                          font-size: 12px;
                                                       "
                                                    >
-                                                      ➕ <B class="co">Co</B> 🟣🔴🟤⚫
+                                                      ➕
+                                                      <b class="co">Co</b>
+                                                      🟣🔴🟤⚫
                                                    </button>
                                                 </td>
                                                 <td>
@@ -2409,7 +2441,9 @@ document.getElementById('status').innerText = startTime;
                                                          font-size: 12px;
                                                       "
                                                    >
-                                                      ➕ <B class="cn">Cn</B> 🟠🟣🟢🔴🟤⚫
+                                                      ➕
+                                                      <b class="cn">Cn</b>
+                                                      🟠🟣🟢🔴🟤⚫
                                                    </button>
                                                 </td>
                                              </tr>
