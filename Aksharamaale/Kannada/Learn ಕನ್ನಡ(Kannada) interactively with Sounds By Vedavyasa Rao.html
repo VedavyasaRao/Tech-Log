@@ -106,12 +106,30 @@
 
          var audiodevicetrack = -1;
          var audiodevices = [];
+         var genablesound = 0;
+
+         function logit(errmsg) {
+            errlog.innerHTML = errmsg;
+         }
+
+         function enablesoundonoff() {
+            if (genablesound == 1) {
+               genablesound = 0;
+               soundonoff.innerHTML = "🔉";
+               playBtn.enabled = false;
+            } else {
+               genablesound = 1;
+               soundonoff.innerHTML = "🔊";
+               playBtn.enabled = true;
+            }
+         }
 
          function ottcheckboxClicked(cb) {
             if (cb.checked) {
                var otknt = gottakshara.length;
                if (otknt == 3) {
                   cb.checked = false;
+                  logit("only  3 conjuncts are allowed");
                   return;
                } else {
                   gottakshara[otknt] = "್" + CONSONANTS[cb.value];
@@ -128,28 +146,22 @@
             if (audiodevices[idx].readyState >= 2) {
                button.style.backgroundColor = "green";
             } else {
-               // 1. Set up the event listener BEFORE reloading
                audiodevices[idx].addEventListener(
                   "canplay",
                   () => {
-                     // At this point, readyState is >= 2 (HAVE_CURRENT_DATA)
-
-                     // Put the code you want to run after it loads here (e.g., audio.play())
                      button.style.backgroundColor = "rgb(240, 240, 240)";
                   },
                   {
                      once: true,
                   },
-               ); // { once: true } prevents the event from firing repeatedly during playback
+               );
 
-               // 2. Trigger the reload
                audiodevices[idx].load();
             }
 
             return audiodevices[idx].readyState;
          }
 
-         // 2. Execute the preloader
          function initurls() {
             var vw = document.getElementById("vowels_3sec");
             vw.src = vowelsUrl;
@@ -194,6 +206,8 @@
             garkaottu = -1;
 
             populateSwaraKagunitaOttakshara(-1, ["&nbsp;"]);
+
+            logit("");
          }
 
          /**************GENERATE START********************/
@@ -241,27 +255,48 @@
 
          function validate(action) {
             if (action == 0) {
-               if (gswara == -1) return false;
-            } else if (action == 1) {
-               if (gvyanjana == -1) return false;
-               if (ghalant != -1 && gkagunita != 0) return false;
-               if (ghalant != -1 && gkagunita == 0 && gyogavaha != -1)
+               if (gswara == -1) {
+                  logit("no vowel selected");
                   return false;
+               }
+               if (ghalant != -1) {
+                  logit("halant cannot be selected");
+                  return false;
+               }
+            } else if (action == 1) {
+               if (gvyanjana == -1) {
+                  logit("no consonant selected");
+                  return false;
+               }
+               if (ghalant != -1 && gkagunita != 0) {
+                  logit("halant is allowed for first matra");
+                  return false;
+               }
+               if (ghalant != -1 && gkagunita == 0 && gyogavaha != -1) {
+                  logit("yogavaha is not allowed");
+                  return false;
+               }
             } else if (action == 2) {
                if (
                   (gottakshara.length == 0 && garkaottu == -1) ||
                   gvyanjana == -1
-               )
+               ) {
+                  logit("check if conjuncts or repha or consonant is selected");
                   return false;
-               if (
-                  gottakshara.length == 0 &&
-                  garkaottu != -1 &&
-                  gvyanjana == 26
-               )
+               }
+               if (ghalant != -1 && gkagunita != 0) {
+                  logit("halant is allowed for first matra");
                   return false;
-               if (ghalant != -1 && gkagunita != 0) return false;
-               if (ghalant != -1 && gkagunita == 0 && gyogavaha != -1)
+               }
+               if (ghalant != -1 && gkagunita == 0 && gyogavaha != -1) {
+                  logit("yogavaha is not allowed");
                   return false;
+               }
+            } else if (action == 5) {
+               if (ghalant != -1) {
+                  logit("halant cannot be selected");
+                  return false;
+               }
             }
 
             return true;
@@ -275,7 +310,6 @@
                if (vowel === "ಅಂ") return vowel;
                if (vowel === "ಅಃ") return vowel;
 
-               // Combine the consonant with the vowel sign
                return vowel + VOWEL_SIGNS[gyogavaha];
             });
          }
@@ -284,7 +318,6 @@
          function generateBarakhadi() {
             const baseConsonant = CONSONANTS[gvyanjana];
             var allmatras = VOWEL_SIGNS.map((matra) => {
-               // Combine the consonant with the vowel sign
                return baseConsonant + matra;
             });
 
@@ -367,15 +400,21 @@
 
             gatherselections();
 
+            if (!validate(5)) return;
+
             populateSwaraKagunitaOttakshara(
                gswara,
                generateSwaraKagunitaOttakshara(0),
             );
 
+
             if (audiodevices[0].readyState < 2) {
                reloadAndWait(0, "playvowel");
+               logit("cannot play sound");
                return;
             }
+
+            if (genablesound == 0) return;
 
             if (gyogavaha == yogavahas[0]) offset = 16 * 3;
 
@@ -415,7 +454,12 @@
             if (document.getElementById("allkg").checked) temp = -1;
             populateSwaraKagunitaOttakshara(temp, swarakagunitachars);
 
-            if (gyogavaha != -1) return;
+            if (genablesound == 0) return;
+
+            if (gyogavaha != -1) {
+               logit("cannot play sound");
+               return;
+            }
 
             if (audiodevices[1].readyState < 2) {
                reloadAndWait(1, "playkagunita");
@@ -472,7 +516,6 @@
          function playnumberinput() {
             const numberInput = document.getElementById("quantity");
             clearbuffer();
-            // Get the value directly as a number
             const numValue = numberInput.valueAsNumber;
             document.getElementById("playbuffertext").value = decodeHtmlEntity(
                kannadaNumberToWords(numValue),
@@ -522,29 +565,29 @@
             const end = textarea.selectionEnd;
             const value = textarea.value;
 
-            // Insert text and replace any highlighted selection
             textarea.value = decodeHtmlEntity(
                value.slice(0, start) + text + value.slice(end),
             );
 
-            // Move the cursor immediately after the inserted character
             const newCursorPos = start + text.length;
             textarea.selectionStart = newCursorPos;
             textarea.selectionEnd = newCursorPos;
 
-            // Keep focus on the textarea (useful if triggered by a button click)
             textarea.focus();
          }
 
          async function saverecallist() {
             const dropdown = document.getElementById("recall-list");
 
-            // 2. Extract the visible text of all options into a single string
+            if (dropdown.options.length == 0) {
+               logit("empty list");
+               return;
+            }
+
             const content = Array.from(dropdown.options)
                .map((option) => option.text)
-               .join("\n"); // Use ', ' for comma-separated text
+               .join("\n");
 
-            // 1. Open the native "Save As" dialog
             const fileHandle = await window.showSaveFilePicker({
                suggestedName: "document.txt",
                types: [
@@ -555,7 +598,6 @@
                ],
             });
 
-            // 2. Create a writable stream and write the data
             const writable = await fileHandle.createWritable();
             await writable.write(content);
             await writable.close();
@@ -574,11 +616,10 @@
                         },
                      },
                   ],
-                  excludeAcceptAllOption: true, // Optional: hides the "All Files" dropdown option
-                  multiple: false, // Optional: set to true to allow selecting multiple files
+                  excludeAcceptAllOption: true,
+                  multiple: false,
                });
 
-               // Get the actual File object to read its contents
                const file = await fileHandle.getFile();
 
                const textContent = await file.text();
@@ -588,7 +629,7 @@
                   .filter((line) => line.trim() !== "");
 
                const dropdown = document.getElementById("recall-list");
-               dropdown.innerHTML = ""; // Clear old options
+               dropdown.innerHTML = "";
 
                lines.forEach((line) => {
                   const option = document.createElement("option");
@@ -597,14 +638,16 @@
                   dropdown.appendChild(option);
                });
             } catch (err) {
-               // User cancelled the picker or browser doesn't support it
-               alert(err);
+               logit(err);
             }
          }
 
          function addtorecalllist() {
             var textarea = document.getElementById("playbuffertext");
-            if (textarea.value.length == 0) return;
+            if (textarea.value.length == 0) {
+               logit("no text");
+               return;
+            }
 
             var dropdown = document.getElementById("recall-list");
             const newOption = new Option(textarea.value);
@@ -615,6 +658,9 @@
             const dropdown = document.getElementById("recall-list");
             if (dropdown.selectedIndex !== -1) {
                dropdown.remove(dropdown.selectedIndex);
+            } else {
+               logit("invalid selection");
+               return;
             }
          }
 
@@ -623,6 +669,9 @@
             var dropdown = document.getElementById("recall-list");
             if (dropdown.selectedIndex !== -1) {
                textarea.value = dropdown.options[dropdown.selectedIndex].text;
+            } else {
+               logit("invalid selection");
+               return;
             }
          }
 
@@ -664,13 +713,23 @@
                .value.trim();
             const apiKey = document.getElementById("apiKey").value.trim();
 
-            if (!textInput) return;
-            if (!apiKey) return;
+            if (genablesound == 0) {
+               logit("enable sound play");
+               return;
+            }
+
+            if (!textInput) {
+               logit("no text");
+               return;
+            }
+
+            if (!apiKey) {
+               logit("no apikey");
+               return;
+            }
 
             playBtn.disabled = true;
             playBtn.innerText = "Generating...";
-
-            // Replace with your actual Sarvam API Key
 
             try {
                const response = await fetch(
@@ -698,11 +757,9 @@
 
                const data = await response.json();
 
-               // Sarvam API returns base64 encoded audio strings in an array
                if (data.audios && data.audios.length > 0) {
                   const base64Audio = data.audios[0];
 
-                  // Convert base64 string to a playable Blob/Audio URL
                   const binaryString = atob(base64Audio);
                   const len = binaryString.length;
                   const bytes = new Uint8Array(len);
@@ -719,7 +776,7 @@
                      playBtn.innerText = "🔊▶";
                   };
                   audio.onerror = (err) => {
-                     console.error("Audio playback error:", err);
+                     logit("Audio playback error:" + err);
                      playBtn.disabled = false;
                      playBtn.innerText = "🔊▶";
                   };
@@ -730,8 +787,7 @@
                   throw new Error("No audio returned from API.");
                }
             } catch (err) {
-               console.error("Failed to generate or play audio:", err);
-               alert("Error generating speech. Check console for details.");
+               logit(err);
                playBtn.disabled = false;
                playBtn.innerText = "🔊▶";
             }
@@ -938,7 +994,6 @@
          /**************KANNADA DECODE START********************/
 
          function splitKannadaV2(text) {
-            // Decode HTML numeric entities
             text = String(text).replace(
                /&#(?:x([0-9a-f]+)|([0-9]+));/gi,
                function (match, hex, dec) {
@@ -1217,14 +1272,28 @@
             <td>&nbsp;&nbsp;Learn ಕನ್ನಡ(Kannada) interactively with Sounds</td>
             <td>
                <button
+                  id="soundonoff"
+                  onclick="enablesoundonoff()"
+                  style="
+                     font-size: 20px;
+                     font-weight: bold;
+                     color: green;
+                     margin-left: 100px;
+                     margin-right: 20px;
+                  "
+               >
+                  🔉
+               </button>
+            </td>
+            <td>
+               <button
                   id="resetbtn"
                   onclick="clearallradiobtnselections()"
                   style="
                      font-size: 20px;
                      font-weight: bold;
                      color: red;
-                     margin-left: 100px;
-                     margin-right: 50px;
+                     margin-right: 20px;
                   "
                >
                   Reset
@@ -2227,14 +2296,14 @@ document.getElementById('status').innerText = startTime;
                            onclick="playavowel()"
                            style="margin-right: 20px"
                         >
-                           🔊▶ <b class="vw">V</b>o<b class="vw">w</b>els
+                           ▶ <b class="vw">V</b>o<b class="vw">w</b>els
                         </button>
                         <button
                            id="playkagunita"
                            onclick="playkagunita()"
                            style="margin-right: 5px"
                         >
-                           🔊▶ <b class="co">Co</b>nsonants
+                           ▶ <b class="co">Co</b>nsonants
                         </button>
 
                         <input id="allkg" type="checkbox" />
@@ -2306,7 +2375,7 @@ document.getElementById('status').innerText = startTime;
                                                 id="playBtn"
                                                 onclick="playSarvamKannadaAudio()"
                                              >
-                                                🔊▶
+                                                ▶
                                              </button>
                                              <br />
                                              <label
@@ -2595,6 +2664,14 @@ document.getElementById('status').innerText = startTime;
          <source type="audio/mpeg" />
          Your browser does not support the audio element.
       </audio>
+      <br />
+      <label
+         for="errlog"
+         style="margin-left: 10px; font-size: 20px; color: cyan"
+         >Error:
+      </label>
+      <label id="errlog" style="font-size: 20px; color: red; width: 800px">
+      </label>
 
       <script>
          initurls();
