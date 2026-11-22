@@ -407,7 +407,6 @@
                generateSwaraKagunitaOttakshara(0),
             );
 
-
             if (audiodevices[0].readyState < 2) {
                reloadAndWait(0, "playvowel");
                logit("cannot play sound");
@@ -2667,10 +2666,18 @@ document.getElementById('status').innerText = startTime;
       <br />
       <label
          for="errlog"
-         style="margin-left: 10px; font-size: 20px; color: cyan"
-         >Error:
+         style="
+            margin-left: 10px;
+            font-size: 20px;
+            color: Blue;
+            font-weight: bold;
+         "
+         >Diagnostic messages:
       </label>
-      <label id="errlog" style="font-size: 20px; color: red; width: 800px">
+      <label
+         id="errlog"
+         style="font-size: 20px; color: red; width: 800px; font-weight: thin"
+      >
       </label>
 
       <script>
