@@ -205,6 +205,9 @@
 
             populateSwaraKagunitaOttakshara(-1, ["&nbsp;"]);
 
+            quantity.value = "";
+            number.innerHTML = "&nbsp;";
+
             logit("");
          }
 
@@ -778,12 +781,12 @@
                   const audio = new Audio(audioUrl);
                   audio.onended = () => {
                      playBtn.disabled = false;
-                     playBtn.innerText = "🔊▶";
+                     playBtn.innerHTML = decodeHtmlEntity("▶");
                   };
                   audio.onerror = (err) => {
                      logit("Audio playback error:" + err);
                      playBtn.disabled = false;
-                     playBtn.innerText = "🔊▶";
+                     playBtn.innerHTML = decodeHtmlEntity("▶");
                   };
 
                   playBtn.innerText = "Playing...";
@@ -794,7 +797,7 @@
             } catch (err) {
                logit(err);
                playBtn.disabled = false;
-               playBtn.innerText = "🔊▶";
+               playBtn.innerHTML = decodeHtmlEntity("▶");
             }
          }
 
@@ -1548,9 +1551,6 @@
          </tr>
       </table>
 
-      <!-- <p>status: <span id="status"></span></p>   
-document.getElementById('status').innerText = startTime;
--->
       <table>
          <tr>
             <td>
@@ -2323,7 +2323,7 @@ document.getElementById('status').innerText = startTime;
                            ▶ <b class="co">Co</b>nsonants
                         </button>
 
-                        <input id="allkg" type="checkbox" />
+                        <input id="allkg" type="checkbox" checked />
                         <label
                            for="allkg"
                            style="
@@ -2357,53 +2357,46 @@ document.getElementById('status').innerText = startTime;
             </td>
 
             <td>
+               <span
+                  style="
+                     margin-left: 190px;
+                     font-size: 20px;
+                     font-weight: bold;
+                     color: Blue;
+                  "
+               >
+                  Player
+               </span>
                <table>
                   <tr>
                      <td>
-                        <table border="1" style="margin: 0px 5px">
+                        <table border="1">
                            <tr>
                               <td>
                                  <table>
-                                    <tr>
-                                       <td
-                                          style="
-                                             text-align: center;
-                                             font-size: 18px;
-                                             font-weight: bold;
-                                             color: Blue;
-                                          "
-                                          colspan="2"
-                                       >
-                                          Player
-                                       </td>
-                                    </tr>
                                     <tr>
                                        <td>
                                           <div class="playerleft">
                                              <button
                                                 class="playerleft"
                                                 onclick="clearbuffer()"
+                                                style="margin-left: 3px"
                                              >
                                                 ⎚
                                              </button>
 
-                                             <button
-                                                class="playerleft"
-                                                id="playBtn"
-                                                onclick="playSarvamHindiAudio()"
-                                             >
-                                                ▶
-                                             </button>
-                                             <br />
                                              <label
                                                 style="
-                                                   font-size: 12px;
+                                                   font-size: 16px;
                                                    font-weight: Medium;
                                                    line-height: 0.5;
+                                                   margin-left: 70px;
+                                                   color: cyan;
                                                 "
                                                 for="apiKey"
-                                                >Api Key:</label
+                                                >Api Key</label
                                              >
+                                             <br />
 
                                              <input
                                                 style="
@@ -2411,22 +2404,34 @@ document.getElementById('status').innerText = startTime;
                                                    line-height: 1;
                                                    padding: 4px 8px;
                                                    height: auto;
-
                                                    margin-bottom: 10px;
+                                                   margin-left: 3px;
                                                 "
                                                 type="text"
                                                 id="apiKey"
                                                 placeholder="Enter your apiKey"
                                                 required
                                              />
+                                             <button
+                                                class="playerleft"
+                                                id="playBtn"
+                                                onclick="playSarvamHindiAudio()"
+                                             >
+                                                ▷
+                                             </button>
+
                                              <br />
 
                                              <button
-                                                style="font-size: 12px"
+                                                style="
+                                                   font-size: 12px;
+                                                   margin-left: 5px;
+                                                "
                                                 onclick="addtorecalllist()"
                                              >
                                                 📝
                                              </button>
+
                                              <button
                                                 style="font-size: 12px"
                                                 onclick="removefromrecalllist()"
@@ -2455,9 +2460,10 @@ document.getElementById('status').innerText = startTime;
                                              <br />
                                              <label
                                                 style="
-                                                   font-size: 12px;
+                                                   font-size: 16px;
                                                    font-weight: Medium;
-                                                   margin-left: 20px;
+                                                   margin-left: 3px;
+                                                   color: cyan;
                                                 "
                                                 for="recall-list"
                                                 >Recall List:</label
@@ -2468,6 +2474,7 @@ document.getElementById('status').innerText = startTime;
                                                 style="
                                                    font-size: 18px;
                                                    font-weight: Thin;
+                                                   width: 150px;
                                                 "
                                              ></select>
                                           </div>
@@ -2559,6 +2566,7 @@ document.getElementById('status').innerText = startTime;
                               color: Crimson;
                               width: 400px;
                               overflow-wrap: normal;
+                              line-height: 1.1;
                            "
                            id="playbuffertext"
                         ></textarea>
@@ -2630,7 +2638,8 @@ document.getElementById('status').innerText = startTime;
          style="
             margin-left: 10px;
             margin-bottom: 20px;
-            font-size: 24px;
+            font-size: 16px;
+            font-weight: bold;
             color: cyan;
          "
          >Enter a Number:
@@ -2683,7 +2692,6 @@ document.getElementById('status').innerText = startTime;
       </audio>
       <br />
       <label
-         for="errlog"
          style="
             margin-left: 10px;
             font-size: 20px;
