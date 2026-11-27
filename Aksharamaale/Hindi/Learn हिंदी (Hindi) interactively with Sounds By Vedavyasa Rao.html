@@ -105,6 +105,7 @@
          var audiodevicetrack = -1;
          var audiodevices = [];
          var genablesound = 0;
+         var genabledecode = 0;
 
          function logit(errmsg) {
             errlog.innerHTML = errmsg;
@@ -120,6 +121,44 @@
                soundonoff.innerHTML = "🔊";
                playBtn.enabled = true;
             }
+         }
+
+         function decodebtnonoff() {
+            if (genabledecode == 1) {
+               genabledecode = 0;
+               decodetext.innerHTML = "🔒︎";
+               document.getElementById("expandedtext").innerHTML = "";
+            } else {
+               genabledecode = 1;
+               decodetext.innerHTML = "🔓︎";
+               decodetexttoliterals();
+            }
+         }
+
+         function englishonoff() {
+            if (genableenlish == 1) {
+               genableenlish = 0;
+               decodetexttoliterals();
+            } else {
+               genableenlish = 1;
+               decodetexttoliterals();
+            }
+         }
+
+         function handleSelection(selectElement) {
+            const dropdown = document.getElementById("recall-list");
+            if (dropdown.options.length == 0) {
+               return;
+            }
+
+            document.getElementById("playbuffertext").value = decodeHtmlEntity(
+               selectElement.value,
+            );
+            decodetexttoliterals();
+         }
+
+         function handleTextInput() {
+            decodetexttoliterals();
          }
 
          function ottcheckboxClicked(cb) {
@@ -527,6 +566,7 @@
             );
             document.getElementById("number").innerText =
                hindiNumberToDigits(numValue);
+            decodetexttoliterals();
          }
          /**************PLAY NUMBER STOP********************/
 
@@ -577,7 +617,7 @@
             const newCursorPos = start + text.length;
             textarea.selectionStart = newCursorPos;
             textarea.selectionEnd = newCursorPos;
-
+            decodetexttoliterals();
             textarea.focus();
          }
 
@@ -609,8 +649,6 @@
          }
 
          async function loadrecallist() {
-            var textarea = document.getElementById("playbuffertext");
-
             try {
                const [fileHandle] = await window.showOpenFilePicker({
                   types: [
@@ -642,6 +680,8 @@
                   option.value = line.trim();
                   dropdown.appendChild(option);
                });
+               dropdown.selectedIndex = 0;
+               handleSelection(dropdown.options[0]);
             } catch (err) {
                logit(err);
             }
@@ -657,12 +697,16 @@
             var dropdown = document.getElementById("recall-list");
             const newOption = new Option(textarea.value);
             dropdown.add(newOption);
+            dropdown.selectedIndex = dropdown.length - 1;
+            decodetexttoliterals();
          }
 
          function removefromrecalllist() {
+            var textarea = document.getElementById("playbuffertext");
             const dropdown = document.getElementById("recall-list");
             if (dropdown.selectedIndex !== -1) {
                dropdown.remove(dropdown.selectedIndex);
+               copyfromrecalllist();
             } else {
                logit("invalid selection");
                return;
@@ -674,6 +718,7 @@
             var dropdown = document.getElementById("recall-list");
             if (dropdown.selectedIndex !== -1) {
                textarea.value = dropdown.options[dropdown.selectedIndex].text;
+               decodetexttoliterals();
             } else {
                logit("invalid selection");
                return;
@@ -977,9 +1022,79 @@
          /**************HINDI NUMBER STOP********************/
 
          /**************HINDI DECODE START********************/
+         var genableenlish = false;
+         var vowelchars_english = {
+            अ: "a",
+            आ: "aa",
+            इ: "i",
+            ई: "ii",
+            उ: "u",
+            ऊ: "uu",
+            ऋ: "ri",
+            ए: "e",
+            ऐ: "ai",
+            ओ: "o",
+            औ: "au",
+            अं: "am",
+            अः: "aha",
+         };
+
+         const consonant_eng = {
+            क: "ka",
+            ख: "kha",
+            ग: "ga",
+            घ: "gha",
+            ङ: "gna",
+            च: "cha",
+            छ: "chha",
+            ज: "ja",
+            झ: "jha",
+            ञ: "jna",
+            ट: "tuh",
+            ठ: "tuuh",
+            ड: "duh",
+            ढ: "duuh",
+            ण: "Na",
+            त: "ta",
+            थ: "tha",
+            द: "da",
+            ध: "dha",
+            न: "na",
+            प: "pa",
+            फ: "pha",
+            ब: "ba",
+            भ: "bha",
+            म: "ma",
+            य: "ya",
+            र: "ra",
+            ल: "la",
+            व: "va",
+            श: "sha",
+            ष: "shha",
+            स: "sa",
+            ह: "ha",
+            क्ष: "ksha",
+            त्र: "tra",
+            ज्ञ: "jna",
+         };
+
+         var VOWELSIGNS_english = {
+            "ा": "aa",
+            "ि": "i",
+            "ी": "ii",
+            "ु": "u",
+            "ू": "uu",
+            "ृ": "ri",
+            "े": "e",
+            "ै": "ai",
+            "ो": "o",
+            "ौ": "au",
+            "ं": "am",
+            "ः": "aha",
+            "ँ": "o",
+         };
 
          function splitHindiV2(text) {
-            // Decode Blogger HTML numeric entities
             text = String(text).replace(
                /&#(?:x([0-9a-f]+)|([0-9]+));/gi,
                function (match, hex, dec) {
@@ -1083,16 +1198,110 @@
             return result;
          }
 
+         function formatIndic(text, splitFunction, HALANT) {
+            const indicRegex =
+               HALANT === "\u094D"
+                  ? /^\p{Script=Devanagari}$/u
+                  : /^\p{Script=Kannada}$/u;
+
+            return (
+               splitFunction(text)
+                  // Retain only Indic letters and combining marks
+                  .map((group) =>
+                     group.filter((ch) =>
+                        Array.from(ch).every(
+                           (c) => indicRegex.test(c) && /[\p{L}\p{M}]/u.test(c),
+                        ),
+                     ),
+                  )
+
+                  // Remove empty groups
+                  .filter((group) => group.length > 0)
+
+                  .map(
+                     (group) =>
+                        "[" +
+                        group
+                           .map((ch, index) => {
+                              if (!genableenlish) {
+                                 return ch;
+                              }
+
+                              const next = group[index + 1] || "";
+
+                              // Full consonant
+                              if (consonant_eng[ch] !== undefined) {
+                                 let eng = consonant_eng[ch];
+
+                                 if (
+                                    VOWELSIGNS_english[next] !== undefined ||
+                                    next.startsWith(HALANT)
+                                 ) {
+                                    eng = eng.replace(/a$/, "");
+                                 }
+
+                                 return ch + "(" + eng + ")";
+                              }
+
+                              // Kannada ottakshara
+                              if (ch.startsWith(HALANT)) {
+                                 const base = ch.slice(1);
+                                 const eng = consonant_eng[base];
+
+                                 if (eng !== undefined) {
+                                    return (
+                                       ch + "(" + eng.replace(/a$/, "") + ")"
+                                    );
+                                 }
+                              }
+
+                              // Hindi half consonant or Repha
+                              if (ch.endsWith(HALANT)) {
+                                 const base = ch.slice(0, -1);
+                                 const eng = consonant_eng[base];
+
+                                 if (eng !== undefined) {
+                                    return (
+                                       ch + "(" + eng.replace(/a$/, "") + ")"
+                                    );
+                                 }
+                              }
+
+                              // Independent vowels
+                              if (vowelchars_english[ch] !== undefined) {
+                                 return ch + "(" + vowelchars_english[ch] + ")";
+                              }
+
+                              // Matras and ayogavaha
+                              if (VOWELSIGNS_english[ch] !== undefined) {
+                                 return ch + "(" + VOWELSIGNS_english[ch] + ")";
+                              }
+
+                              return ch;
+                           })
+                           .join(", ") +
+                        "]",
+                  )
+                  .join("")
+            );
+         }
+
+         function formatHindiV2(text) {
+            return formatIndic(text, splitHindiV2, "\u094D", "\u093E");
+         }
          function printHindiUnicode() {
             var hindiStr = document.getElementById("playbuffertext").value;
 
             document.getElementById("expandedtext").innerHTML =
-               decodeHtmlEntity(
-                  splitHindiV2(hindiStr)
-                     .map((group) => `[${group.join(", ")}] `)
-                     .join(""),
-               );
+               decodeHtmlEntity(formatHindiV2(hindiStr));
          }
+
+         function decodetexttoliterals() {
+            if (genabledecode == 1) {
+               printHindiUnicode();
+            }
+         }
+
          /**************HINDI DECODE STOP********************/
       </script>
 
@@ -1275,6 +1484,33 @@
 
          div.playerleft {
             line-height: 80%;
+         }
+
+         .form-row {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+         }
+
+         .checkbox-container {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0px;
+         }
+
+         .small-label {
+            font-size: 14px;
+            color: #555;
+            cursor: pointer;
+            user-select: none;
+            color: green;
+         }
+
+         .submit-btn {
+            padding: 8px 8px;
+            font-size: 14px;
+            cursor: pointer;
          }
       </style>
    </head>
@@ -2436,7 +2672,10 @@
                                                 🗑️
                                              </button>
                                              <button
-                                                style="font-size: 12px"
+                                                style="
+                                                   font-size: 12px;
+                                                   visibility: hidden;
+                                                "
                                                 onclick="copyfromrecalllist()"
                                              >
                                                 ⧉
@@ -2473,6 +2712,7 @@
                                                    font-weight: Thin;
                                                    width: 150px;
                                                 "
+                                                onchange="handleSelection(this)"
                                              ></select>
                                           </div>
                                        </td>
@@ -2532,24 +2772,37 @@
                   </tr>
 
                   <td>
-                     <button
-                        style="font-size: 20px; margin-left: 5px"
-                        onclick="printHindiUnicode()"
-                     >
-                        🔓︎
-                     </button>
+                     <div class="form-row">
+                        <div class="checkbox-container">
+                           <!-- 🅴 🇪 ⒠-->
+                           <label for="agree-box" class="small-label">⒠</label>
+                           <input
+                              type="checkbox"
+                              id="agree-box"
+                              onclick="englishonoff()"
+                           />
+                        </div>
 
-                     <span
-                        id="expandedtext"
-                        style="
-                           margin-left: 5px;
-                           text-align: left;
-                           font-size: 18px;
-                           color: Olive;
-                           overflow-wrap: normal;
-                        "
-                     >
-                     </span>
+                        <button
+                           style="font-size: 20px"
+                           onclick="decodebtnonoff()"
+                           id="decodetext"
+                        >
+                           🔒︎
+                        </button>
+
+                        <span
+                           id="expandedtext"
+                           style="
+                              margin-left: 5px;
+                              text-align: left;
+                              font-size: 18px;
+                              color: Olive;
+                              overflow-wrap: normal;
+                           "
+                        >
+                        </span>
+                     </div>
                   </td>
 
                   <tr>
@@ -2564,7 +2817,10 @@
                               width: 400px;
                               overflow-wrap: normal;
                               line-height: 1.1;
+                              padding-top: 5px;
+                              padding-bottom: 5px;
                            "
+                           oninput="handleTextInput()"
                            id="playbuffertext"
                         ></textarea>
                      </td>
