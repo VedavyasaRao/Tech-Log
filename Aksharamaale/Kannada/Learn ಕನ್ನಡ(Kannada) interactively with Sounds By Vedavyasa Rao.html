@@ -1037,78 +1037,78 @@
 
          /**************KANNADA DECODE START********************/
          var genableenlish = false;
-         var vowelchars_english = {
-            ಅ: "aa",
-            ಆ: "a",
-            ಇ: "i",
-            ಈ: "ii",
-            ಉ: "u",
-            ಊ: "uu",
-            ಋ: "ru",
-            ಎ: "e",
-            ಏ: "ee",
-            ಐ: "ai",
-            ಒ: "o",
-            ಓ: "oo",
-            ಔ: "au",
-            ಅಂ: "am",
-            ಅಃ: "aha",
-         };
-
-         const consonant_eng = {
-            ಕ: "ka",
-            ಖ: "kha",
-            ಗ: "ga",
-            ಘ: "gha",
-            ಙ: "gna",
-            ಚ: "cha",
-            ಛ: "chha",
-            ಜ: "ja",
-            ಝ: "jha",
-            ಞ: "jna",
-            ಟ: "tuh",
-            ಠ: "tuuh",
-            ಡ: "duh",
-            ಢ: "duuh",
-            ಣ: "Na",
-            ತ: "ta",
-            ಥ: "tha",
-            ದ: "da",
-            ಧ: "dha",
-            ನ: "na",
-            ಪ: "pa",
-            ಫ: "pha",
-            ಬ: "ba",
-            ಭ: "bha",
-            ಮ: "ma",
-            ಯ: "ya",
-            ರ: "ra",
-            ಲ: "la",
-            ವ: "va",
-            ಶ: "sha",
-            ಷ: "shha",
-            ಸ: "sa",
-            ಹ: "ha",
-            ಳ: "La",
-            ಕ್ಷ: "ksha",
-         };
-
-         var VOWELSIGNS_english = {
-            "ಾ": "aa",
-            "ಿ": "i",
-            "ೀ": "ii",
-            "ು": "u",
-            "ೂ": "uu",
-            "ೃ": "ru",
-            "ೆ": "e",
-            "ೇ": "ee",
-            "ೈ": "ai",
-            "ೊ": "o",
-            "ೋ": "oo",
-            "ೌ": "au",
-            "ಂ": "am",
-            "ಃ": "aha",
-         };
+		var vowelchars_english = {
+			"\u0C85": "aa",         // ಅ
+			"\u0C86": "a",          // ಆ
+			"\u0C87": "i",          // ಇ
+			"\u0C88": "ii",         // ಈ
+			"\u0C89": "u",          // ಉ
+			"\u0C8A": "uu",         // ಊ
+			"\u0C8B": "ru",         // ಋ
+			"\u0C8E": "e",          // ಎ
+			"\u0C8F": "ee",         // ಏ
+			"\u0C90": "ai",         // ಐ
+			"\u0C92": "o",          // ಒ
+			"\u0C93": "oo",         // ಓ
+			"\u0C94": "au",         // ಔ
+			"\u0C85\u0C82": "am",   // ಅಂ
+			"\u0C85\u0C83": "aha",  // ಅಃ
+		};
+		
+			const consonant_eng = {
+				"\u0C95": "ka",                 // ಕ
+				"\u0C96": "kha",                // ಖ
+				"\u0C97": "ga",                 // ಗ
+				"\u0C98": "gha",                // ಘ
+				"\u0C99": "gna",                // ಙ
+				"\u0C9A": "cha",                // ಚ
+				"\u0C9B": "chha",               // ಛ
+				"\u0C9C": "ja",                 // ಜ
+				"\u0C9D": "jha",                // ಝ
+				"\u0C9E": "jna",                // ಞ
+				"\u0C9F": "tuh",                // ಟ
+				"\u0CA0": "tuuh",               // ಠ
+				"\u0CA1": "duh",                // ಡ
+				"\u0CA2": "duuh",               // ಢ
+				"\u0CA3": "Na",                 // ಣ
+				"\u0CA4": "ta",                 // ತ
+				"\u0CA5": "tha",                // ಥ
+				"\u0CA6": "da",                 // ದ
+				"\u0CA7": "dha",                // ಧ
+				"\u0CA8": "na",                 // ನ
+				"\u0CAA": "pa",                 // ಪ
+				"\u0CAB": "pha",                // ಫ
+				"\u0CAC": "ba",                 // ಬ
+				"\u0CAD": "bha",                // ಭ
+				"\u0CAE": "ma",                 // ಮ
+				"\u0CAF": "ya",                 // ಯ
+				"\u0CB0": "ra",                 // ರ
+				"\u0CB2": "la",                 // ಲ
+				"\u0CB5": "va",                 // ವ
+				"\u0CB6": "sha",                // ಶ
+				"\u0CB7": "shha",               // ಷ
+				"\u0CB8": "sa",                 // ಸ
+				"\u0CB9": "ha",                 // ಹ
+				"\u0CB3": "La",                 // ಳ
+				"\u0C95\u0CCD\u0CB7": "ksha",   // ಕ್ಷ
+			};
+			
+			var VOWELSIGNS_english = {
+				"\u0CBE": "aa",   // ಾ
+				"\u0CBF": "i",    // ಿ
+				"\u0CC0": "ii",   // ೀ
+				"\u0CC1": "u",    // ು
+				"\u0CC2": "uu",   // ೂ
+				"\u0CC3": "ru",   // ೃ
+				"\u0CC6": "e",    // ೆ
+				"\u0CC7": "ee",   // ೇ
+				"\u0CC8": "ai",   // ೈ
+				"\u0CCA": "o",    // ೊ
+				"\u0CCB": "oo",   // ೋ
+				"\u0CCC": "au",   // ೌ
+				"\u0C82": "am",   // ಂ
+				"\u0C83": "aha",  // ಃ
+			};
 
          function splitKannadaV2(text) {
             text = String(text).replace(
